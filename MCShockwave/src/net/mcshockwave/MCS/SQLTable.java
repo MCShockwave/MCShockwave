@@ -44,14 +44,18 @@ public enum SQLTable {
 	public static String		SqlIP	= "127.0.0.1";
 	public static String		SqlName	= "vahost_24";
 	public static String		SqlUser	= SqlName;
-	public static String		SqlPass	= "Charlie42";
+
+	// DONT LOOK AT THIS PLEASEEEEE
+	public static String		SqlPass	= "24eilrahC";
+	// TURN AWAY NOW!!!!
 
 	public static Statement		stmt	= null;
 	public static Connection	con		= null;
 
 	public static void enable() {
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, SqlPass);
+			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
+					SqlPass).reverse().toString());
 			stmt = (Statement) con.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();

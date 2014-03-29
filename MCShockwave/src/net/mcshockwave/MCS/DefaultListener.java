@@ -159,7 +159,7 @@ public class DefaultListener implements Listener {
 								.distance(l)));
 					}
 				}
-				p.getWorld().playSound(p.getLocation(), Sound.BREATH, 1, 1);
+				p.getWorld().playSound(p.getLocation(), Sound.ENDERDRAGON_WINGS, 1, 1);
 			}
 			if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
 				for (Entity e : p.getNearbyEntities(10, 10, 10)) {
