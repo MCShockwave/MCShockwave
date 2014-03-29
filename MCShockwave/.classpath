@@ -6,6 +6,5 @@
 	<classpathentry kind="lib" path="C:/WorldEdit.jar"/>
 	<classpathentry kind="lib" path="C:/TabAPI.jar"/>
 	<classpathentry kind="lib" path="C:/bukkit-1.7.2-R0.1-20131201.015715-1.jar"/>
-	<classpathentry kind="lib" path="C:/ProtocolLib-3.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
