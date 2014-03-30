@@ -321,6 +321,11 @@ public class MCSCommand implements CommandExecutor {
 				}
 				sender.sendMessage("§bPinged!");
 			}
+
+			if (args[0].equalsIgnoreCase("giveyoutuber") && SQLTable.hasRank(sender.getName(), Rank.ADMIN)) {
+				SQLTable.Youtubers.add("Username", args[1]);
+				sender.sendMessage("§c" + args[1] + " added as youtuber");
+			}
 		}
 		return false;
 	}
