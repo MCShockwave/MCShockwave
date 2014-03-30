@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/bukkit-1.7.2-R0.2.jar"/>
-	<classpathentry kind="lib" path="C:/craftbukkit-1.7.2-R0.3-20140211.200058-44.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/TabAPI.jar"/>
+	<classpathentry kind="lib" path="/Users/guytanz/Desktop/craftbukkit-1.7.2-R0.4.jar"/>
+	<classpathentry kind="lib" path="/Users/guytanz/Desktop/bukkit-1.7.2-R0.4.jar"/>
+	<classpathentry kind="lib" path="/Users/guytanz/Desktop/API/TabAPI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
