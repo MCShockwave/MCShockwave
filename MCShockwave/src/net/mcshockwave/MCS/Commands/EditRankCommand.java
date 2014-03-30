@@ -39,6 +39,8 @@ public class EditRankCommand implements CommandExecutor {
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 4), "Jr. Mod"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 1), "Mod"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 3), "Sr. Mod"));
+				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 14), "Admin"));
+				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.DRAGON_EGG, 1), "Youtube")); 
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 8), "Builder"));
 				
 				p.openInventory(i);
@@ -53,6 +55,8 @@ public class EditRankCommand implements CommandExecutor {
 					SQLTable.JunMODS.del("Username", name);
 					SQLTable.MODS.del("Username", name);
 					SQLTable.nickNames.del("Username", name);
+					SQLTable.ADMINS.del("Username", name);
+					SQLTable.Youtubers.del("Username", name);
 					p.sendMessage("§c§lRemoved rank for " + name);
 					return true;
 				}
