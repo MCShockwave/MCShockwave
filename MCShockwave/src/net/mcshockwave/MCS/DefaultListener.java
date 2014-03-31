@@ -621,10 +621,9 @@ public class DefaultListener implements Listener {
 				vipPre = "§0§lE§0nder §r";
 				Rank.ENDER.suf.addPlayer(p);
 			}
-			if (SQLTable.hasRank(p.getName(), Rank.YOUTUBE)) {
+			if (SQLTable.Youtubers.has("Username", p.getName())) {
 				vipPre = ChatColor.RED + "" + ChatColor.BOLD + "You" + ChatColor.WHITE + "" + ChatColor.BOLD + "tuber "
 						+ ChatColor.RESET;
-				Rank.YOUTUBE.suf.addPlayer(p);
 			}
 		}
 
