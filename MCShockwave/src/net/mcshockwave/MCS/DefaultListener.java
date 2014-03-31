@@ -445,7 +445,7 @@ public class DefaultListener implements Listener {
 		}
 		if (p.isOp()) {
 			String mes = e.getMessage();
-			
+
 			if (mes.contains("@all")) {
 				e.setCancelled(true);
 				for (Player p2 : Bukkit.getOnlinePlayers()) {
@@ -622,7 +622,8 @@ public class DefaultListener implements Listener {
 				Rank.ENDER.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.YOUTUBE)) {
-				vipPre = ChatColor.RED + "" + ChatColor.BOLD + "You" + ChatColor.WHITE + "" + ChatColor.BOLD + "tuber" + ChatColor.RESET;
+				vipPre = ChatColor.RED + "" + ChatColor.BOLD + "You" + ChatColor.WHITE + "" + ChatColor.BOLD + "tuber "
+						+ ChatColor.RESET;
 				Rank.YOUTUBE.suf.addPlayer(p);
 			}
 		}
