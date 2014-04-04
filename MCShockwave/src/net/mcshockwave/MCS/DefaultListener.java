@@ -435,13 +435,15 @@ public class DefaultListener implements Listener {
 			}
 		}
 		if (showToAdmins && SQLTable.hasRank(p.getName(), Rank.JR_MOD) && !SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
-			for (Player p2 : Bukkit.getOnlinePlayers()) {
-				if (SQLTable.hasRank(p2.getName(), Rank.ADMIN)) {
-					p2.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " executed command: "
-							+ ChatColor.GOLD + message);
+			if (!argslc[0].equalsIgnoreCase("mc")) {
+				for (Player p2 : Bukkit.getOnlinePlayers()) {
+					if (SQLTable.hasRank(p2.getName(), Rank.ADMIN)) {
+						p2.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " executed command: "
+								+ ChatColor.GOLD + message);
+					}
 				}
+				SQLTable.ModCommands.add("Username", p.getName(), "Command", e.getMessage());
 			}
-			SQLTable.ModCommands.add("Username", p.getName(), "Command", e.getMessage());
 		}
 		if (p.isOp()) {
 			String mes = e.getMessage();
