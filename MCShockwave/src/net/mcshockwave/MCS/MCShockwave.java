@@ -13,6 +13,7 @@ import net.mcshockwave.MCS.Commands.MuteCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
 import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
+import net.mcshockwave.MCS.Commands.RulesCommand;
 import net.mcshockwave.MCS.Commands.SMCommand;
 import net.mcshockwave.MCS.Commands.SilenceCommand;
 import net.mcshockwave.MCS.Commands.SudoCommand;
@@ -115,6 +116,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("restrict").setExecutor(new RestrictCommand());
 		getCommand("gmitem").setExecutor(new GMItemCommand());
 		getCommand("silence").setExecutor(new SilenceCommand());
+		getCommand("rules").setExecutor(new RulesCommand());
 
 		instance = this;
 

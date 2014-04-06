@@ -31,6 +31,7 @@ public enum SQLTable {
 	Points,
 	PrivateMutes,
 	RedeemCodes,
+	Rules,
 	Scavenger,
 	Settings,
 	SkillTokens,
