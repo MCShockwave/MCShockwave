@@ -22,11 +22,12 @@ public class RulesCommand implements CommandExecutor {
         	p.sendMessage(ChatColor.AQUA + "7. No excessive caps.");
         	p.sendMessage(ChatColor.AQUA + "8. Do not advertise non-MCShockwave links.");
         	p.sendMessage(ChatColor.AQUA + "9. No spam.");
-        	p.sendMessage(ChatColor.AQUA + "10. No trolling‏.");
-        	p.sendMessage(ChatColor.AQUA + "11. Lying about buying donor (and saying it didn't work) can result in a ban‏.");
+        	p.sendMessage(ChatColor.AQUA + "10. No trolling.");
+        	p.sendMessage(ChatColor.AQUA + "11. Lying about buying donor (and saying it didn't work) can result in a ban.");
         	p.sendMessage(ChatColor.AQUA + "12. Don't ask to be unmuted. You will be unmuted after the designated amount of time, usually 30 minutes.");
         	p.sendMessage(ChatColor.AQUA + "13. No racism, sexism, etc.");
         	p.sendMessage(ChatColor.AQUA + "14. Use common sense. Ask for help instead of raging.");
+        	p.sendMessage(ChatColor.AQUA + "15. Don't ask donors to force games."
         }
     }
 }
