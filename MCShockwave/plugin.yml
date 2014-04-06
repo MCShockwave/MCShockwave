@@ -31,3 +31,4 @@ commands:
    gmitem:
    r:
    silence:
+   rules:
