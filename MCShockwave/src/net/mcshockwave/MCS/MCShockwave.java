@@ -16,6 +16,7 @@ import net.mcshockwave.MCS.Commands.RestrictCommand;
 import net.mcshockwave.MCS.Commands.RulesCommand;
 import net.mcshockwave.MCS.Commands.SMCommand;
 import net.mcshockwave.MCS.Commands.SilenceCommand;
+import net.mcshockwave.MCS.Commands.SpeedCommand;
 import net.mcshockwave.MCS.Commands.SudoCommand;
 import net.mcshockwave.MCS.Commands.TabCommand;
 import net.mcshockwave.MCS.Commands.TempBanCommand;
@@ -117,6 +118,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("gmitem").setExecutor(new GMItemCommand());
 		getCommand("silence").setExecutor(new SilenceCommand());
 		getCommand("rules").setExecutor(new RulesCommand());
+		getCommand("flyspeed").setExecutor(new SpeedCommand());
 
 		instance = this;
 
