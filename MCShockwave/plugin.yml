@@ -33,3 +33,4 @@ commands:
    silence:
    rules:
    flyspeed:
+   kill:
