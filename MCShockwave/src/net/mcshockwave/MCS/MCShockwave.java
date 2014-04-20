@@ -8,6 +8,7 @@ import net.mcshockwave.MCS.Commands.EditRankCommand;
 import net.mcshockwave.MCS.Commands.FriendCommand;
 import net.mcshockwave.MCS.Commands.GMItemCommand;
 import net.mcshockwave.MCS.Commands.HistoryCommand;
+import net.mcshockwave.MCS.Commands.KillCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
 import net.mcshockwave.MCS.Commands.MuteCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
@@ -119,6 +120,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("silence").setExecutor(new SilenceCommand());
 		getCommand("rules").setExecutor(new RulesCommand());
 		getCommand("flyspeed").setExecutor(new SpeedCommand());
+		getCommand("killplayer").setExecutor(new KillCommand());
 
 		instance = this;
 
