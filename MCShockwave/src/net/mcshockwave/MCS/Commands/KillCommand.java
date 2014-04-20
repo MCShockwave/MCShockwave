@@ -13,10 +13,14 @@ public class KillCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.JR_MOD)) {
+		if (SQLTable.hasRank(sender.getName(), Rank.JR_MOD)) {
+			if (args.length < 1) {
+				sender.sendMessage("§cSyntax error: /killplayer {name}");
+				return false;
+			}
 			Player target = Bukkit.getPlayer(args[0]);
 			if (target == null) {
-				sender.sendMessage(args[0] + " is not online.");
+				sender.sendMessage("§c" + args[0] + " is not online.");
 				return true;
 			}
 			target.setHealth(0);
