@@ -86,8 +86,6 @@ public class MCShockwave extends JavaPlugin {
 	public static HashMap<String, Integer>	serverCount		= new HashMap<>();
 
 	public void onEnable() {
-		SQLTable.enable();
-
 		Bukkit.getPluginManager().registerEvents(new DefaultListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new ItemMenuListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CustomSignListener(), this);
@@ -123,6 +121,8 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("killplayer").setExecutor(new KillCommand());
 
 		instance = this;
+		
+		SQLTable.enable();
 
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 			public void run() {
