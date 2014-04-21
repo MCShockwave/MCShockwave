@@ -1,8 +1,8 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.server.v1_7_R1.NBTTagCompound;
+import net.minecraft.server.v1_7_R2.NBTTagCompound;
 
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 import java.lang.reflect.Method;
@@ -16,7 +16,7 @@ public class NBTUtils {
 	    if(!(entity instanceof Entity))
 	        return null;
 	 
-	    net.minecraft.server.v1_7_R1.Entity nms = ((CraftEntity) entity).getHandle();
+	    net.minecraft.server.v1_7_R2.Entity nms = ((CraftEntity) entity).getHandle();
 	 
 	    Class<? extends Object> clazz = nms.getClass();
 	    Method[] methods = clazz.getMethods();
@@ -43,7 +43,7 @@ public class NBTUtils {
 	
 	public static void setEntityNBT(Entity e, NBTTagCompound n) {
 	    CraftEntity craft = ((CraftEntity) e);
-	    net.minecraft.server.v1_7_R1.Entity nms = craft.getHandle();
+	    net.minecraft.server.v1_7_R2.Entity nms = craft.getHandle();
 	    Class<?> entityClass = nms.getClass();
 	    Method[] methods = entityClass.getMethods();
 	    for (Method method : methods) {

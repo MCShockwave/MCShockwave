@@ -23,7 +23,7 @@ public class KillCommand implements CommandExecutor {
 				sender.sendMessage("§c" + args[0] + " is not online.");
 				return true;
 			}
-			target.setHealth(0);
+			target.setHealth(0f);
 		}
 		return false;
 	}

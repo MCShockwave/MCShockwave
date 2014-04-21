@@ -457,6 +457,7 @@ public class DefaultListener implements Listener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		final String pl = event.getPlayer().getName();

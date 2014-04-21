@@ -1,12 +1,12 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.server.v1_7_R1.ChunkProviderGenerate;
-import net.minecraft.server.v1_7_R1.StructureBoundingBox;
-import net.minecraft.server.v1_7_R1.StructureStart;
+import net.minecraft.server.v1_7_R2.ChunkProviderGenerate;
+import net.minecraft.server.v1_7_R2.StructureBoundingBox;
+import net.minecraft.server.v1_7_R2.StructureStart;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,7 +27,7 @@ public class StructureGeneratorUtils {
 			Random random = (Random) randField.get(chunkProvider);
 
 			Class<?> clazz = Class.forName("net.minecraft.server.WorldGenVillageStart");
-			Constructor<?> constructor = clazz.getConstructor(net.minecraft.server.v1_7_R1.World.class, Random.class,
+			Constructor<?> constructor = clazz.getConstructor(net.minecraft.server.v1_7_R2.World.class, Random.class,
 					int.class, int.class, int.class);
 			constructor.setAccessible(true);
 			StructureStart start = (StructureStart) constructor.newInstance(craftworld.getHandle(), random, block

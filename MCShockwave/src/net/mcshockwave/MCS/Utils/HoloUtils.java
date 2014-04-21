@@ -1,18 +1,18 @@
 package net.mcshockwave.MCS.Utils;
 
 import net.mcshockwave.MCS.MCShockwave;
-import net.minecraft.server.v1_7_R1.EntityHorse;
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.EntityWitherSkull;
-import net.minecraft.server.v1_7_R1.PacketPlayOutAttachEntity;
-import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_7_R1.WorldServer;
+import net.minecraft.server.v1_7_R2.EntityHorse;
+import net.minecraft.server.v1_7_R2.EntityPlayer;
+import net.minecraft.server.v1_7_R2.EntityWitherSkull;
+import net.minecraft.server.v1_7_R2.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_7_R2.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_7_R2.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R2.WorldServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 

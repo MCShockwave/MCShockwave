@@ -1,10 +1,10 @@
 package net.mcshockwave.MCS.Entities;
 
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.World;
+import net.minecraft.server.v1_7_R2.Entity;
+import net.minecraft.server.v1_7_R2.World;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
 import org.bukkit.entity.EntityType;
 
 import java.lang.reflect.Field;
@@ -16,10 +16,10 @@ public class CustomEntityRegistrar {
 
 	static {
 		try {
-			mapStringToClassField = net.minecraft.server.v1_7_R1.EntityTypes.class.getDeclaredField("c");
-			mapClassToStringField = net.minecraft.server.v1_7_R1.EntityTypes.class.getDeclaredField("d");
-			mapClassToIdField = net.minecraft.server.v1_7_R1.EntityTypes.class.getDeclaredField("f");
-			mapStringToIdField = net.minecraft.server.v1_7_R1.EntityTypes.class.getDeclaredField("g");
+			mapStringToClassField = net.minecraft.server.v1_7_R2.EntityTypes.class.getDeclaredField("c");
+			mapClassToStringField = net.minecraft.server.v1_7_R2.EntityTypes.class.getDeclaredField("d");
+			mapClassToIdField = net.minecraft.server.v1_7_R2.EntityTypes.class.getDeclaredField("f");
+			mapStringToIdField = net.minecraft.server.v1_7_R2.EntityTypes.class.getDeclaredField("g");
 
 			mapStringToClassField.setAccessible(true);
 			mapClassToStringField.setAccessible(true);
@@ -61,7 +61,7 @@ public class CustomEntityRegistrar {
 		}
 	}
 
-	public static <E> Entity spawnCustomEntity(Class<? extends net.minecraft.server.v1_7_R1.Entity> entClass, Location loc) {
+	public static <E> Entity spawnCustomEntity(Class<? extends net.minecraft.server.v1_7_R2.Entity> entClass, Location loc) {
 		try {
 			World w = ((CraftWorld) loc.getWorld()).getHandle();
 			Entity ent = entClass.getConstructor(World.class).newInstance(w);
