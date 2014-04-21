@@ -1,5 +1,6 @@
 package net.mcshockwave.MCS;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Team;
 
@@ -58,6 +59,11 @@ public enum SQLTable {
 			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
 					SqlPass).reverse().toString());
 			stmt = (Statement) con.createStatement();
+			Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
+				public void run() {
+					enable();
+				}
+			}, 72000l);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
