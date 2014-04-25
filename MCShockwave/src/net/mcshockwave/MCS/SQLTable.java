@@ -61,6 +61,12 @@ public enum SQLTable {
 			stmt = (Statement) con.createStatement();
 			Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 				public void run() {
+					try {
+						stmt.close();
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					enable();
 				}
 			}, 72000l);
