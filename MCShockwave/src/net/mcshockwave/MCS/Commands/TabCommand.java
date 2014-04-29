@@ -2,6 +2,7 @@ package net.mcshockwave.MCS.Commands;
 
 import net.mcshockwave.MCS.MCShockwave;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,6 +19,11 @@ public class TabCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			final Player p = (Player) sender;
+			
+			if (!Bukkit.getPluginManager().isPluginEnabled("TabAPI")) {
+				p.sendMessage("§cTabAPI is disabled!");
+				return false;
+			}
 
 			TabAPI.disableTabForPlayer(p);
 			TabAPI.setPriority(MCShockwave.instance, p, -2);
