@@ -308,7 +308,7 @@ public class DefaultListener implements Listener {
 		Player p = e.getPlayer();
 		String[] args = message.split(" ");
 		String[] argslc = mlc.split(" ");
-		argslc[0] = argslc[0].replaceFirst("/bukkit:", "/");
+		argslc[0] = argslc[0].replaceFirst("/bukkit:", "/").replaceFirst("/minecraft:", "/");
 
 		boolean showToAdmins = true;
 
