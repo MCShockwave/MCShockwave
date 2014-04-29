@@ -308,6 +308,7 @@ public class DefaultListener implements Listener {
 		Player p = e.getPlayer();
 		String[] args = message.split(" ");
 		String[] argslc = mlc.split(" ");
+		argslc[0] = argslc[0].replaceFirst("/bukkit:", "/");
 
 		boolean showToAdmins = true;
 
@@ -317,18 +318,13 @@ public class DefaultListener implements Listener {
 				&& !(owners.contains(p.getName()))) {
 			e.setCancelled(true);
 		}
-	        if (argslc[0].equalsIgnoreCase("/reload") && SQLTable.hasRank(p.getName(), Rank.MOD)) {
-			e.setCancelled(true);
-			Bukkit.reload();
-			p.sendMessage(ChatColor.GREEN + "Reload complete.");
-		}
 		if (argslc[0].equalsIgnoreCase("/?") || argslc[0].equalsIgnoreCase("/help")) {
 			e.setCancelled(true);
 			p.sendMessage(ChatColor.RED + "If you need help, contact an online staff member by\n"
 					+ "starting your chat message with '@' [no quotes]\n"
 					+ "If no staff members are online, try our forums at www.mcshockwave.net");
 		}
-		if (argslc[0].equalsIgnoreCase("/me") || argslc[0].equalsIgnoreCase("/bukkit:me") || argslc[0].equalsIgnoreCase("/pl")
+		if (argslc[0].equalsIgnoreCase("/me") || argslc[0].equalsIgnoreCase("/pl")
 				|| argslc[0].equalsIgnoreCase("/plugins")) {
 			e.setCancelled(true);
 			p.sendMessage("Unknown command. Type \"/help\" for help.");
@@ -440,7 +436,7 @@ public class DefaultListener implements Listener {
 			}
 		}
 		if (showToAdmins && SQLTable.hasRank(p.getName(), Rank.JR_MOD) && !SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
-			if (!argslc[0].equalsIgnoreCase("mc") && !argslc[0].equalsIgnoreCase("mole")) {
+			if (!argslc[0].equalsIgnoreCase("/mc") && !argslc[0].equalsIgnoreCase("/mole")) {
 				for (Player p2 : Bukkit.getOnlinePlayers()) {
 					if (SQLTable.hasRank(p2.getName(), Rank.ADMIN)) {
 						p2.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " executed command: "
