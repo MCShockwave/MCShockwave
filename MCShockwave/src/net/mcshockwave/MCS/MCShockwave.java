@@ -413,6 +413,10 @@ public class MCShockwave extends JavaPlugin {
 	}
 
 	public static void updateTab(final Player p) {
+		if (!Bukkit.getPluginManager().isPluginEnabled("TabAPI")) {
+			return;
+		}
+
 		TabAPI.setTabString(instance, p, 0, 0, ChatColor.RED + "§l         The", 10000);
 		TabAPI.setTabString(instance, p, 0, 1, ChatColor.RED + "§lMCShockwave", 10000);
 		TabAPI.setTabString(instance, p, 0, 2, ChatColor.RED + "§lNetwork", 10000);
