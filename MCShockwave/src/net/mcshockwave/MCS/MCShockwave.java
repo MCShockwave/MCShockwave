@@ -121,7 +121,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("killplayer").setExecutor(new KillCommand());
 
 		instance = this;
-		
+
 		SQLTable.enable();
 
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
@@ -288,7 +288,7 @@ public class MCShockwave extends JavaPlugin {
 	public static ItemMenu getMGServers(ItemMenu im) {
 		ItemMenu mg = new ItemMenu("MCMinigames Servers", 9);
 		Button mgb = new Button(false, Material.DIAMOND_SWORD, 1, 0, "MCMinigames Servers", "Click to view all servers");
-		im.addButton(mgb, 1);
+		im.addButton(mgb, 0);
 
 		Button mg1 = new Button(true, Material.DIAMOND_SWORD, 1, 0, "MCMinigames Server 1", "Click to join server", "",
 				"Players: " + getPlayerCount("MG1") + " / 30");
@@ -337,7 +337,7 @@ public class MCShockwave extends JavaPlugin {
 				connectToServer(p, "ztd", "Zombiez Tower Defense");
 			}
 		});
-		im.addButton(ztd, 3);
+		im.addButton(ztd, 2);
 
 		// Mynerim
 
@@ -348,14 +348,25 @@ public class MCShockwave extends JavaPlugin {
 				connectToServer(p, "mynerim", "Mynerim SG");
 			}
 		});
-		im.addButton(msg, 5);
+		im.addButton(msg, 4);
+
+		// Battle Bane
+
+		Button bb = new Button(true, Material.NETHER_STAR, 1, 0, "§kBattle Bane", new String[] {
+				"Click to join server", "", "Players: " + getPlayerCount("test") + " / 100" });
+		bb.setOnClick(new ButtonRunnable() {
+			public void run(Player p, InventoryClickEvent e) {
+				MCShockwave.connectToServer(p, "test", "§kBattle Bane");
+			}
+		});
+		im.addButton(bb, 6);
 
 		// Staff Only Submenu
 
 		if (SQLTable.nickNames.has("Username", p.getName()) || SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
 			ItemMenu so = new ItemMenu("Staff Only Servers", 9);
 			Button sob = new Button(false, Material.WOOL, 1, 14, "Staff Only Servers", "Click to view all servers");
-			im.addButton(sob, 7);
+			im.addButton(sob, 8);
 
 			Button build = new Button(true, Material.GRASS, 1, 0, "Build Server", "Click to join server", "",
 					"Players: " + getPlayerCount("build") + " / 60");

@@ -127,8 +127,14 @@ public class DataCommand implements Listener, CommandExecutor {
 				"Deaths: §e" + sgDeaths, "K/D Ratio: §e" + sgKD, "", "Wins: §e" + winsSoloSG);
 		dm.addButton(sgStats, 23);
 
-		Button ztdStats = new Button(false, Material.ROTTEN_FLESH, 1, 0, "Stats - Zombiez TD", "", "(Coming Soon!)");
-		dm.addButton(ztdStats, 25);
+	    int bbKills = Statistics.getStat(p.getName(), "Kills_BB");
+	    int bbDeaths = Statistics.getStat(p.getName(), "Deaths_BB");
+	    double bbKD = bbKills / (bbDeaths + 1.0D);
+	    int winsBB = Statistics.getStat(p.getName(), "Wins_BB");
+	    
+	    Button bbStats = new Button(false, Material.NETHER_STAR, 1, 0, "Stats - §kBattle Bane", new String[] { "", "Kills: §e" + 
+	      bbKills, "Deaths: §e" + bbDeaths, "K/D Ratio: §e" + bbKD, "", "Wins: §e" + winsBB });
+	    dm.addButton(bbStats, 25);
 
 		return dm;
 	}
