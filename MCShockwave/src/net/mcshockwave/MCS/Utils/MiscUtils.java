@@ -24,5 +24,14 @@ public class MiscUtils {
 	public static String getTime() {
 		return getTime(System.currentTimeMillis());
 	}
+	
+	public static double getRoundedNumber(double num, int places) {
+		double pla = Math.pow(10, places);
+
+		num = Math.round(num * pla);
+		num /= pla;
+
+		return num;
+	}
 
 }

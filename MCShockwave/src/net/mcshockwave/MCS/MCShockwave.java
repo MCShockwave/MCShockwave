@@ -2,6 +2,7 @@ package net.mcshockwave.MCS;
 
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Commands.BCCommand;
+import net.mcshockwave.MCS.Commands.CriCommand;
 import net.mcshockwave.MCS.Commands.DataCommand;
 import net.mcshockwave.MCS.Commands.EXPCommand;
 import net.mcshockwave.MCS.Commands.EditRankCommand;
@@ -119,6 +120,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("rules").setExecutor(new RulesCommand());
 		getCommand("flyspeed").setExecutor(new SpeedCommand());
 		getCommand("killplayer").setExecutor(new KillCommand());
+		getCommand("cri").setExecutor(new CriCommand());
 
 		instance = this;
 

@@ -1,8 +1,5 @@
 package net.mcshockwave.MCS.Commands;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 
@@ -11,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class SudoCommand implements CommandExecutor {
 
@@ -31,14 +27,19 @@ public class SudoCommand implements CommandExecutor {
 				if (args[1].charAt(0) == '/') {
 					Bukkit.dispatchCommand(Bukkit.getPlayer(pl), command);
 				} else {
-					AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(false, Bukkit.getPlayer(pl), command,
-							new HashSet<Player>(Arrays.asList(Bukkit.getOnlinePlayers())));
+					// AsyncPlayerChatEvent event = new
+					// AsyncPlayerChatEvent(false, Bukkit.getPlayer(pl),
+					// command,
+					// new
+					// HashSet<Player>(Arrays.asList(Bukkit.getOnlinePlayers())));
+					//
+					// Bukkit.getPluginManager().callEvent(event);
+					//
+					// for (Player p : event.getRecipients()) {
+					// p.sendMessage(event.getFormat());
+					// }
 
-					Bukkit.getPluginManager().callEvent(event);
-
-					for (Player p : event.getRecipients()) {
-						p.sendMessage(event.getFormat());
-					}
+					Bukkit.getPlayer(pl).chat(command);
 				}
 			}
 		}
