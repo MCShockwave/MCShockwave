@@ -10,7 +10,7 @@ public class CooldownUtils {
 
 	private static HashMap<String, HashMap<String, Long>>	cooldowns	= new HashMap<>();
 
-	private static void register(String name) {
+	public static void register(String name) {
 		if (!isRegistered(name)) {
 			cooldowns.put(name, new HashMap<String, Long>());
 		}
@@ -33,6 +33,8 @@ public class CooldownUtils {
 	}
 
 	public static boolean isOnCooldown(String cool, String name) {
+		register(cool);
+
 		if (!cooldowns.get(cool).containsKey(name)) {
 			return false;
 		}
@@ -42,6 +44,8 @@ public class CooldownUtils {
 	}
 
 	public static long getCooldownForMillis(String cool, String name) {
+		register(cool);
+		
 		if (!cooldowns.get(cool).containsKey(name)) {
 			return -1;
 		}
