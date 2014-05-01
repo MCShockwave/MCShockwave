@@ -15,8 +15,10 @@ public class CriCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
 		Player player = (Player) sender;
-		if (SQLTable.hasRank(sender.getName(), Rank.ENDER)) {
-			player.chat(ChatColor.AQUA + ";-; i cri evertim");
+		if (label.equalsIgnoreCase("cri")) {
+			if (SQLTable.hasRank(sender.getName(), Rank.ENDER)) {
+				player.chat(ChatColor.AQUA + ";-; i cri evertim");
+			}
 		}
 		return false;
 	}
