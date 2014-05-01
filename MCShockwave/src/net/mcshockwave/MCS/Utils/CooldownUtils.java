@@ -45,7 +45,7 @@ public class CooldownUtils {
 
 	public static long getCooldownForMillis(String cool, String name) {
 		register(cool);
-		
+
 		if (!cooldowns.get(cool).containsKey(name)) {
 			return -1;
 		}
@@ -64,7 +64,7 @@ public class CooldownUtils {
 			return -1;
 		}
 
-		double sec = time / 1000;
+		double sec = ((double) time) / 1000;
 		return sec;
 	}
 }
