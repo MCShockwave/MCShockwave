@@ -28,7 +28,7 @@ public class CriCommand implements CommandExecutor {
 				player.chat(ChatColor.AQUA + ";-; i cri evertim");
 				PacketUtils.playParticleEffect(ParticleEffect.DRIP_WATER,
 						player.getEyeLocation().add(player.getLocation().getDirection().multiply(0.4)), 0, 0, 4);
-				CooldownUtils.addCooldown("/cri", player.getName(), 600);
+				CooldownUtils.addCooldown("/cri", player.getName(), 2400);
 			} else {
 				MCShockwave.send(player, "You must be %s to use /cri! Buy VIP at buy.mcshockwave.net", "Ender+");
 			}
