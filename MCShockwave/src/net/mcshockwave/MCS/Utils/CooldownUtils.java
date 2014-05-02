@@ -45,9 +45,10 @@ public class CooldownUtils {
 
 	public static long getCooldownForMillis(String cool, String name) {
 		register(cool);
-
+		
 		if (!cooldowns.get(cool).containsKey(name)) {
-			return -1;
+			cooldowns.get(cool).put(name, (long) 0);
+			return 0;
 		}
 
 		long time = cooldowns.get(cool).get(name);
