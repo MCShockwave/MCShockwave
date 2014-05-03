@@ -2,6 +2,7 @@ package net.mcshockwave.MCS;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Team;
 
 import java.sql.Connection;
@@ -43,34 +44,45 @@ public enum SQLTable {
 	VIPS,
 	Zombiez;
 
-	public static String		SqlIP	= "127.0.0.1";
-	public static String		SqlName	= "vahost_24";
-	public static String		SqlUser	= SqlName;
+	public static String		SqlIP		= "127.0.0.1";
+	public static String		SqlName		= "vahost_24";
+	public static String		SqlUser		= SqlName;
 
 	// DONT LOOK AT THIS PLEASEEEEE
-	public static String		SqlPass	= "24eilrahC";
+	public static String		SqlPass		= "24eilrahC";
 	// TURN AWAY NOW!!!!
 
-	public static Statement		stmt	= null;
-	public static Connection	con		= null;
+	public static Statement		stmt		= null;
+	public static Connection	con			= null;
+
+	public static BukkitTask	conRestart	= null;
 
 	public static void enable() {
+		Bukkit.getLogger().info("Enabling SQL Connection");
+		if (conRestart != null) {
+			conRestart.cancel();
+		}
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
 					SqlPass).reverse().toString());
 			stmt = (Statement) con.createStatement();
-			Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
+
+			conRestart = Bukkit.getScheduler().runTaskTimer(MCShockwave.instance, new Runnable() {
 				public void run() {
+					Bukkit.getLogger().info("Restarting SQL Connection");
 					try {
 						stmt.close();
 						con.close();
+						enable();
+						Bukkit.getLogger().info("SQL Connection successfully restarted!");
 					} catch (SQLException e) {
+						Bukkit.getLogger().severe("SQL Restart FAILED!");
 						e.printStackTrace();
 					}
-					enable();
 				}
-			}, 72000l);
+			}, 12000l, 12000l);
 		} catch (SQLException e) {
+			Bukkit.getLogger().severe("SQL Connection enable FAILED!");
 			e.printStackTrace();
 		}
 	}
@@ -330,7 +342,7 @@ public enum SQLTable {
 	}
 
 	public static void clearRank(String name) {
-		SQLTable[] tables = { ADMINS, MODS, JunMODS, VIPS , Youtubers};
+		SQLTable[] tables = { ADMINS, MODS, JunMODS, VIPS, Youtubers };
 		for (SQLTable t : tables) {
 			t.del("Username", name);
 		}
@@ -381,7 +393,6 @@ public enum SQLTable {
 			0,
 			ChatColor.RED,
 			"Admin");
-
 
 		int		val;
 		Team	suf;
