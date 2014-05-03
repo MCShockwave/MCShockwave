@@ -65,24 +65,30 @@ public enum SQLTable {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
 					SqlPass).reverse().toString());
-			stmt = (Statement) con.createStatement();
+			stmt = con.createStatement();
 
 			conRestart = Bukkit.getScheduler().runTaskTimer(MCShockwave.instance, new Runnable() {
 				public void run() {
-					Bukkit.getLogger().info("Restarting SQL Connection");
-					try {
-						stmt.close();
-						con.close();
-						enable();
-						Bukkit.getLogger().info("SQL Connection successfully restarted!");
-					} catch (SQLException e) {
-						Bukkit.getLogger().severe("SQL Restart FAILED!");
-						e.printStackTrace();
-					}
+					restartConnection();
 				}
 			}, 12000l, 12000l);
 		} catch (SQLException e) {
 			Bukkit.getLogger().severe("SQL Connection enable FAILED!");
+			enable();
+			e.printStackTrace();
+		}
+	}
+	
+	public static void restartConnection() {
+		Bukkit.getLogger().info("Restarting SQL Connection");
+		try {
+			con.close();
+			stmt.close();
+			enable();
+			Bukkit.getLogger().info("SQL Connection successfully restarted!");
+		} catch (SQLException e) {
+			Bukkit.getLogger().severe("SQL Restart FAILED!");
+			enable();
 			e.printStackTrace();
 		}
 	}

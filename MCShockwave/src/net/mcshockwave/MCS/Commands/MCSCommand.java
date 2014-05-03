@@ -326,6 +326,10 @@ public class MCSCommand implements CommandExecutor {
 				SQLTable.Youtubers.add("Username", args[1]);
 				sender.sendMessage("§c" + args[1] + " added as youtuber");
 			}
+			
+			if (args[0].equalsIgnoreCase("restartSQL")) {
+				SQLTable.restartConnection();
+			}
 		}
 		return false;
 	}
