@@ -48,12 +48,11 @@ public class MuteCommand implements CommandExecutor {
 					SQLTable.BanHistory.add("Username", p2.getName(), "BanType", "Muted", "BanReason",
 							((reason == "") ? "(default reason)" : reason), "BanGiver", p.getName(), "BanTime",
 							args[1], "TimeString", MiscUtils.getTime());
-					MCShockwave.sendMessageToRank(
-							ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.RED + p.getName() + ": Muted "
-									+ p2.getName() + " for " + time + " minutes"
-									+ ((reason == "") ? "" : " for " + reason), Rank.JR_MOD);
+					MCShockwave.sendMessageToRank(ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.YELLOW
+							+ p.getName() + ": Muted " + p2.getName() + " for " + time + " minutes"
+							+ ((reason == "") ? "" : " for " + reason), Rank.JR_MOD);
 					p2.sendMessage(ChatColor.RED + p.getName() + " Muted you for " + time + " minutes"
-									+ ((reason == "") ? "" : " for " + reason) + "!");
+							+ ((reason == "") ? "" : " for " + reason) + "!");
 				}
 			} else if (label.equalsIgnoreCase("unmute") && args.length == 1
 					&& SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {

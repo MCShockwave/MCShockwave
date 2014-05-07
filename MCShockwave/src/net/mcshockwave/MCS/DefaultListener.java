@@ -12,7 +12,6 @@ import net.mcshockwave.MCS.Stats.Statistics;
 import net.mcshockwave.MCS.Utils.FireworkLaunchUtils;
 import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
-import net.mcshockwave.MCS.Utils.MiscUtils;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
 import net.minecraft.util.org.apache.commons.lang3.text.WordUtils;
 
@@ -371,23 +370,17 @@ public class DefaultListener implements Listener {
 			if (SQLTable.hasRank(args[1], Rank.ADMIN)) {
 				return;
 			}
-			String string = "";
-			String pre = "Banned by " + p.getName() + ": ";
-			if (args.length >= 3) {
-				for (int i = 2; i < args.length; i++) {
-					string += " " + args[i];
-				}
+			String toBan = args[1];
+			String reason = "";
+
+			for (int i = 2; i < args.length; i++) {
+				reason += " " + args[i];
 			}
-			MCShockwave.sendMessageToRank(
-					ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.RED + p.getName() + " Perma-Banned "
-							+ args[1] + " for" + string, Rank.JR_MOD);
-			string = pre + string;
-			SQLTable.Banned.add("Username", args[1], "Time", 0 + "", "Reason", string, "BannedBy", p.getName());
-			SQLTable.BanHistory.add("Username", args[1], "BanType", "Perma", "BanReason", string, "BanGiver",
-					p.getName(), "BanTime", "Permanent", "TimeString", MiscUtils.getTime());
-			if (Bukkit.getPlayer(args[1]) != null) {
-				Bukkit.getPlayer(args[1]).kickPlayer(string);
-			}
+			reason = reason.replaceFirst(" ", "");
+
+			BanManager.setBanned(toBan, -1, reason, p.getName(), "Permanent");
+			Bukkit.broadcastMessage("§6[" + MCShockwave.server + "] §e" + p.getName() + " banned " + toBan
+					+ " permanently for " + reason);
 		}
 		if (argslc[0].equalsIgnoreCase("/kick") && SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
 			e.setCancelled(true);
@@ -402,7 +395,7 @@ public class DefaultListener implements Listener {
 				}
 			}
 			MCShockwave.sendMessageToRank(
-					ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.RED + p.getName() + " Kicked "
+					ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.YELLOW + p.getName() + " Kicked "
 							+ args[1] + " for " + string, Rank.JR_MOD);
 			string = pre + string;
 			if (Bukkit.getPlayer(args[1]) != null) {
@@ -462,23 +455,31 @@ public class DefaultListener implements Listener {
 	@EventHandler
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		final String pl = event.getPlayer().getName();
-		if (SQLTable.Banned.has("Username", pl)) {
-			long min = TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis());
-			int time = SQLTable.Banned.getInt("Username", pl, "Time");
-			if (time <= min && SQLTable.Banned.getInt("Username", pl, "Time") != 0) {
-				SQLTable.Banned.del("Username", pl);
-			}
-		}
-		if (SQLTable.Banned.has("Username", pl) || SQLTable.Banned.getInt("Username", pl, "Time") == 0) {
-			String s = ChatColor.GREEN + "You are banned from this server: "
-					+ SQLTable.Banned.get("Username", pl, "Reason") + "\nAppeal at forums.mcshockwave.net\n";
-			int time = SQLTable.Banned.getInt("Username", pl, "Time");
-			if (time >= 1) {
-				long min = TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis());
-				long diff = time - min;
-				s += "Time left of ban: " + diff + " minutes.";
-			}
-			event.disallow(Result.KICK_BANNED, s);
+		// if (SQLTable.Banned.has("Username", pl)) {
+		// long min =
+		// TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis());
+		// int time = SQLTable.Banned.getInt("Username", pl, "Time");
+		// if (time <= min && SQLTable.Banned.getInt("Username", pl, "Time") !=
+		// 0) {
+		// SQLTable.Banned.del("Username", pl);
+		// }
+		// }
+		// if (SQLTable.Banned.has("Username", pl) ||
+		// SQLTable.Banned.getInt("Username", pl, "Time") == 0) {
+		// String s = ChatColor.GREEN + "You are banned from this server: "
+		// + SQLTable.Banned.get("Username", pl, "Reason") +
+		// "\nAppeal at forums.mcshockwave.net\n";
+		// int time = SQLTable.Banned.getInt("Username", pl, "Time");
+		// if (time >= 1) {
+		// long min =
+		// TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis());
+		// long diff = time - min;
+		// s += "Time left of ban: " + diff + " minutes.";
+		// }
+		// event.disallow(Result.KICK_BANNED, s);
+		// }
+		if (BanManager.isBanned(pl)) {
+			event.disallow(Result.KICK_BANNED, BanManager.getBanReason(pl));
 		}
 
 		if (MCShockwave.min != null && !SQLTable.hasRank(pl, MCShockwave.min)

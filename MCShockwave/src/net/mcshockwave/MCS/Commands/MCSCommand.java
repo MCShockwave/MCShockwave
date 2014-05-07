@@ -1,5 +1,6 @@
 package net.mcshockwave.MCS.Commands;
 
+import net.mcshockwave.MCS.BanManager;
 import net.mcshockwave.MCS.DefaultListener;
 import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
@@ -67,12 +68,12 @@ public class MCSCommand implements CommandExecutor {
 				}
 			}
 			if (args[0].equalsIgnoreCase("isbanned")) {
-				boolean b = SQLTable.Banned.has("Username", args[1])
-						|| SQLTable.Banned.getInt("Username", args[1], "Time") == 0;
-				if (b) {
-					sender.sendMessage(ChatColor.RED + args[1] + " IS BANNED");
-				} else
-					sender.sendMessage(ChatColor.GREEN + args[1] + " IS NOT BANNED");
+				if (!BanManager.isBanned(args[1])) {
+					sender.sendMessage("§c" + args[1] + " is not banned");
+					return false;
+				}
+				sender.sendMessage("§eBan reason for player " + args[1] + ":");
+				sender.sendMessage(BanManager.getBanReason(args[1]));
 			}
 			if (args[0].equalsIgnoreCase("join") && sender instanceof Player) {
 				Player p = (Player) sender;
@@ -326,7 +327,7 @@ public class MCSCommand implements CommandExecutor {
 				SQLTable.Youtubers.add("Username", args[1]);
 				sender.sendMessage("§c" + args[1] + " added as youtuber");
 			}
-			
+
 			if (args[0].equalsIgnoreCase("restartSQL")) {
 				SQLTable.restartConnection();
 			}
