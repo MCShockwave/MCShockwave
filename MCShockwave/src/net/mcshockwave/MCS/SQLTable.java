@@ -13,36 +13,46 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public enum SQLTable {
-	ADMINS,
-	BanHistory,
-	Banned,
-	Coins,
-	Dojo,
-	ForceCooldowns,
-	Friends,
-	JunMODS,
-	Level,
-	MiscItems,
-	ModCommands,
-	MODS,
-	Muted,
-	MynerimItems,
-	nickNames,
-	PermaItems,
-	Points,
-	PrivateMutes,
-	RedeemCodes,
-	Rules,
-	Scavenger,
-	Settings,
-	SkillTokens,
-	Statistics,
-	Tips,
-	Updater,
-	Youtubers,
-	VIPS,
-	Zombiez;
+public class SQLTable {
+	public static final SQLTable	ADMINS			= new SQLTable("ADMINS");
+	public static final SQLTable	BanHistory		= new SQLTable("BanHistory");
+	public static final SQLTable	Banned			= new SQLTable("Banned");
+	public static final SQLTable	Coins			= new SQLTable("Coins");
+	public static final SQLTable	Dojo			= new SQLTable("Dojo");
+	public static final SQLTable	ForceCooldowns	= new SQLTable("ForceCooldowns");
+	public static final SQLTable	Friends			= new SQLTable("Friends");
+	public static final SQLTable	JunMODS			= new SQLTable("JunMODS");
+	public static final SQLTable	Level			= new SQLTable("Level");
+	public static final SQLTable	MiscItems		= new SQLTable("MiscItems");
+	public static final SQLTable	ModCommands		= new SQLTable("ModCommands");
+	public static final SQLTable	MODS			= new SQLTable("MODS");
+	public static final SQLTable	Muted			= new SQLTable("Muted");
+	public static final SQLTable	MynerimItems	= new SQLTable("MynerimItems");
+	public static final SQLTable	nickNames		= new SQLTable("nickNames");
+	public static final SQLTable	PermaItems		= new SQLTable("PermaItems");
+	public static final SQLTable	Points			= new SQLTable("Points");
+	public static final SQLTable	PrivateMutes	= new SQLTable("PrivateMutes");
+	public static final SQLTable	RedeemCodes		= new SQLTable("RedeemCodes");
+	public static final SQLTable	Rules			= new SQLTable("Rules");
+	public static final SQLTable	Scavenger		= new SQLTable("Scavenger");
+	public static final SQLTable	Settings		= new SQLTable("Settings");
+	public static final SQLTable	SkillTokens		= new SQLTable("SkillTokens");
+	public static final SQLTable	Statistics		= new SQLTable("Statistics");
+	public static final SQLTable	Tips			= new SQLTable("Tips");
+	public static final SQLTable	Updater			= new SQLTable("Updater");
+	public static final SQLTable	Youtubers		= new SQLTable("Youtubers");
+	public static final SQLTable	VIPS			= new SQLTable("VIPS");
+	public static final SQLTable	Zombiez			= new SQLTable("Zombiez");
+
+	public String					name;
+
+	public SQLTable(String name) {
+		this.name = name;
+	}
+
+	public String name() {
+		return name;
+	}
 
 	public static String		SqlIP		= "127.0.0.1";
 	public static String		SqlName		= "vahost_24";
@@ -78,7 +88,7 @@ public enum SQLTable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void restartConnection() {
 		Bukkit.getLogger().info("Restarting SQL Connection");
 		try {
