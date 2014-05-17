@@ -429,7 +429,7 @@ public class DefaultListener implements Listener {
 			}
 		}
 		if (showToAdmins && SQLTable.hasRank(p.getName(), Rank.JR_MOD) && !SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
-			if (!argslc[0].equalsIgnoreCase("/mc") && !argslc[0].equalsIgnoreCase("/mole")) {
+			if (!MCShockwave.server.equalsIgnoreCase("event")) {
 				for (Player p2 : Bukkit.getOnlinePlayers()) {
 					if (SQLTable.hasRank(p2.getName(), Rank.ADMIN)) {
 						p2.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " executed command: "
