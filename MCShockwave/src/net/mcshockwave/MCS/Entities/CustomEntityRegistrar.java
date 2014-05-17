@@ -71,12 +71,11 @@ public class CustomEntityRegistrar {
 		}
 	}
 
-	public static <E> Entity spawnCustomEntity(Class<? extends net.minecraft.server.v1_7_R2.Entity> entClass,
-			Location loc) {
+	public static <E> Entity spawnCustomEntity(Class<? extends Entity> entClass, Location loc) {
 		try {
 			World w = ((CraftWorld) loc.getWorld()).getHandle();
 			Entity ent = entClass.getConstructor(World.class).newInstance(w);
-			ent.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+			ent.setPosition(loc.getX(), loc.getY(), loc.getZ());
 			w.addEntity(ent);
 			return ent;
 		} catch (Exception e) {
