@@ -142,7 +142,8 @@ public class MCShockwave extends JavaPlugin {
 			}
 		}, 10, 600);
 
-		String[] incoming = { "BungeeCord", "MCShockwave", "MCSServer", "MCSTips", "MCSServerPing", "MCSFriendPing" };
+		String[] incoming = { "BungeeCord", "MCShockwave", "MCSServer", "MCSTips", "MCSServerPing", "MCSFriendPing",
+				"SendMessage" };
 		String[] outgoing = { "BungeeCord", "MCShockwave", "MCSServer", "MCSServerPing", "MCSFriendPing",
 				"MCSFriendsList", "SendMessage", "MCSTellRank", "MCSPrivMes", "MCSReplyMes" };
 

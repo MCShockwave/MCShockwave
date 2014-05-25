@@ -31,6 +31,30 @@ public class DefaultMessageListener implements PluginMessageListener {
 			}
 
 		}
+		
+		if (s.equalsIgnoreCase("SendMessage")) {
+			ByteArrayInputStream stream = new ByteArrayInputStream(ba);
+			DataInputStream in = new DataInputStream(stream);
+			String str = null;
+			
+			try {
+				str = in.readUTF();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if (str != null) {
+				String[] spl = str.split("::");
+				String player = spl[0];
+				String mes = spl[1];
+				
+				Player to = Bukkit.getPlayer(player);
+				
+				if (to != null) {
+					to.sendMessage(mes);
+				}
+			}
+		}
 
 		if (s.equalsIgnoreCase("MCSServer")) {
 
