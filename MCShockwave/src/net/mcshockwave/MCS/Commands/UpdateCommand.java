@@ -17,7 +17,7 @@ public class UpdateCommand implements CommandExecutor {
 		if ((sender instanceof Player && SQLTable.hasRank(((Player) sender).getName(), Rank.ADMIN) || !(sender instanceof Player)
 				&& sender.isOp())) {
 			if (args.length > 0) {
-				if (args[0].equalsIgnoreCase("@all")) {
+				if (args[0].equalsIgnoreCase("*")) {
 					for (String s : MCShockwave.servers) {
 						MCShockwave.serverSideBC(s,
 								ChatColor.translateAlternateColorCodes('&', "&1&2&3&4&5&6" + (args.length > 1 ? "&7" : "")));

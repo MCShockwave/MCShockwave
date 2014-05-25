@@ -209,7 +209,9 @@ public class MCShockwave extends JavaPlugin {
 			e.printStackTrace();
 		}
 
-		Bukkit.getServer().sendPluginMessage(instance, toSend, stream.toByteArray());
+		if (Bukkit.getOnlinePlayers().length > 0) {
+			Bukkit.getOnlinePlayers()[0].sendPluginMessage(instance, toSend, stream.toByteArray());
+		}
 	}
 
 	public static void setMinRankRequired(Rank r) {
