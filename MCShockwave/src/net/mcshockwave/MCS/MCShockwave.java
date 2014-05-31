@@ -121,6 +121,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("flyspeed").setExecutor(new SpeedCommand());
 		getCommand("killplayer").setExecutor(new KillCommand());
 		getCommand("cri").setExecutor(new CriCommand());
+		getCommand("lloro").setExecutor(new CriCommand());
 
 		instance = this;
 

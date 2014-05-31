@@ -20,17 +20,19 @@ public class CriCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (SQLTable.hasRank(sender.getName(), Rank.ENDER)) {
-				if (CooldownUtils.isOnCooldown("/cri", player.getName())) {
-					MCShockwave.send(player, "You must wait %s seconds to use /cri again!",
-							CooldownUtils.getCooldownForSec("/cri", player.getName(), 1));
+				if (CooldownUtils.isOnCooldown("/" + label, player.getName())) {
+					MCShockwave.send(player, "You must wait %s seconds to use /" + label + " again!",
+							CooldownUtils.getCooldownForSec("/" + label, player.getName(), 1));
 					return false;
 				}
-				player.chat(ChatColor.AQUA + ";-; i cri evertim");
+				player.chat(ChatColor.AQUA + ";-; "
+						+ (label.equalsIgnoreCase("cri") ? "i cri evertim" : "yo lloro cada vez"));
 				PacketUtils.playParticleEffect(ParticleEffect.DRIP_WATER,
 						player.getEyeLocation().add(player.getLocation().getDirection().multiply(0.4)), 0, 0, 4);
-				CooldownUtils.addCooldown("/cri", player.getName(), 2400);
+				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
 			} else {
-				MCShockwave.send(player, "You must be %s to use /cri! Buy VIP at buy.mcshockwave.net", "Ender+");
+				MCShockwave.send(player, "You must be %s to use /" + label + "! Buy VIP at buy.mcshockwave.net",
+						"Ender+");
 			}
 		}
 		return false;
