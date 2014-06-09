@@ -500,9 +500,6 @@ public class MCShockwave extends JavaPlugin {
 		if (SQLTable.Points.getInt("Username", name, "Points") == -1) {
 			throw new SQLException("SQL not enabled!");
 		}
-		if (SQLTable.hasRank(name, Rank.ADMIN)) {
-			return true;
-		}
 		if (SQLTable.OPS.has("Username", name)) {
 			String servers = SQLTable.OPS.get("Username", name, "Servers");
 			String[] ss = servers.split(";");
