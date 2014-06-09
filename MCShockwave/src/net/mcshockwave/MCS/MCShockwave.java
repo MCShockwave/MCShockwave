@@ -488,4 +488,22 @@ public class MCShockwave extends JavaPlugin {
 			}
 		}, 10l);
 	}
+
+	public static boolean isOp(String name) {
+		if (SQLTable.hasRank(name, Rank.ADMIN)) {
+			return true;
+		}
+		if (SQLTable.OPS.has("Username", name)) {
+			String servers = SQLTable.OPS.get("Username", name, "Servers");
+			String[] ss = servers.split(";");
+			String regex = "[1234567890]";
+			for (String s : ss) {
+				if (s.equalsIgnoreCase(server)
+						|| s.replaceAll(regex, "").equalsIgnoreCase(server.replaceAll(regex, "")) || s.equals("*")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

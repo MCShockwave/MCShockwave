@@ -22,6 +22,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -47,9 +48,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -112,9 +111,12 @@ public class DefaultListener implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action a = event.getAction();
+		Block b = event.getClickedBlock();
 		ItemStack it = p.getItemInHand();
 
-		if (a == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.PUMPKIN) {
+		if (a == Action.RIGHT_CLICK_BLOCK
+				&& event.getClickedBlock().getType() == Material.valueOf(SQLTable.Settings.get("Setting",
+						"Scavenger_Material", "Value"))) {
 			Location l = event.getClickedBlock().getLocation();
 			String loc = l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ();
 			String where = "Server='" + MCShockwave.server + "' AND Location='" + loc + "'";
@@ -134,7 +136,9 @@ public class DefaultListener implements Listener {
 				}
 			}
 
-			p.sendMessage(ChatColor.RED + "You found the next pumpkin!\n" + ChatColor.AQUA + "Next clue:");
+			p.sendMessage(ChatColor.RED + "You found the next "
+					+ WordUtils.capitalizeFully(b.getType().name().replace('_', ' ')) + "!\n" + ChatColor.AQUA
+					+ "Next clue:");
 			p.sendMessage(ChatColor.BLUE + clue);
 
 			SQLTable.Scavenger.set("PlayersFound",
@@ -311,17 +315,15 @@ public class DefaultListener implements Listener {
 
 		boolean showToAdmins = true;
 
-		List<String> owners = Arrays.asList("Blaxcraft", "Dannyville", "1bennettc", "TrustSean");
-
 		if ((argslc[0].equalsIgnoreCase("/op") || argslc[0].equalsIgnoreCase("/deop"))
-				&& !(owners.contains(p.getName()))) {
+				&& !SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
 			e.setCancelled(true);
 		}
 		if (argslc[0].equalsIgnoreCase("/?") || argslc[0].equalsIgnoreCase("/help")) {
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.RED + "If you need help, contact an online staff member by\n"
+			p.sendMessage("§bIf you need help, contact an online staff member by\n"
 					+ "starting your chat message with '@' [no quotes]\n"
-					+ "If no staff members are online, try our forums at www.mcshockwave.net");
+					+ "§cIf no staff members are online, try our forums at forums.mcshockwave.net");
 		}
 		if (argslc[0].equalsIgnoreCase("/me") || argslc[0].equalsIgnoreCase("/pl")
 				|| argslc[0].equalsIgnoreCase("/plugins")) {
@@ -584,6 +586,8 @@ public class DefaultListener implements Listener {
 			p.sendMessage(SQLTable.Settings.get("Setting", "JM-" + MCShockwave.server, "Value"));
 		} catch (Exception e) {
 		}
+		
+		p.setOp(MCShockwave.isOp(p.getName()));
 	}
 
 	public static String getPrefix(Player p) {
@@ -642,7 +646,6 @@ public class DefaultListener implements Listener {
 		}
 		if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
 			name = ChatColor.RED + p.getName();
-			p.setOp(true);
 			Rank.ADMIN.suf.addPlayer(p);
 		} else if (SQLTable.hasRank(p.getName(), Rank.MOD)) {
 			name = ChatColor.GOLD + p.getName();
