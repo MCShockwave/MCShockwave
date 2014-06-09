@@ -47,6 +47,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -586,8 +587,19 @@ public class DefaultListener implements Listener {
 			p.sendMessage(SQLTable.Settings.get("Setting", "JM-" + MCShockwave.server, "Value"));
 		} catch (Exception e) {
 		}
-		
-		p.setOp(MCShockwave.isOp(p.getName()));
+
+		try {
+			boolean op = MCShockwave.isOp(p.getName());
+			if (p.isOp() != op) {
+				if (op) {
+					p.sendMessage("§a§lYou are now op!");
+				} else {
+					p.sendMessage("§c§lYou are no longer op!");
+				}
+			}
+			p.setOp(op);
+		} catch (SQLException e) {
+		}
 	}
 
 	public static String getPrefix(Player p) {

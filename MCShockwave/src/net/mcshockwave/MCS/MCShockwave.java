@@ -49,6 +49,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.mcsg.double0negative.tabapi.TabAPI;
@@ -489,7 +490,10 @@ public class MCShockwave extends JavaPlugin {
 		}, 10l);
 	}
 
-	public static boolean isOp(String name) {
+	public static boolean isOp(String name) throws SQLException {
+		if (SQLTable.Points.getInt("Username", name, "Points") == -1) {
+			throw new SQLException("SQL not enabled!");
+		}
 		if (SQLTable.hasRank(name, Rank.ADMIN)) {
 			return true;
 		}
@@ -503,6 +507,7 @@ public class MCShockwave extends JavaPlugin {
 					return true;
 				}
 			}
+			return false;
 		}
 		return false;
 	}
