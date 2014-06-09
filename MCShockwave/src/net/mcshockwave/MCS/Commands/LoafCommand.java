@@ -4,8 +4,6 @@ import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Utils.CooldownUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
