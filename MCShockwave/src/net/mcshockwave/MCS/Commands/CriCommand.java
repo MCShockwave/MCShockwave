@@ -26,7 +26,7 @@ public class CriCommand implements CommandExecutor {
 					return false;
 				}
 				player.chat(ChatColor.AQUA + ";-; "
-						+ (label.equalsIgnoreCase("cri") ? "i cri evertim" : "yo lloro cada vez"));
+						+ (label.equalsIgnoreCase("cri") ? "i cri evertim" : "lloro cada vez que"));
 				PacketUtils.playParticleEffect(ParticleEffect.DRIP_WATER,
 						player.getEyeLocation().add(player.getLocation().getDirection().multiply(0.4)), 0, 0, 4);
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
