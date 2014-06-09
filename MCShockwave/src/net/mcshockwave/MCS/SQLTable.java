@@ -17,6 +17,7 @@ public class SQLTable {
 	public static final SQLTable	ADMINS			= new SQLTable("ADMINS");
 	public static final SQLTable	BanHistory		= new SQLTable("BanHistory");
 	public static final SQLTable	Banned			= new SQLTable("Banned");
+	public static final SQLTable	BattleBaneItems	= new SQLTable("BattleBaneItems");
 	public static final SQLTable	Coins			= new SQLTable("Coins");
 	public static final SQLTable	Dojo			= new SQLTable("Dojo");
 	public static final SQLTable	ForceCooldowns	= new SQLTable("ForceCooldowns");

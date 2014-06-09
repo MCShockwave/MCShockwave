@@ -41,10 +41,14 @@ public class GMItemCommand implements CommandExecutor {
 				xpBoost(p, Integer.parseInt(args[2]), Float.parseFloat(args[3]));
 			}
 
+			if (args[0].equalsIgnoreCase("bb")) {
+				ItemsUtils.addItem(p, SQLTable.BattleBaneItems, it, 1);
+			}
+
 		}
 		return false;
 	}
-	
+
 	public void xpBoost(final String p, final int time, final float mult) {
 		if (LevelUtils.getTimeLeftBoost(p) > 0) {
 			ItemsUtils.addItem(p, SQLTable.MiscItems, "Boost_Time", time);
