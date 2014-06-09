@@ -17,9 +17,9 @@ public class SetOpCommand implements CommandExecutor {
 			if (args.length == 0) {
 				sender.sendMessage("§c/setop {name} {servers}");
 				sender.sendMessage("§cServers: +servertoadd -servertoremove +@ for all");
-			} else if (args.length > 2) {
-				String player = args[1];
-				for (int i = 2; i < args.length; i++) {
+			} else if (args.length > 1) {
+				String player = args[0];
+				for (int i = 1; i < args.length; i++) {
 					String server = args[i];
 					if (server.startsWith("+")) {
 						String ser = server.replaceFirst("+", "");
