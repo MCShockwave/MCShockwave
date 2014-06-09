@@ -26,7 +26,7 @@ public class SetOpCommand implements CommandExecutor {
 						if (ser.equalsIgnoreCase("@")) {
 							SQLTable.OPS.del("Username", player);
 							SQLTable.OPS.add("Username", player, "Servers", "*");
-							sender.sendMessage("§aOpped" + player + " on all servers");
+							sender.sendMessage("§aOpped " + player + " on all servers");
 						} else {
 							addOpFor(player, ser);
 							sender.sendMessage("§aOpped " + player + " on " + ser);
