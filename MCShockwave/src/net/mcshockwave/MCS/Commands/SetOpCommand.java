@@ -45,7 +45,7 @@ public class SetOpCommand implements CommandExecutor {
 							sender.sendMessage("§cDe-opped " + player + " on all servers");
 						} else {
 							try {
-								if (!MCShockwave.isOp(player, ser)) {
+								if (MCShockwave.isOp(player, ser)) {
 									removeOpFor(player, ser);
 									sender.sendMessage("§cDe-opped " + player + " on " + ser);
 								}
