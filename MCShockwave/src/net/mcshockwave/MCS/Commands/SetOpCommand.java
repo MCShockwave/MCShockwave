@@ -1,6 +1,5 @@
 package net.mcshockwave.MCS.Commands;
 
-import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 
@@ -8,8 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import java.sql.SQLException;
 
 public class SetOpCommand implements CommandExecutor {
 
@@ -27,15 +24,8 @@ public class SetOpCommand implements CommandExecutor {
 					if (server.startsWith("+")) {
 						String ser = server.replaceFirst("+", "");
 						if (ser.equalsIgnoreCase("@")) {
-							for (String in : MCShockwave.servers) {
-								try {
-									if (!MCShockwave.isOp(player, server)) {
-										addOpFor(player, in);
-										sender.sendMessage("§aOpped " + player + " on " + in);
-									}
-								} catch (SQLException e) {
-								}
-							}
+							SQLTable.OPS.del("Username", player);
+							SQLTable.OPS.add("Username", player, "Servers", "*");
 						} else {
 							addOpFor(player, ser);
 							sender.sendMessage("§aOpped " + player + " on " + ser);
@@ -43,15 +33,7 @@ public class SetOpCommand implements CommandExecutor {
 					} else if (server.startsWith("-")) {
 						String ser = server.replaceFirst("-", "");
 						if (ser.equalsIgnoreCase("@")) {
-							for (String in : MCShockwave.servers) {
-								try {
-									if (MCShockwave.isOp(player, server)) {
-										removeOpFor(player, in);
-										sender.sendMessage("§cDe-opped " + player + " on " + in);
-									}
-								} catch (SQLException e) {
-								}
-							}
+							SQLTable.OPS.del("Username", player);
 						} else {
 							removeOpFor(player, ser);
 							sender.sendMessage("§cDe-opped " + player + " on " + ser);
