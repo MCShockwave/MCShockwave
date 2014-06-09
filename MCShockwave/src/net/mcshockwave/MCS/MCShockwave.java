@@ -17,6 +17,7 @@ import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
 import net.mcshockwave.MCS.Commands.RulesCommand;
 import net.mcshockwave.MCS.Commands.SMCommand;
+import net.mcshockwave.MCS.Commands.SetOpCommand;
 import net.mcshockwave.MCS.Commands.SilenceCommand;
 import net.mcshockwave.MCS.Commands.SpeedCommand;
 import net.mcshockwave.MCS.Commands.SudoCommand;
@@ -123,6 +124,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("killplayer").setExecutor(new KillCommand());
 		getCommand("cri").setExecutor(new CriCommand());
 		getCommand("lloro").setExecutor(new CriCommand());
+		getCommand("setop").setExecutor(new SetOpCommand());
 
 		instance = this;
 
@@ -491,6 +493,10 @@ public class MCShockwave extends JavaPlugin {
 	}
 
 	public static boolean isOp(String name) throws SQLException {
+		return isOp(name, server);
+	}
+
+	public static boolean isOp(String name, String server) throws SQLException {
 		if (SQLTable.Points.getInt("Username", name, "Points") == -1) {
 			throw new SQLException("SQL not enabled!");
 		}
