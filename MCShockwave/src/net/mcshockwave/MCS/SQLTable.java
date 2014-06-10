@@ -116,6 +116,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return false;
 	}
 
@@ -130,6 +131,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return null;
 	}
 
@@ -144,6 +146,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return null;
 	}
 
@@ -158,6 +161,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return -1;
 	}
 
@@ -172,6 +176,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return -1;
 	}
 
@@ -186,6 +191,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return -1;
 	}
 
@@ -201,6 +207,7 @@ public class SQLTable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return null;
 	}
 
@@ -216,6 +223,7 @@ public class SQLTable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return null;
 	}
 
@@ -231,6 +239,7 @@ public class SQLTable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return null;
 	}
 
@@ -250,6 +259,7 @@ public class SQLTable {
 			stmt.execute(in);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			restartConnection();
 		}
 	}
 
@@ -259,6 +269,7 @@ public class SQLTable {
 			stmt.executeUpdate(in);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			restartConnection();
 		}
 	}
 
@@ -268,6 +279,7 @@ public class SQLTable {
 			stmt.execute(in);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			restartConnection();
 		}
 	}
 
@@ -282,6 +294,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return false;
 	}
 
@@ -296,6 +309,7 @@ public class SQLTable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return ret;
 	}
 
@@ -307,6 +321,7 @@ public class SQLTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		restartConnection();
 		return null;
 	}
 
@@ -315,6 +330,7 @@ public class SQLTable {
 		try {
 			stmt.execute(in);
 		} catch (SQLException e) {
+			restartConnection();
 			e.printStackTrace();
 		}
 	}
@@ -328,6 +344,7 @@ public class SQLTable {
 			stmt.execute(in);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			restartConnection();
 		}
 	}
 
