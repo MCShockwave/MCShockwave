@@ -19,7 +19,7 @@ public class CriCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if (SQLTable.hasRank(sender.getName(), Rank.ENDER)) {
+			if (SQLTable.hasRank(sender.getName(), Rank.OBSIDIAN)) {
 				if (CooldownUtils.isOnCooldown("/" + label, player.getName())) {
 					MCShockwave.send(player, "You must wait %s seconds to use /" + label + " again!",
 							CooldownUtils.getCooldownForSec("/" + label, player.getName(), 1));
@@ -32,7 +32,7 @@ public class CriCommand implements CommandExecutor {
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
 			} else {
 				MCShockwave.send(player, "You must be %s to use /" + label + "! Buy VIP at buy.mcshockwave.net",
-						"Ender+");
+						"Obsidian+");
 			}
 		}
 		return false;
