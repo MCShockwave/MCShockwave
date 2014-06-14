@@ -10,6 +10,7 @@ import net.mcshockwave.MCS.Commands.FriendCommand;
 import net.mcshockwave.MCS.Commands.GMItemCommand;
 import net.mcshockwave.MCS.Commands.HistoryCommand;
 import net.mcshockwave.MCS.Commands.KillCommand;
+import net.mcshockwave.MCS.Commands.LoafCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
 import net.mcshockwave.MCS.Commands.MuteCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
@@ -125,6 +126,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("cri").setExecutor(new CriCommand());
 		getCommand("lloro").setExecutor(new CriCommand());
 		getCommand("setop").setExecutor(new SetOpCommand());
+		getCommand("loaf").setExecutor(new LoafCommand());
 
 		instance = this;
 
