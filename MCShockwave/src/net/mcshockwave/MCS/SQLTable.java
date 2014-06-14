@@ -56,7 +56,7 @@ public class SQLTable {
 		return name;
 	}
 
-	public static String		SqlIP		= "127.0.0.1";
+	public static String		SqlIP		= "localhost";
 	public static String		SqlName		= "vahost_24";
 	public static String		SqlUser		= SqlName;
 
