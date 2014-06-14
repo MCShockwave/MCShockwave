@@ -331,6 +331,10 @@ public class MCSCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("restartSQL")) {
 				SQLTable.restartConnection();
 			}
+
+			if (args[0].equalsIgnoreCase("ip")) {
+				sender.sendMessage("§aIP: " + Bukkit.getIp());
+			}
 		}
 		return false;
 	}
