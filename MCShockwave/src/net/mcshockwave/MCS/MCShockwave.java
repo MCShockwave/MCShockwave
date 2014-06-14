@@ -364,11 +364,11 @@ public class MCShockwave extends JavaPlugin {
 
 		// Battle Bane
 
-		Button bb = new Button(true, Material.NETHER_STAR, 1, 0, "§kBattle Bane", new String[] {
-				"Click to join server", "", "Players: " + getPlayerCount("test") + " / 100" });
+		Button bb = new Button(true, Material.NETHER_STAR, 1, 0, "Battle Bane", new String[] { "Click to join server",
+				"", "Players: " + getPlayerCount("bane") + " / 80" });
 		bb.setOnClick(new ButtonRunnable() {
 			public void run(Player p, InventoryClickEvent e) {
-				MCShockwave.connectToServer(p, "test", "§kBattle Bane");
+				MCShockwave.connectToServer(p, "bane", "Battle Bane");
 			}
 		});
 		im.addButton(bb, 6);
