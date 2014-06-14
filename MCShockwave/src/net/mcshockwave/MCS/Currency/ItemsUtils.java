@@ -12,11 +12,11 @@ public class ItemsUtils {
 	}
 
 	public static void addItem(final String p, final SQLTable t, final String item, int amount) {
-		int am = getItemCount(p, t, item);
-		am += amount;
 		if (!t.has("Username", p)) {
 			t.add("Username", p);
 		}
+		int am = getItemCount(p, t, item);
+		am += amount;
 		final int amf = am;
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 			public void run() {
