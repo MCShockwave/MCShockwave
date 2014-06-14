@@ -19,14 +19,14 @@ public class CriCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if (SQLTable.hasRank(sender.getName(), Rank.OBSIDIAN)) {
+			if (SQLTable.hasRank(sender.getName(), Rank.ENDER)) {
 				if (CooldownUtils.isOnCooldown("/" + label, player.getName())) {
 					MCShockwave.send(player, "You must wait %s seconds to use /" + label + " again!",
 							CooldownUtils.getCooldownForSec("/" + label, player.getName(), 1));
 					return false;
 				}
 				player.chat(ChatColor.AQUA + ";-; "
-						+ (label.equalsIgnoreCase("cri") ? "i cri evertim" : "lloro cada vez que"));
+						+ (label.equalsIgnoreCase("cri") ? "i cri evertim" : "yo lloro cada vez"));
 				PacketUtils.playParticleEffect(ParticleEffect.DRIP_WATER,
 						player.getEyeLocation().add(player.getLocation().getDirection().multiply(0.4)), 0, 0, 4);
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
