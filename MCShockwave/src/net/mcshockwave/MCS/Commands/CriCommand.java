@@ -32,7 +32,7 @@ public class CriCommand implements CommandExecutor {
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
 			} else {
 				MCShockwave.send(player, "You must be %s to use /" + label + "! Buy VIP at buy.mcshockwave.net",
-						"Obsidian+");
+						"Ender+");
 			}
 		}
 		return false;

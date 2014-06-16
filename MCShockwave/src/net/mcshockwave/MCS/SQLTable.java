@@ -20,6 +20,7 @@ public class SQLTable {
 	public static final SQLTable	BattleBaneItems	= new SQLTable("BattleBaneItems");
 	public static final SQLTable	Coins			= new SQLTable("Coins");
 	public static final SQLTable	Dojo			= new SQLTable("Dojo");
+	public static final SQLTable	ForceCosts		= new SQLTable("ForceCosts");
 	public static final SQLTable	ForceCooldowns	= new SQLTable("ForceCooldowns");
 	public static final SQLTable	Friends			= new SQLTable("Friends");
 	public static final SQLTable	JunMODS			= new SQLTable("JunMODS");
