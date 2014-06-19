@@ -49,7 +49,9 @@ import org.bukkit.util.Vector;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -71,6 +73,8 @@ public class DefaultListener implements Listener {
 
 	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
 
+	List<String>                        hbuilders   = Arrays.asList("GreatSalad", "gamefrk17", "dandoop");
+	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
@@ -316,8 +320,12 @@ public class DefaultListener implements Listener {
 
 		boolean showToAdmins = true;
 
-		if ((argslc[0].equalsIgnoreCase("/op") || argslc[0].equalsIgnoreCase("/deop"))
-				&& !SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
+		if ((argslc[0].equalsIgnoreCase("/op"))
+				&& (!SQLTable.hasRank(p.getName(), Rank.ADMIN) && !p.isOp() && !hbuilders.contains(p.getName()))) {
+			e.setCancelled(true);
+		}
+		if ((argslc[0].equalsIgnoreCase("/deop"))
+				&& (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
 			e.setCancelled(true);
 		}
 		if (argslc[0].equalsIgnoreCase("/?") || argslc[0].equalsIgnoreCase("/help")) {
@@ -496,7 +504,7 @@ public class DefaultListener implements Listener {
 					+ "+'s can join this server!\nEarn XP by killing players in our gamemodes to level up!");
 		}
 
-		if (!SQLTable.hasRank(pl, Rank.COAL) && MCShockwave.maxPlayers <= Bukkit.getOnlinePlayers().length) {
+		if ((!SQLTable.hasRank(pl, Rank.COAL) && !SQLTable.Youtubers.has("Username", pl)) && MCShockwave.maxPlayers <= Bukkit.getOnlinePlayers().length) {
 			event.disallow(Result.KICK_FULL, ChatColor.GREEN + "Server full! Buy VIP to join when a server is full!\n"
 					+ VIPLink + "\nOr join another one of our servers!");
 		}
