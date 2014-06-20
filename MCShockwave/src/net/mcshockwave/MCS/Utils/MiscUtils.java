@@ -1,12 +1,17 @@
 package net.mcshockwave.MCS.Utils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import net.mcshockwave.MCS.SQLTable;
+import net.mcshockwave.MCS.SQLTable.Rank;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class MiscUtils {
 
@@ -42,10 +47,10 @@ public class MiscUtils {
 		ArrayList<String> ret = new ArrayList<>();
 
 		try {
-			URL url = new URL("[url]" + link + "[/url]");
-			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+			URL url = new URL(link);
+			Scanner in = new Scanner(url.openStream());
 			String inputLine;
-			while ((inputLine = in.readLine()) != null) {
+			while ((inputLine = in.next()) != null) {
 				ret.add(inputLine);
 			}
 			in.close();
@@ -53,5 +58,18 @@ public class MiscUtils {
 		}
 
 		return ret.toArray(new String[0]);
+	}
+
+	public static void printStackTrace(Exception e) {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			p.sendMessage("§c§lStack trace please ignore unless needed");
+			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
+				for (StackTraceElement ste : e.getStackTrace()) {
+					String msg = ste.toString();
+
+					p.sendMessage("§4" + msg);
+				}
+			}
+		}
 	}
 }
