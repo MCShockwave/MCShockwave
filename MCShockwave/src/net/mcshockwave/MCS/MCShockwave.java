@@ -2,6 +2,7 @@ package net.mcshockwave.MCS;
 
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Commands.BCCommand;
+import net.mcshockwave.MCS.Commands.ChallengeCommand;
 import net.mcshockwave.MCS.Commands.CriCommand;
 import net.mcshockwave.MCS.Commands.DataCommand;
 import net.mcshockwave.MCS.Commands.EXPCommand;
@@ -127,6 +128,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("lloro").setExecutor(new CriCommand());
 		getCommand("setop").setExecutor(new SetOpCommand());
 		getCommand("loaf").setExecutor(new LoafCommand());
+		getCommand("challenges").setExecutor(new ChallengeCommand());
 
 		instance = this;
 

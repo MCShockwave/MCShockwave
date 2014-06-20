@@ -5,6 +5,8 @@ import net.mcshockwave.MCS.DefaultListener;
 import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
+import net.mcshockwave.MCS.Challenges.Challenge;
+import net.mcshockwave.MCS.Challenges.ChallengeGenerator;
 import net.mcshockwave.MCS.Currency.LevelUtils;
 import net.mcshockwave.MCS.Currency.PointsUtils;
 import net.mcshockwave.MCS.Utils.HoloUtils;
@@ -334,6 +336,12 @@ public class MCSCommand implements CommandExecutor {
 
 			if (args[0].equalsIgnoreCase("ip")) {
 				sender.sendMessage("§aIP: " + Bukkit.getIp());
+			}
+
+			if (args[0].equalsIgnoreCase("genChallenge")) {
+				Challenge c = ChallengeGenerator.getRandom();
+
+				sender.sendMessage("C: " + c.getDesc());
 			}
 		}
 		return false;
