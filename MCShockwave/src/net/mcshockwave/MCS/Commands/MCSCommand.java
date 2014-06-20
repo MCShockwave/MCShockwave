@@ -7,6 +7,7 @@ import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Challenges.Challenge;
 import net.mcshockwave.MCS.Challenges.ChallengeGenerator;
+import net.mcshockwave.MCS.Challenges.ChallengeManager;
 import net.mcshockwave.MCS.Currency.LevelUtils;
 import net.mcshockwave.MCS.Currency.PointsUtils;
 import net.mcshockwave.MCS.Utils.HoloUtils;
@@ -342,6 +343,16 @@ public class MCSCommand implements CommandExecutor {
 				Challenge c = ChallengeGenerator.getRandom();
 
 				sender.sendMessage("C: " + c.getDesc());
+			}
+
+			if (args[0].equalsIgnoreCase("genNewSet")) {
+				int amount = Integer.parseInt(args[1]);
+
+				Challenge[] set = ChallengeManager.generateNewSet(amount);
+				ChallengeManager.clearChallenges();
+				for (Challenge c : set) {
+					ChallengeManager.saveToTable(c);
+				}
 			}
 		}
 		return false;

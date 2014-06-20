@@ -5,6 +5,7 @@ import net.mcshockwave.MCS.Challenges.Challenge.ChallengeModifier;
 import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChallengeManager {
 
@@ -26,9 +27,44 @@ public class ChallengeManager {
 				extr = tys[1];
 			}
 
-			ret.add(new Challenge(ChallengeType.valueOf(chTy), extr, ChallengeModifier.valueOf(modifiers.get(i)),
-					Integer.parseInt(amounts.get(i)), progress.get(i)));
+			boolean noMod = modifiers.get(i).equalsIgnoreCase("NONE");
+
+			ret.add(new Challenge(ChallengeType.valueOf(chTy), extr, noMod ? null : ChallengeModifier.valueOf(modifiers
+					.get(i)), Integer.parseInt(amounts.get(i)), progress.get(i)));
 		}
 		return ret.toArray(new Challenge[0]);
+	}
+
+	public static void clearChallenges() {
+		SQLTable.CurrentChallenges.delWhere("1");
+	}
+
+	public static Challenge[] generateNewSet(int amount) {
+		List<Challenge> chals = new ArrayList<>();
+
+		for (int i = 0; i < amount; i++) {
+			Challenge c = ChallengeGenerator.getRandom();
+			chals.add(c);
+		}
+
+		return chals.toArray(new Challenge[0]);
+	}
+
+	public static void saveToTable(Challenge c) {
+		String type = c.type.name();
+		String extra = c.extra;
+		if (extra.length() > 1) {
+			type += ":" + extra;
+		}
+
+		String am = c.number + "";
+		String mod = "NONE";
+		String prog = c.progress;
+
+		if (c.mod != null) {
+			mod = c.mod.name();
+		}
+
+		SQLTable.CurrentChallenges.add("Type", type, "Amount", am, "Modifier", mod, "Progress", prog);
 	}
 }

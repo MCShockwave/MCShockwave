@@ -72,20 +72,22 @@ public class Challenge {
 	public static enum ChallengeModifier {
 		No_Team_Deaths(
 			"without anyone on your team dying",
-			ChallengeType.Win_Team_Minigame),
-		No_Damage_Team(
-			"without taking any damage",
-			ChallengeType.Win_Team_Minigame),
-		No_Damage_Solo(
-			"without taking any damage",
-			ChallengeType.Win_Solo_Minigame);
+			ChallengeType.Win_Team_Minigame,
+			0.1);
 
 		public String			desc;
 		public ChallengeType	type;
+		public double			mult	= 1;
 
 		private ChallengeModifier(String desc, ChallengeType type) {
 			this.desc = desc;
 			this.type = type;
+		}
+
+		private ChallengeModifier(String desc, ChallengeType type, double mult) {
+			this.desc = desc;
+			this.type = type;
+			this.mult = mult;
 		}
 
 		public static ChallengeModifier[] getAll(ChallengeType type) {
@@ -111,11 +113,11 @@ public class Challenge {
 				tds = tds.replace(ss[0], "§6§o" + ss[1] + "§b");
 			}
 		}
-		String mds = "";
+		String mds = null;
 		if (mod != null) {
 			mds = mod.desc;
 		}
 
-		return tds + "//§b " + mds;
+		return tds + (mds == null ? "" : ("//§b " + mds));
 	}
 }

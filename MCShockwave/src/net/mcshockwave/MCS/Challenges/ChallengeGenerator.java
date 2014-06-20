@@ -18,6 +18,11 @@ public class ChallengeGenerator {
 		ChallengeModifier[] mods = ChallengeModifier.getAll(type);
 		if (mods.length > 0 && !rand.nextBoolean()) {
 			mod = mods[rand.nextInt(mods.length)];
+			number *= mod.mult;
+		}
+
+		if (number < 1) {
+			number = 1;
 		}
 
 		if (type == ChallengeType.Win_Solo_Minigame) {

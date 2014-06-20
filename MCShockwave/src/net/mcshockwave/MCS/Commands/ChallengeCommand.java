@@ -4,6 +4,7 @@ import net.mcshockwave.MCS.Challenges.Challenge;
 import net.mcshockwave.MCS.Challenges.ChallengeManager;
 import net.mcshockwave.MCS.Menu.ItemMenu;
 import net.mcshockwave.MCS.Menu.ItemMenu.Button;
+import net.mcshockwave.MCS.Utils.MiscUtils;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -25,23 +26,30 @@ public class ChallengeCommand implements CommandExecutor {
 	}
 
 	public void openMenu(Player p) {
-		Challenge[] cs = ChallengeManager.getCurrentChallenges();
-		ItemMenu m = new ItemMenu("Challenges", cs.length > 0 ? cs.length : 1);
+		try {
+			Challenge[] cs = ChallengeManager.getCurrentChallenges();
+			ItemMenu m = new ItemMenu("Challenges", cs.length > 0 ? cs.length : 1);
 
-		for (int i = 0; i < cs.length; i++) {
-			Challenge c = cs[i];
+			for (int i = 0; i < cs.length; i++) {
+				Challenge c = cs[i];
 
-			ArrayList<String> lore = new ArrayList<>();
-			lore.add("");
-			for (String s : c.getDesc().split("//")) {
-				lore.add(s);
+				if (c != null) {
+					ArrayList<String> lore = new ArrayList<>();
+					lore.add("");
+					for (String s : c.getDesc().split("//")) {
+						lore.add(s);
+					}
+
+					Button b = new Button(false, Material.SKULL_ITEM, 1, 0, "§eDaily Challenge",
+							lore.toArray(new String[0]));
+
+					m.addButton(b, i);
+				}
 			}
 
-			Button b = new Button(false, Material.SKULL_ITEM, 1, 0, "§eDaily Challenge", lore.toArray(new String[0]));
-
-			m.addButton(b, i);
+			m.open(p);
+		} catch (Exception e) {
+			MiscUtils.printStackTrace(e);
 		}
-
-		m.open(p);
 	}
 }
