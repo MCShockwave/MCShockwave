@@ -10,9 +10,9 @@ public class SpeedCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (sender instanceof Player && sender.isOp()) {
+		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			if (args.length == 1) {
+			if (args.length == 1 && sender.isOp()) {
 				try {
 					float speed = Float.parseFloat(args[0]);
 					p.setFlySpeed((float) speed / 10.0f);
@@ -21,6 +21,7 @@ public class SpeedCommand implements CommandExecutor {
 					p.sendMessage(ChatColor.RED + "Invalid speed: " + args[0] + ", must be from 1 to 10.");
 				}
 			}
+			else p.setFlySpeed((float) 0.1); 
 		}
 
 		return false;
