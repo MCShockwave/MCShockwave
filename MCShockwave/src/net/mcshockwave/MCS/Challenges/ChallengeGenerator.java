@@ -11,6 +11,7 @@ public class ChallengeGenerator {
 	private static Random	rand	= new Random();
 
 	public static Challenge getRandom() {
+		int id = rand.nextInt(1000000);
 		ChallengeType type = ChallengeType.values()[rand.nextInt(ChallengeType.values().length)];
 		ChallengeModifier mod = null;
 		String extra = "";
@@ -24,15 +25,19 @@ public class ChallengeGenerator {
 		if (number < 1) {
 			number = 1;
 		}
+		int reward = type.getReward(number);
+		if (mod != null) {
+			reward *= mod.multRe;
+		}
 
 		if (type == ChallengeType.Win_Solo_Minigame) {
 			String[] mgs = MiscUtils.readTextFile("http://mcsw.us/sologamelist.txt");
-			extra = mgs[rand.nextInt(mgs.length)];
+			extra = mgs[rand.nextInt(mgs.length)].replace('_', ' ');
 		}
 		if (type == ChallengeType.Win_Team_Minigame) {
 			String[] mgs = MiscUtils.readTextFile("http://mcsw.us/teamgamelist.txt");
-			extra = mgs[rand.nextInt(mgs.length)];
+			extra = mgs[rand.nextInt(mgs.length)].replace('_', ' ');
 		}
-		return new Challenge(type, extra, mod, number, "");
+		return new Challenge(id, type, extra, mod, number, reward, "");
 	}
 }

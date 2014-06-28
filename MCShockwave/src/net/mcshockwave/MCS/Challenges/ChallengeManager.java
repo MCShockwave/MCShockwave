@@ -10,9 +10,11 @@ import java.util.List;
 public class ChallengeManager {
 
 	public static Challenge[] getCurrentChallenges() {
+		ArrayList<String> ids = SQLTable.CurrentChallenges.getAll("ID");
 		ArrayList<String> types = SQLTable.CurrentChallenges.getAll("Type");
 		ArrayList<String> amounts = SQLTable.CurrentChallenges.getAll("Amount");
 		ArrayList<String> modifiers = SQLTable.CurrentChallenges.getAll("Modifier");
+		ArrayList<String> rewards = SQLTable.CurrentChallenges.getAll("Reward");
 		ArrayList<String> progress = SQLTable.CurrentChallenges.getAll("Progress");
 
 		ArrayList<Challenge> ret = new ArrayList<>();
@@ -29,8 +31,9 @@ public class ChallengeManager {
 
 			boolean noMod = modifiers.get(i).equalsIgnoreCase("NONE");
 
-			ret.add(new Challenge(ChallengeType.valueOf(chTy), extr, noMod ? null : ChallengeModifier.valueOf(modifiers
-					.get(i)), Integer.parseInt(amounts.get(i)), progress.get(i)));
+			ret.add(new Challenge(Integer.parseInt(ids.get(i)), ChallengeType.valueOf(chTy), extr, noMod ? null
+					: ChallengeModifier.valueOf(modifiers.get(i)), Integer.parseInt(amounts.get(i)), Integer
+					.parseInt(rewards.get(i)), progress.get(i)));
 		}
 		return ret.toArray(new Challenge[0]);
 	}
@@ -65,6 +68,7 @@ public class ChallengeManager {
 			mod = c.mod.name();
 		}
 
-		SQLTable.CurrentChallenges.add("Type", type, "Amount", am, "Modifier", mod, "Progress", prog);
+		SQLTable.CurrentChallenges.add("ID", c.id + "", "Type", type, "Amount", am, "Modifier", mod, "Reward",
+				c.reward + "", "Progress", prog);
 	}
 }

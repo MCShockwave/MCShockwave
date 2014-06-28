@@ -49,7 +49,7 @@ public class DataCommand implements Listener, CommandExecutor {
 				"Progress to Level " + (LevelUtils.getLevelFromXP(xp) + 1) + ": §e" + LevelUtils.getOffsetXP(xp)
 						+ " / " + LevelUtils.getXPPerLevel(LevelUtils.getLevelFromXP(xp)), "Percent Progress: §e"
 						+ ((int) LevelUtils.getPercentDone(xp)) + "%", "",
-				"XP Multiplier: §e" + LevelUtils.getMultiplier(p) + "x"));
+				"XP Multiplier: §e" + LevelUtils.getMultiplier(p.getName()) + "x"));
 
 		float bm = LevelUtils.getBoughtMultiplier(p.getName());
 		if (bm > 1) {
@@ -85,8 +85,8 @@ public class DataCommand implements Listener, CommandExecutor {
 			pre = "None";
 		}
 		Button rank = new Button(false, Material.BEACON, 1, 0, "§bCurrent rank: §a" + getRankName(p),
-				"§d§nStats for rank:", "", "Points Multiplier: §e" + PointsUtils.getMultiplier(p) + "x",
-				"XP Multiplier: §e" + LevelUtils.getMultiplier(p) + "x", "Prefix: §e" + pre, "Max Friends: §e"
+				"§d§nStats for rank:", "", "Points Multiplier: §e" + PointsUtils.getMultiplier(p.getName()) + "x",
+				"XP Multiplier: §e" + LevelUtils.getMultiplier(p.getName()) + "x", "Prefix: §e" + pre, "Max Friends: §e"
 						+ FriendCommand.getMaxFriends(p));
 		dm.addButton(rank, 6);
 

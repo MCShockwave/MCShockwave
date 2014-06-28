@@ -21,7 +21,7 @@ public class LevelUtils {
 		int po = getXP(p);
 		final int poF = po;
 		if (mult) {
-			xp *= getMultiplier(p);
+			xp *= getMultiplier(p.getName());
 			xp *= getBoughtMultiplier(p.getName());
 		}
 		po += xp;
@@ -131,26 +131,26 @@ public class LevelUtils {
 		return 1;
 	}
 
-	public static float getMultiplier(Player p) {
-		if (SQLTable.hasRank(p.getName(), Rank.NETHER)) {
+	public static float getMultiplier(String pl) {
+		if (SQLTable.hasRank(pl, Rank.NETHER)) {
 			return 2;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
+		if (SQLTable.hasRank(pl, Rank.OBSIDIAN)) {
 			return 1.6f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.EMERALD)) {
+		if (SQLTable.hasRank(pl, Rank.EMERALD)) {
 			return 1.5f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.DIAMOND)) {
+		if (SQLTable.hasRank(pl, Rank.DIAMOND)) {
 			return 1.4f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.GOLD)) {
+		if (SQLTable.hasRank(pl, Rank.GOLD)) {
 			return 1.3f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.IRON)) {
+		if (SQLTable.hasRank(pl, Rank.IRON)) {
 			return 1.2f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.COAL)) {
+		if (SQLTable.hasRank(pl, Rank.COAL)) {
 			return 1.1f;
 		}
 		return 1;
@@ -165,6 +165,9 @@ public class LevelUtils {
 		}
 		if (l >= 250) {
 			return ChatColor.LIGHT_PURPLE;
+		}
+		if (l >= 150) {
+			return ChatColor.BLUE;
 		}
 		if (l >= 100) {
 			return ChatColor.RED;

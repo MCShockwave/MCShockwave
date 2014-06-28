@@ -16,7 +16,7 @@ public class PointsUtils {
 	public static void addPoints(Player p, int points, String reason, boolean mult) {
 		int po = getPoints(p);
 		if (mult) {
-			points *= getMultiplier(p);
+			points *= getMultiplier(p.getName());
 		}
 		po += points;
 		MCShockwave.send(points >= 0 ? ChatColor.GREEN : ChatColor.RED, p, "%s points"
@@ -32,32 +32,32 @@ public class PointsUtils {
 		SQLTable.Points.set("Points", points + "", "Username", p.getName());
 		MCShockwave.updateTab(p);
 	}
-	
-	public static float getMultiplier(Player p) {
-		if (SQLTable.hasRank(p.getName(), Rank.NETHER)) {
+
+	public static float getMultiplier(String pl) {
+		if (SQLTable.hasRank(pl, Rank.NETHER)) {
 			return 3;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
+		if (SQLTable.hasRank(pl, Rank.OBSIDIAN)) {
 			return 2.5f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.EMERALD)) {
+		if (SQLTable.hasRank(pl, Rank.EMERALD)) {
 			return 2.25f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.DIAMOND)) {
+		if (SQLTable.hasRank(pl, Rank.DIAMOND)) {
 			return 2f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.GOLD)) {
+		if (SQLTable.hasRank(pl, Rank.GOLD)) {
 			return 1.75f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.IRON)) {
+		if (SQLTable.hasRank(pl, Rank.IRON)) {
 			return 1.5f;
 		}
-		if (SQLTable.hasRank(p.getName(), Rank.COAL)) {
+		if (SQLTable.hasRank(pl, Rank.COAL)) {
 			return 1.25f;
 		}
 		return 1;
 	}
-	
+
 	public static String[] getTop(int num) {
 		LinkedHashMap<String, String> get = SQLTable.Points.getAllOrder("Username", "Points", num);
 		List<String> ret = new ArrayList<>();

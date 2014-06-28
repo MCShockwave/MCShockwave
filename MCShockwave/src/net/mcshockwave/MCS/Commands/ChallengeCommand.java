@@ -33,11 +33,28 @@ public class ChallengeCommand implements CommandExecutor {
 			for (int i = 0; i < cs.length; i++) {
 				Challenge c = cs[i];
 
-				if (c != null) {
+				if (c != null) {					
+					boolean rewXP = c.reward < 0;
+					int rewAm = Math.abs(c.reward);
+					rewAm *= c.getRewardMultiplier(p.getName());
+
 					ArrayList<String> lore = new ArrayList<>();
 					lore.add("");
 					for (String s : c.getDesc().split("//")) {
 						lore.add(s);
+					}
+					lore.add("");
+					lore.add("§aReward:");
+					lore.add((rewXP ? "§b" : "§d") + rewAm + " " + (rewXP ? "XP" : "Points") + " §7(§c"
+							+ c.getRewardMultiplier(p.getName()) + "x§7)");
+					lore.add("");
+					lore.add("§eProgress:");
+					lore.add("§b0 §8/ §3" + c.number);
+					if (!Challenge.enoughPlayersOnline()) {
+						lore.add("");
+						lore.add("§cYou do not have enough");
+						lore.add("§cplayers online to unlock");
+						lore.add("§cany challenges!");
 					}
 
 					Button b = new Button(false, Material.SKULL_ITEM, 1, 0, "§eDaily Challenge",

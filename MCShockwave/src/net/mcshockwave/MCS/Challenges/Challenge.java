@@ -1,5 +1,11 @@
 package net.mcshockwave.MCS.Challenges;
 
+import org.bukkit.Bukkit;
+
+import net.mcshockwave.MCS.SQLTable;
+import net.mcshockwave.MCS.Currency.LevelUtils;
+import net.mcshockwave.MCS.Currency.PointsUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +23,19 @@ public class Challenge {
 
 	public String				progress;
 
-	public Challenge(ChallengeType type, String extra, ChallengeModifier mod, int number, String progress) {
+	public int					id;
+
+	public int					reward;
+
+	public Challenge(int id, ChallengeType type, String extra, ChallengeModifier mod, int number, int reward,
+			String progress) {
 		this.type = type;
 		this.extra = extra;
 		this.mod = mod;
 		this.number = number;
 		this.progress = progress;
+		this.id = id;
+		this.reward = reward;
 	}
 
 	public HashMap<String, Integer> getProgress() {
@@ -45,27 +58,42 @@ public class Challenge {
 		Win_Team_Minigame(
 			"Win # games of [E]",
 			4,
-			14),
+			14,
+			20,
+			100),
 		Win_Solo_Minigame(
 			"Win # games of [E]",
 			3,
-			8),
+			8,
+			20,
+			150),
 		Kills(
 			"Get # kills",
-			10,
+			50,
+			100,
+			5,
 			50);
 
 		public String	desc;
 		public int		min, max;
+		public double	baseXP, basePo;
 
-		private ChallengeType(String desc, int min, int max) {
+		private ChallengeType(String desc, int min, int max, double baseXP, double basePo) {
 			this.desc = desc;
 			this.min = min;
 			this.max = max;
+			this.basePo = basePo;
+			this.baseXP = baseXP;
 		}
 
 		public int randomAmount() {
 			return rand.nextInt(max - min) + min;
+		}
+
+		public int getReward(int am) {
+			boolean xp = rand.nextBoolean();
+			int rew = (int) (xp ? am * -baseXP : am * basePo);
+			return rew;
 		}
 	}
 
@@ -73,21 +101,39 @@ public class Challenge {
 		No_Team_Deaths(
 			"without anyone on your team dying",
 			ChallengeType.Win_Team_Minigame,
-			0.1);
+			0.1,
+			50),
+		Hub_Kills(
+			"on the Hub PVP",
+			ChallengeType.Kills,
+			0.5,
+			1),
+		Mynerim_Kills(
+			"on Mynerim",
+			ChallengeType.Kills,
+			0.5,
+			1),
+		Minigame_Kills(
+			"on Minigames",
+			ChallengeType.Kills,
+			1.1,
+			1.2);
 
 		public String			desc;
 		public ChallengeType	type;
 		public double			mult	= 1;
+		public double			multRe	= 1;
 
 		private ChallengeModifier(String desc, ChallengeType type) {
 			this.desc = desc;
 			this.type = type;
 		}
 
-		private ChallengeModifier(String desc, ChallengeType type, double mult) {
+		private ChallengeModifier(String desc, ChallengeType type, double mult, double multRe) {
 			this.desc = desc;
 			this.type = type;
 			this.mult = mult;
+			this.multRe = multRe;
 		}
 
 		public static ChallengeModifier[] getAll(ChallengeType type) {
@@ -119,5 +165,28 @@ public class Challenge {
 		}
 
 		return tds + (mds == null ? "" : ("//§b " + mds));
+	}
+
+	public int getDone(String pl) {
+		if (getProgress().containsKey(pl)) {
+			return getProgress().get(pl);
+		}
+		String app = "|" + pl + ":0";
+		progress += app;
+		SQLTable.CurrentChallenges.set("Progress", progress, "ID", id + "");
+		return getDone(pl);
+	}
+
+	public static boolean enoughPlayersOnline() {
+		return Bukkit.getOnlinePlayers().length >= 8;
+	}
+
+	public double getRewardMultiplier(String pl) {
+		boolean isXP = reward < 0;
+		if (isXP) {
+			return LevelUtils.getMultiplier(pl);
+		} else {
+			return PointsUtils.getMultiplier(pl);
+		}
 	}
 }

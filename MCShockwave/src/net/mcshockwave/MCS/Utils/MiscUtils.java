@@ -62,8 +62,8 @@ public class MiscUtils {
 
 	public static void printStackTrace(Exception e) {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			p.sendMessage("§c§lStack trace please ignore unless needed");
 			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
+				p.sendMessage("§c§lStack trace please ignore unless needed");
 				for (StackTraceElement ste : e.getStackTrace()) {
 					String msg = ste.toString();
 
