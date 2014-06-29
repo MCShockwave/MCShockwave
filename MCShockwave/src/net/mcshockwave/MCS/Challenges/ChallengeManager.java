@@ -89,7 +89,7 @@ public class ChallengeManager {
 					if (c.type == chl
 							&& chlMod == c.mod
 							&& (extra != null && extra.equalsIgnoreCase(c.extra) || extra == null
-									&& c.extra.length() < 1)) {
+									&& c.extra.length() < 1) && c.getDone(pl) != -1) {
 						final Player p = Bukkit.getPlayer(pl);
 
 						int prog = c.getDone(pl);
