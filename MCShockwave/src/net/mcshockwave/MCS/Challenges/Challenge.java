@@ -1,10 +1,8 @@
 package net.mcshockwave.MCS.Challenges;
 
-import org.bukkit.Bukkit;
-
 import net.mcshockwave.MCS.SQLTable;
-import net.mcshockwave.MCS.Currency.LevelUtils;
-import net.mcshockwave.MCS.Currency.PointsUtils;
+
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,19 +60,19 @@ public class Challenge {
 			4,
 			14,
 			20,
-			100),
+			1000),
 		Win_Solo_Minigame(
 			"Win # games of [E]",
 			3,
 			8,
-			20,
-			150),
+			25,
+			1000),
 		Kills(
 			"Get # kills",
 			50,
 			100,
-			5,
-			50);
+			4,
+			30);
 
 		public String	desc;
 		public int		min, max;
@@ -181,14 +179,5 @@ public class Challenge {
 
 	public static boolean enoughPlayersOnline() {
 		return Bukkit.getOnlinePlayers().length >= 8;
-	}
-
-	public double getRewardMultiplier(String pl) {
-		boolean isXP = reward < 0;
-		if (isXP) {
-			return LevelUtils.getMultiplier(pl);
-		} else {
-			return PointsUtils.getMultiplier(pl);
-		}
 	}
 }

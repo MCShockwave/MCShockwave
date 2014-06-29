@@ -38,7 +38,6 @@ public class ChallengeCommand implements CommandExecutor {
 
 					boolean rewXP = c.reward < 0;
 					int rewAm = Math.abs(c.reward);
-					rewAm *= c.getRewardMultiplier(p.getName());
 
 					ArrayList<String> lore = new ArrayList<>();
 					lore.add("");
@@ -47,8 +46,7 @@ public class ChallengeCommand implements CommandExecutor {
 					}
 					lore.add("");
 					lore.add("§aReward:");
-					lore.add((rewXP ? "§b" : "§d") + rewAm + " " + (rewXP ? "XP" : "Points") + " §7(§c"
-							+ c.getRewardMultiplier(p.getName()) + "x§7)");
+					lore.add((rewXP ? "§b" : "§d") + rewAm + " " + (rewXP ? "XP" : "Points"));
 					lore.add("");
 					if (!completed) {
 						lore.add("§eProgress:");

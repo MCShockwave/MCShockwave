@@ -107,9 +107,9 @@ public class ChallengeManager {
 								Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 									public void run() {
 										if (c.reward < 0) {
-											LevelUtils.addXP(p, Math.abs(c.reward), null, true);
+											LevelUtils.addXP(p, Math.abs(c.reward), null, false);
 										} else {
-											PointsUtils.addPoints(p, Math.abs(c.reward), null, true);
+											PointsUtils.addPoints(p, Math.abs(c.reward), null, false);
 										}
 									}
 								}, 10);
