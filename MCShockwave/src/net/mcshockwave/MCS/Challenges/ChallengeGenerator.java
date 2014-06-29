@@ -32,11 +32,11 @@ public class ChallengeGenerator {
 
 		if (type == ChallengeType.Win_Solo_Minigame) {
 			String[] mgs = MiscUtils.readTextFile("http://mcsw.us/sologamelist.txt");
-			extra = mgs[rand.nextInt(mgs.length)].replace('_', ' ');
+			extra = mgs[rand.nextInt(mgs.length)];
 		}
 		if (type == ChallengeType.Win_Team_Minigame) {
 			String[] mgs = MiscUtils.readTextFile("http://mcsw.us/teamgamelist.txt");
-			extra = mgs[rand.nextInt(mgs.length)].replace('_', ' ');
+			extra = mgs[rand.nextInt(mgs.length)];
 		}
 		return new Challenge(id, type, extra, mod, number, reward, "");
 	}

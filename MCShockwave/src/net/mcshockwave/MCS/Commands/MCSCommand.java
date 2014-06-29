@@ -6,6 +6,8 @@ import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Challenges.Challenge;
+import net.mcshockwave.MCS.Challenges.Challenge.ChallengeModifier;
+import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
 import net.mcshockwave.MCS.Challenges.ChallengeGenerator;
 import net.mcshockwave.MCS.Challenges.ChallengeManager;
 import net.mcshockwave.MCS.Currency.LevelUtils;
@@ -352,6 +354,32 @@ public class MCSCommand implements CommandExecutor {
 				ChallengeManager.clearChallenges();
 				for (Challenge c : set) {
 					ChallengeManager.saveToTable(c);
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("incrChal")) {
+				if (args.length > 5) {
+					try {
+						ChallengeModifier mod = args[2].equalsIgnoreCase("NONE") ? null : ChallengeModifier
+								.valueOf(args[2]);
+						String extra = args[3].equalsIgnoreCase("NONE") ? null : args[3];
+						ChallengeManager.incrChallenge(ChallengeType.valueOf(args[1]), mod, extra, args[4],
+								Integer.parseInt(args[5]));
+						sender.sendMessage("§aDone!");
+					} catch (Exception e) {
+						MiscUtils.printStackTrace(e);
+					}
+				} else {
+					sender.sendMessage("§c/mcs incrChal <type> <mod/none> <extra/none> <player> <amount>");
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("chalProg")) {
+				Challenge c = ChallengeManager.getCurrentChallenges()[Integer.parseInt(args[1])];
+				sender.sendMessage("Challenge Progress for cid " + c.id);
+				sender.sendMessage("String: " + c.progress);
+				for (Entry<String, Integer> ent : c.getProgress().entrySet()) {
+					sender.sendMessage(ent.getKey() + " : " + ent.getValue());
 				}
 			}
 		}

@@ -41,12 +41,14 @@ public class Challenge {
 	public HashMap<String, Integer> getProgress() {
 		HashMap<String, Integer> ret = new HashMap<>();
 
-		String[] players = progress.split("|");
+		String[] players = progress.split("\\|");
 
 		for (String s : players) {
 			String[] ss = s.split(":");
 
-			ret.put(ss[0], Integer.parseInt(ss[1]));
+			if (ss.length > 1) {
+				ret.put(ss[0], Integer.parseInt(ss[1]));
+			}
 		}
 
 		return ret;
@@ -150,7 +152,7 @@ public class Challenge {
 	}
 
 	public String getDesc() {
-		String[] repl = { "#:" + number, "[E]:" + extra };
+		String[] repl = { "#:" + number, "[E]:" + extra.replace('_', ' ') };
 
 		String tds = "§b" + type.desc;
 		for (String s : repl) {
@@ -174,7 +176,7 @@ public class Challenge {
 		String app = "|" + pl + ":0";
 		progress += app;
 		SQLTable.CurrentChallenges.set("Progress", progress, "ID", id + "");
-		return getDone(pl);
+		return 0;
 	}
 
 	public static boolean enoughPlayersOnline() {

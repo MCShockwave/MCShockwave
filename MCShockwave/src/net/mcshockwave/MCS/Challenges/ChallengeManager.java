@@ -1,8 +1,17 @@
 package net.mcshockwave.MCS.Challenges;
 
+import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.Challenges.Challenge.ChallengeModifier;
 import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
+import net.mcshockwave.MCS.Currency.LevelUtils;
+import net.mcshockwave.MCS.Currency.PointsUtils;
+import net.mcshockwave.MCS.Utils.MiscUtils;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +77,55 @@ public class ChallengeManager {
 			mod = c.mod.name();
 		}
 
-		SQLTable.CurrentChallenges.add("ID", c.id + "", "Type", type, "Amount", am, "Modifier", mod, "Reward",
-				c.reward + "", "Progress", prog);
+		SQLTable.CurrentChallenges.add("ID", c.id + "", "Type", type, "Amount", am, "Modifier", mod, "Reward", c.reward
+				+ "", "Progress", prog);
+	}
+
+	public static void incrChallenge(ChallengeType chl, ChallengeModifier chlMod, String extra, String pl, int am) {
+		try {
+			for (final Challenge c : getCurrentChallenges()) {
+				if (c.type == chl && chlMod == c.mod
+						&& (extra != null && extra.equalsIgnoreCase(c.extra) || extra == null && c.extra.length() < 1)) {
+					final Player p = Bukkit.getPlayer(pl);
+
+					int prog = c.getDone(pl);
+					int progOld = prog;
+					prog += am;
+					if (prog >= c.number) {
+						prog = -1;
+
+						if (p != null) {
+							p.playSound(p.getLocation(), Sound.LEVEL_UP, 1000, 0);
+							p.sendMessage("§f");
+							p.sendMessage("§a§lChallenge Complete!");
+							p.sendMessage("§eChallenge: §3§o" + ChatColor.stripColor(c.getDesc().replace("//", "")));
+							p.sendMessage("§f");
+							Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
+								public void run() {
+									if (c.reward < 0) {
+										LevelUtils.addXP(p, Math.abs(c.reward), null, true);
+									} else {
+										PointsUtils.addPoints(p, Math.abs(c.reward), null, true);
+									}
+								}
+							}, 10);
+						}
+					} else {
+						if (p != null) {
+							p.sendMessage("§aChallenge Progress: §2" + prog + " §8/ §2" + c.number);
+						}
+					}
+
+					c.progress = c.progress.replaceAll("\\|" + pl + ":" + progOld, "\\|" + pl + ":" + prog);
+					SQLTable.CurrentChallenges.set("Progress", c.progress, "ID", c.id + "");
+				}
+			}
+		} catch (Exception e) {
+			MiscUtils.printStackTrace(e);
+		}
+	}
+
+	public static void incrChallenge(ChallengeModifier chlMod, String extra, String pl, int am) {
+		incrChallenge(chlMod.type, chlMod, extra, pl, am);
 	}
 }
