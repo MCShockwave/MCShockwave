@@ -364,7 +364,7 @@ public class MCSCommand implements CommandExecutor {
 								.valueOf(args[2]);
 						String extra = args[3].equalsIgnoreCase("NONE") ? null : args[3];
 						ChallengeManager.incrChallenge(ChallengeType.valueOf(args[1]), mod, extra, args[4],
-								Integer.parseInt(args[5]));
+								Integer.parseInt(args[5]), true);
 						sender.sendMessage("§aDone!");
 					} catch (Exception e) {
 						MiscUtils.printStackTrace(e);
