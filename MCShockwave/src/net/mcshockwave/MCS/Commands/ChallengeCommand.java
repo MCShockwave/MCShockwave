@@ -13,6 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChallengeCommand implements CommandExecutor {
 
@@ -23,6 +25,22 @@ public class ChallengeCommand implements CommandExecutor {
 		}
 
 		return false;
+	}
+
+	public int getMaxLines(Challenge[] cs) {
+		int max = 0;
+		for (Challenge c : cs) {
+			Pattern pattern = Pattern.compile("//");
+			Matcher matcher = pattern.matcher(c.getDesc());
+
+			int count = 0;
+			while (matcher.find())
+				count++;
+			if (count > max) {
+				max = count;
+			}
+		}
+		return max;
 	}
 
 	public void openMenu(Player p) {
@@ -41,8 +59,9 @@ public class ChallengeCommand implements CommandExecutor {
 
 					ArrayList<String> lore = new ArrayList<>();
 					lore.add("");
-					for (String s : c.getDesc().split("//")) {
-						lore.add(s);
+					String[] spl = c.getDesc().split("//");
+					for (int nx = 0; nx <= getMaxLines(cs); nx++) {
+						lore.add(spl.length > nx ? spl[nx] : "");
 					}
 					lore.add("");
 					lore.add("§aReward:");
@@ -53,7 +72,7 @@ public class ChallengeCommand implements CommandExecutor {
 						lore.add("§b" + c.getDone(p.getName()) + " §8/ §3" + c.number);
 						if (!Challenge.enoughPlayersOnline()) {
 							lore.add("");
-							lore.add("§cYou do not have enough");
+							lore.add("§cThere are not enough");
 							lore.add("§cplayers online to unlock");
 							lore.add("§cany challenges!");
 						}

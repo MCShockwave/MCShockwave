@@ -67,6 +67,12 @@ public class Challenge {
 			8,
 			25,
 			1000),
+		Win_Mynerim(
+			"Win # games of Mynerim",
+			2,
+			8,
+			25,
+			1000),
 		Kills(
 			"Get # kills",
 			50,
@@ -98,11 +104,11 @@ public class Challenge {
 	}
 
 	public static enum ChallengeModifier {
-		No_Team_Deaths(
-			"without anyone on your team dying",
-			ChallengeType.Win_Team_Minigame,
-			0.1,
-			50),
+		No_Magic(
+			"without using any magic (spells/shouts)",
+			ChallengeType.Win_Mynerim,
+			0.5,
+			2),
 		Hub_Kills(
 			"on the Hub PVP",
 			ChallengeType.Kills,
