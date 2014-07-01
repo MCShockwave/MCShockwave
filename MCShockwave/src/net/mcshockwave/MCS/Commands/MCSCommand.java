@@ -38,6 +38,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scheduler.BukkitWorker;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -380,6 +382,25 @@ public class MCSCommand implements CommandExecutor {
 				sender.sendMessage("String: " + c.progress);
 				for (Entry<String, Integer> ent : c.getProgress().entrySet()) {
 					sender.sendMessage(ent.getKey() + " : " + ent.getValue());
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("tasks")) {
+				sender.sendMessage("§aPending Tasks: (Plugin.ID [Running/Queued])");
+				sender.sendMessage("§e§nAsync§r §6§nSync§r\n §e");
+				for (BukkitTask bt : Bukkit.getScheduler().getPendingTasks()) {
+					sender.sendMessage((bt.isSync() ? "§6" : "§e")
+							+ bt.getOwner().getName()
+							+ "."
+							+ bt.getTaskId()
+							+ " "
+							+ (Bukkit.getScheduler().isCurrentlyRunning(bt.getTaskId()) ? "Running" : Bukkit
+									.getScheduler().isQueued(bt.getTaskId()) ? "Queued" : "Unknown"));
+				}
+				sender.sendMessage("§aActive Workers: (ThreadName: Plugin.ID)");
+				for (BukkitWorker bw : Bukkit.getScheduler().getActiveWorkers()) {
+					sender.sendMessage("§b" + bw.getThread().getName() + ": " + bw.getOwner().getName() + "."
+							+ bw.getTaskId());
 				}
 			}
 		}
