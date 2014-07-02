@@ -23,10 +23,10 @@ public class HistoryCommand implements CommandExecutor {
 				if (args.length == 1) {
 					List<Ban> bans = getBans(args[0]);
 					if (bans != null) {
-						p.sendMessage(ChatColor.GRAY + "งnAll bans for player " + args[0] + ":งr\n\n");
+						p.sendMessage(ChatColor.GRAY + "ยงnAll bans for player " + args[0] + ":ยงr\n\n");
 						for (Ban b : bans) {
-							p.sendMessage(ChatColor.GOLD + b.giver + " ง7" + b.type + " ง6" + b.player + "ง7 for ง6"
-									+ b.time + "ง7 for ง6" + b.reason + (b.date != null ? "ง7 on ง6" + b.date : ""));
+							p.sendMessage(ChatColor.GOLD + b.giver + " ยง7" + b.type + " ยง6" + b.player + "ยง7 for ยง6"
+									+ b.time + "ยง7 for ยง6" + b.reason + (b.date != null ? "ยง7 on ยง6" + b.date : ""));
 						}
 					} else {
 						p.sendMessage(ChatColor.RED + "No bans for this player.");

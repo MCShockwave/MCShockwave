@@ -85,7 +85,7 @@ public class FriendCommand implements CommandExecutor {
 		final Inventory in = fr.i;
 
 		for (int i = in.getSize() - 9; i < in.getSize(); i++) {
-			in.setItem(i, ItemMetaUtils.setItemName(new ItemStack(Material.THIN_GLASS), "§r"));
+			in.setItem(i, ItemMetaUtils.setItemName(new ItemStack(Material.THIN_GLASS), "Â§r"));
 		}
 
 		final String[][] ff = getFriendsFor(p);
@@ -115,7 +115,7 @@ public class FriendCommand implements CommandExecutor {
 					if (i < frs.length) {
 						in.setItem(
 								i,
-								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "§r"
+								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "Â§r"
 										+ frs[i]));
 					} else
 						in.setItem(i, new ItemStack(Material.AIR));
@@ -143,7 +143,7 @@ public class FriendCommand implements CommandExecutor {
 					if (i < frs.length) {
 						in.setItem(
 								i,
-								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "§r"
+								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "Â§r"
 										+ frs[i]));
 					} else
 						in.setItem(i, new ItemStack(Material.AIR));
@@ -171,7 +171,7 @@ public class FriendCommand implements CommandExecutor {
 					if (i < frs.length) {
 						in.setItem(
 								i,
-								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "§r"
+								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "Â§r"
 										+ frs[i]));
 					} else
 						in.setItem(i, new ItemStack(Material.AIR));
@@ -218,7 +218,7 @@ public class FriendCommand implements CommandExecutor {
 					if (i < pl.length - ((in.getSize() - 9) * pa)) {
 						in.setItem(
 								i,
-								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "§r"
+								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "Â§r"
 										+ pl[i + ((in.getSize() - 9) * pa)]));
 					} else
 						in.setItem(i, new ItemStack(Material.AIR));
@@ -245,7 +245,7 @@ public class FriendCommand implements CommandExecutor {
 					if (i < pl.length - ((in.getSize() - 9) * pa)) {
 						in.setItem(
 								i,
-								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "§r"
+								ItemMetaUtils.setItemName(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), "Â§r"
 										+ pl[i + ((in.getSize() - 9) * pa)]));
 					} else
 						in.setItem(i, new ItemStack(Material.AIR));

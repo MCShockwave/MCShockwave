@@ -41,7 +41,7 @@ public class TempBanCommand implements CommandExecutor {
 					reason = reason.replaceFirst(" ", "");
 
 					BanManager.setBanned(toBan, min, reason, sender.getName(), args[1]);
-					Bukkit.broadcastMessage("ง6[" + MCShockwave.server + "] งe" + p.getName() + " temp-banned " + toBan
+					Bukkit.broadcastMessage("ยง6[" + MCShockwave.server + "] ยงe" + p.getName() + " temp-banned " + toBan
 							+ " for " + args[1] + " for " + reason);
 					// if (k.isOnline()) {
 					// k.getPlayer().kickPlayer("Temp-banned for " + min +

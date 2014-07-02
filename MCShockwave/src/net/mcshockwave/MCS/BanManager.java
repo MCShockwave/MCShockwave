@@ -23,7 +23,7 @@ public class BanManager {
 
 	public static String getBanReason(String by, String reason, double minutes) {
 		if (minutes == 0) {
-			return String.format("§aBanned by %s: §f%s §b[Permanent]", by, reason);
+			return String.format("Â§aBanned by %s: Â§f%s Â§b[Permanent]", by, reason);
 		}
 		double time = minutes - TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis());
 		String timeUnit = "minute";
@@ -37,7 +37,7 @@ public class BanManager {
 		if (time != 1) {
 			timeUnit += "s";
 		}
-		return String.format("§aBanned by %s: §f%s §b[%s " + timeUnit + " left]", by, reason,
+		return String.format("Â§aBanned by %s: Â§f%s Â§b[%s " + timeUnit + " left]", by, reason,
 				MiscUtils.getRoundedNumber(time, 1));
 	}
 

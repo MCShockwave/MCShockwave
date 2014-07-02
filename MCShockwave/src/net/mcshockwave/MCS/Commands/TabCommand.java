@@ -13,15 +13,15 @@ import org.mcsg.double0negative.tabapi.TabAPI;
 
 public class TabCommand implements CommandExecutor {
 
-//	public static ArrayList<Player> tab = new ArrayList<Player>();
+	// public static ArrayList<Player> tab = new ArrayList<Player>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			final Player p = (Player) sender;
-			
+
 			if (!Bukkit.getPluginManager().isPluginEnabled("TabAPI")) {
-				p.sendMessage("§cTabAPI is disabled!");
+				p.sendMessage("Â§cTabAPI is disabled!");
 				return false;
 			}
 

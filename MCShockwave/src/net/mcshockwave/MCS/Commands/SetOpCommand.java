@@ -18,8 +18,8 @@ public class SetOpCommand implements CommandExecutor {
 
 		if (SQLTable.hasRank(sender.getName(), Rank.ADMIN) || sender == Bukkit.getConsoleSender()) {
 			if (args.length == 0) {
-				sender.sendMessage("§c/setop {name} {servers}");
-				sender.sendMessage("§cServers: +servertoadd -servertoremove\nUse '@' as a server for all servers");
+				sender.sendMessage("Â§c/setop {name} {servers}");
+				sender.sendMessage("Â§cServers: +servertoadd -servertoremove\nUse '@' as a server for all servers");
 			} else if (args.length > 1) {
 				String player = args[0];
 				for (int i = 1; i < args.length; i++) {
@@ -29,12 +29,12 @@ public class SetOpCommand implements CommandExecutor {
 						if (ser.equalsIgnoreCase("@")) {
 							SQLTable.OPS.del("Username", player);
 							SQLTable.OPS.add("Username", player, "Servers", "*");
-							sender.sendMessage("§aOpped " + player + " on all servers");
+							sender.sendMessage("Â§aOpped " + player + " on all servers");
 						} else
 							try {
 								if (!MCShockwave.isOp(player, ser)) {
 									addOpFor(player, ser);
-									sender.sendMessage("§aOpped " + player + " on " + ser);
+									sender.sendMessage("Â§aOpped " + player + " on " + ser);
 								}
 							} catch (SQLException e) {
 							}
@@ -42,12 +42,12 @@ public class SetOpCommand implements CommandExecutor {
 						String ser = server.replaceFirst("-", "");
 						if (ser.equalsIgnoreCase("@")) {
 							SQLTable.OPS.del("Username", player);
-							sender.sendMessage("§cDe-opped " + player + " on all servers");
+							sender.sendMessage("Â§cDe-opped " + player + " on all servers");
 						} else {
 							try {
 								if (MCShockwave.isOp(player, ser)) {
 									removeOpFor(player, ser);
-									sender.sendMessage("§cDe-opped " + player + " on " + ser);
+									sender.sendMessage("Â§cDe-opped " + player + " on " + ser);
 								}
 							} catch (SQLException e) {
 							}

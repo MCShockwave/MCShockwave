@@ -13,9 +13,9 @@ public class RulesCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 			String[] rules = SQLTable.Rules.getAll("Rules").toArray(new String[0]);
-			p.sendMessage("§a§lMCShockwave Server Network Rules:");
+			p.sendMessage("Â§aÂ§lMCShockwave Server Network Rules:");
 			for (int i = 0; i < rules.length; i++) {
-				p.sendMessage("§7" + (i + 1) + ". §b§o" + rules[i]);
+				p.sendMessage("Â§7" + (i + 1) + ". Â§bÂ§o" + rules[i]);
 			}
 		}
 		return false;

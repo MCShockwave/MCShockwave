@@ -39,23 +39,23 @@ public class DataCommand implements Listener, CommandExecutor {
 	public ItemMenu getDataMenu(Player p) {
 		ItemMenu dm = new ItemMenu("MCShockwave Data", 27);
 
-		Button points = new Button(false, Material.GOLD_NUGGET, 1, 0, "Points", "Current points: §a"
+		Button points = new Button(false, Material.GOLD_NUGGET, 1, 0, "Points", "Current points: Â§a"
 				+ PointsUtils.getPoints(p));
 		dm.addButton(points, 0);
 
 		int xp = LevelUtils.getXP(p);
 
-		ArrayList<String> lvlLore = new ArrayList<>(Arrays.asList("Current Level: §e" + LevelUtils.getLevelFromXP(xp),
-				"Progress to Level " + (LevelUtils.getLevelFromXP(xp) + 1) + ": §e" + LevelUtils.getOffsetXP(xp)
-						+ " / " + LevelUtils.getXPPerLevel(LevelUtils.getLevelFromXP(xp)), "Percent Progress: §e"
+		ArrayList<String> lvlLore = new ArrayList<>(Arrays.asList("Current Level: Â§e" + LevelUtils.getLevelFromXP(xp),
+				"Progress to Level " + (LevelUtils.getLevelFromXP(xp) + 1) + ": Â§e" + LevelUtils.getOffsetXP(xp)
+						+ " / " + LevelUtils.getXPPerLevel(LevelUtils.getLevelFromXP(xp)), "Percent Progress: Â§e"
 						+ ((int) LevelUtils.getPercentDone(xp)) + "%", "",
-				"XP Multiplier: §e" + LevelUtils.getMultiplier(p.getName()) + "x"));
+				"XP Multiplier: Â§e" + LevelUtils.getMultiplier(p.getName()) + "x"));
 
 		float bm = LevelUtils.getBoughtMultiplier(p.getName());
 		if (bm > 1) {
 			lvlLore.add("");
-			lvlLore.add("Boost Multiplier: §e" + bm + "x");
-			lvlLore.add("Time Left: §e" + LevelUtils.getTimeLeftBoost(p.getName()) + " mins");
+			lvlLore.add("Boost Multiplier: Â§e" + bm + "x");
+			lvlLore.add("Time Left: Â§e" + LevelUtils.getTimeLeftBoost(p.getName()) + " mins");
 		}
 		Button level = new Button(false, Material.EXP_BOTTLE, 1, 0, "Level Info", lvlLore.toArray(new String[0]));
 		dm.addButton(level, 2);
@@ -65,29 +65,29 @@ public class DataCommand implements Listener, CommandExecutor {
 		int n = 1;
 		for (String s : LevelUtils.getTop(5)) {
 			int le = LevelUtils.getLevelFromXP(SQLTable.Level.getInt("Username", s, "XP"));
-			topLore.add(n + ". §a" + s + "§7 - Level §o" + le);
+			topLore.add(n + ". Â§a" + s + "Â§7 - Level Â§o" + le);
 			n++;
 		}
 		topLore.add("");
-		topLore.add("§e§nTop Points:");
+		topLore.add("Â§eÂ§nTop Points:");
 		topLore.add("");
 		n = 1;
 		for (String s : PointsUtils.getTop(5)) {
 			int po = SQLTable.Points.getInt("Username", s, "Points");
-			topLore.add(n + ". §a" + s + "§7 - §o" + po + "§7 points");
+			topLore.add(n + ". Â§a" + s + "Â§7 - Â§o" + po + "Â§7 points");
 			n++;
 		}
-		Button top = new Button(false, Material.GOLD_HELMET, 5, 0, "§e§nTop Levels:", topLore.toArray(new String[0]));
+		Button top = new Button(false, Material.GOLD_HELMET, 5, 0, "Â§eÂ§nTop Levels:", topLore.toArray(new String[0]));
 		dm.addButton(top, 4);
 
 		String pre = DefaultListener.getPrefix(p);
 		if (pre == null || pre.equals("")) {
 			pre = "None";
 		}
-		Button rank = new Button(false, Material.BEACON, 1, 0, "§bCurrent rank: §a" + getRankName(p),
-				"§d§nStats for rank:", "", "Points Multiplier: §e" + PointsUtils.getMultiplier(p.getName()) + "x",
-				"XP Multiplier: §e" + LevelUtils.getMultiplier(p.getName()) + "x", "Prefix: §e" + pre, "Max Friends: §e"
-						+ FriendCommand.getMaxFriends(p));
+		Button rank = new Button(false, Material.BEACON, 1, 0, "Â§bCurrent rank: Â§a" + getRankName(p),
+				"Â§dÂ§nStats for rank:", "", "Points Multiplier: Â§e" + PointsUtils.getMultiplier(p.getName()) + "x",
+				"XP Multiplier: Â§e" + LevelUtils.getMultiplier(p.getName()) + "x", "Prefix: Â§e" + pre,
+				"Max Friends: Â§e" + FriendCommand.getMaxFriends(p));
 		dm.addButton(rank, 6);
 
 		Button servers = new Button(false, Material.EYE_OF_ENDER, 1, 0, "Server List", "Click to view all servers",
@@ -103,7 +103,7 @@ public class DataCommand implements Listener, CommandExecutor {
 		int totDeaths = Statistics.getStat(p.getName(), "Deaths_Total");
 		double totKD = (double) totKills / ((double) totDeaths + 1);
 		Button genStats = new Button(false, Material.DIAMOND, 1, 0, "Stats - General", "",
-				"Total Kills: §e" + totKills, "Total Deaths: §e" + totDeaths, "Total K/D Ratio: §e" + totKD, "",
+				"Total Kills: Â§e" + totKills, "Total Deaths: Â§e" + totDeaths, "Total K/D Ratio: Â§e" + totKD, "",
 				"Stats for all modes", "started being recorded", "on March 20, 2014");
 		dm.addButton(genStats, 19);
 
@@ -114,8 +114,8 @@ public class DataCommand implements Listener, CommandExecutor {
 		int winsSoloMG = Statistics.getStat(p.getName(), "Wins_MG_Solo");
 		int winsTeamMG = Statistics.getStat(p.getName(), "Wins_MG_Team");
 		Button mgStats = new Button(false, Material.DIAMOND_SWORD, 1, 0, "Stats - Minigames", "",
-				"Kills: §e" + mgKills, "Deaths: §e" + mgDeaths, "K/D Ratio: §e" + mgKD, "", "Wins (Total): §e"
-						+ (winsSoloMG + winsTeamMG), "Wins (Solo): §e" + winsSoloMG, "Wins (Team): §e" + winsTeamMG);
+				"Kills: Â§e" + mgKills, "Deaths: Â§e" + mgDeaths, "K/D Ratio: Â§e" + mgKD, "", "Wins (Total): Â§e"
+						+ (winsSoloMG + winsTeamMG), "Wins (Solo): Â§e" + winsSoloMG, "Wins (Team): Â§e" + winsTeamMG);
 		dm.addButton(mgStats, 21);
 
 		int sgKills = Statistics.getStat(p.getName(), "Kills_SG");
@@ -123,18 +123,18 @@ public class DataCommand implements Listener, CommandExecutor {
 		double sgKD = (double) sgKills / ((double) sgDeaths + 1);
 
 		int winsSoloSG = Statistics.getStat(p.getName(), "Wins_SG");
-		Button sgStats = new Button(false, Material.DRAGON_EGG, 1, 0, "Stats - Mynerim", "", "Kills: §e" + sgKills,
-				"Deaths: §e" + sgDeaths, "K/D Ratio: §e" + sgKD, "", "Wins: §e" + winsSoloSG);
+		Button sgStats = new Button(false, Material.DRAGON_EGG, 1, 0, "Stats - Mynerim", "", "Kills: Â§e" + sgKills,
+				"Deaths: Â§e" + sgDeaths, "K/D Ratio: Â§e" + sgKD, "", "Wins: Â§e" + winsSoloSG);
 		dm.addButton(sgStats, 23);
 
-	    int bbKills = Statistics.getStat(p.getName(), "Kills_BB");
-	    int bbDeaths = Statistics.getStat(p.getName(), "Deaths_BB");
-	    double bbKD = bbKills / (bbDeaths + 1.0D);
-	    int winsBB = Statistics.getStat(p.getName(), "Wins_BB");
-	    
-	    Button bbStats = new Button(false, Material.NETHER_STAR, 1, 0, "Stats - §kBattle Bane", new String[] { "", "Kills: §e" + 
-	      bbKills, "Deaths: §e" + bbDeaths, "K/D Ratio: §e" + bbKD, "", "Wins: §e" + winsBB });
-	    dm.addButton(bbStats, 25);
+		int bbKills = Statistics.getStat(p.getName(), "Kills_BB");
+		int bbDeaths = Statistics.getStat(p.getName(), "Deaths_BB");
+		double bbKD = bbKills / (bbDeaths + 1.0D);
+		int winsBB = Statistics.getStat(p.getName(), "Wins_BB");
+
+		Button bbStats = new Button(false, Material.NETHER_STAR, 1, 0, "Stats - Â§kBattle Bane", new String[] { "",
+				"Kills: Â§e" + bbKills, "Deaths: Â§e" + bbDeaths, "K/D Ratio: Â§e" + bbKD, "", "Wins: Â§e" + winsBB });
+		dm.addButton(bbStats, 25);
 
 		return dm;
 	}

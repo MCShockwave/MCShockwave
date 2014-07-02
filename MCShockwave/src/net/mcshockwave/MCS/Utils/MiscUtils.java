@@ -63,11 +63,11 @@ public class MiscUtils {
 	public static void printStackTrace(Exception e) {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
-				p.sendMessage("§c§lStack trace please ignore unless needed");
+				p.sendMessage("Â§cÂ§lStack trace please ignore unless needed");
 				for (StackTraceElement ste : e.getStackTrace()) {
 					String msg = ste.toString();
 
-					p.sendMessage("§4" + msg);
+					p.sendMessage("Â§4" + msg);
 				}
 			}
 		}

@@ -24,7 +24,7 @@ public class LoafCommand implements CommandExecutor {
 							CooldownUtils.getCooldownForSec("/loaf", player.getName(), 1));
 					return false;
 				}
-				player.chat("§c<3 much loaf");
+				player.chat("Â§c<3 much loaf");
 				PacketUtils.playParticleEffect(ParticleEffect.HEART, player.getLocation(), 3, 1, 25);
 
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);

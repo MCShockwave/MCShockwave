@@ -76,7 +76,7 @@ public class ItemMenu {
 
 		public Button(boolean closeInv, Material m, int amount, int data, String name, String... lore) {
 			button = ItemMetaUtils.setLore(
-					ItemMetaUtils.setItemName(new ItemStack(m, amount, (short) data), "§r" + name), lore);
+					ItemMetaUtils.setItemName(new ItemStack(m, amount, (short) data), "Â§r" + name), lore);
 			onClick = new ButtonRunnable() {
 				public void run(Player p, InventoryClickEvent event) {
 				}

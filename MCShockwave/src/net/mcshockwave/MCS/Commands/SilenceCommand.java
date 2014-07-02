@@ -17,11 +17,11 @@ public class SilenceCommand implements CommandExecutor {
 		if (sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.MOD) || !(sender instanceof Player)
 				&& sender.isOp()) {
 			MCShockwave.chatSilenced = !MCShockwave.chatSilenced;
-			
+
 			if (MCShockwave.chatSilenced) {
-				Bukkit.broadcastMessage("§c§lChat has been silenced by " + sender.getName());
+				Bukkit.broadcastMessage("Â§cÂ§lChat has been silenced by " + sender.getName());
 			} else {
-				Bukkit.broadcastMessage("§c§lChat has been un-silenced by " + sender.getName());
+				Bukkit.broadcastMessage("Â§cÂ§lChat has been un-silenced by " + sender.getName());
 			}
 		}
 		return false;

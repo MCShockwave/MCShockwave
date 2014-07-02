@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class VanishCommand implements CommandExecutor {
 
-	public static HashMap<Player, Boolean> vanished = new HashMap<Player, Boolean>();
+	public static HashMap<Player, Boolean>	vanished	= new HashMap<Player, Boolean>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

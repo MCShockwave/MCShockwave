@@ -64,23 +64,23 @@ public class ChallengeCommand implements CommandExecutor {
 						lore.add(spl.length > nx ? spl[nx] : "");
 					}
 					lore.add("");
-					lore.add("§aReward:");
-					lore.add((rewXP ? "§b" : "§d") + rewAm + " " + (rewXP ? "XP" : "Points"));
+					lore.add("Â§aReward:");
+					lore.add((rewXP ? "Â§b" : "Â§d") + rewAm + " " + (rewXP ? "XP" : "Points"));
 					lore.add("");
 					if (!completed) {
-						lore.add("§eProgress:");
-						lore.add("§b" + c.getDone(p.getName()) + " §8/ §3" + c.number);
+						lore.add("Â§eProgress:");
+						lore.add("Â§b" + c.getDone(p.getName()) + " Â§8/ Â§3" + c.number);
 						if (!Challenge.enoughPlayersOnline()) {
 							lore.add("");
-							lore.add("§cThere are not enough");
-							lore.add("§cplayers online to unlock");
-							lore.add("§cany challenges!");
+							lore.add("Â§cThere are not enough");
+							lore.add("Â§cplayers online to unlock");
+							lore.add("Â§cany challenges!");
 						}
 					} else {
-						lore.add("§a§l - COMPLETED -");
+						lore.add("Â§aÂ§l - COMPLETED -");
 					}
 
-					Button b = new Button(false, Material.SKULL_ITEM, 1, 0, "§eDaily Challenge",
+					Button b = new Button(false, Material.SKULL_ITEM, 1, 0, "Â§eDaily Challenge",
 							lore.toArray(new String[0]));
 
 					m.addButton(b, i);

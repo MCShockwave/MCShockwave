@@ -23,7 +23,7 @@ public class SMCommand implements CommandExecutor {
 					bc += " " + s;
 				}
 				MCShockwave.serverSideBC(args[0], bc.replaceFirst(" ", ""));
-				p.sendMessage(ChatColor.AQUA + "[You -> " + args[0] + "]§r" + bc);
+				p.sendMessage(ChatColor.AQUA + "[You -> " + args[0] + "]Â§r" + ChatColor.translateAlternateColorCodes('&', bc));
 			}
 		}
 		return false;

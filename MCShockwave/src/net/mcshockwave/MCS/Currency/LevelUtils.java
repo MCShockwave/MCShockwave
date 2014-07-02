@@ -68,7 +68,7 @@ public class LevelUtils {
 	public static int getXP(Player p) {
 		return SQLTable.Level.getInt("Username", p.getName(), "XP");
 	}
-	
+
 	public static int getXP(String pl) {
 		return SQLTable.Level.getInt("Username", pl, "XP");
 	}
@@ -123,8 +123,8 @@ public class LevelUtils {
 
 	public static float getBoughtMultiplier(String p) {
 		if (ItemsUtils.hasItem(p, SQLTable.MiscItems, "Boost_Time")) {
-			if (ItemsUtils.getItemCount(p, SQLTable.MiscItems, "Boost_Time") >= TimeUnit.MILLISECONDS
-					.toMinutes(System.currentTimeMillis())) {
+			if (ItemsUtils.getItemCount(p, SQLTable.MiscItems, "Boost_Time") >= TimeUnit.MILLISECONDS.toMinutes(System
+					.currentTimeMillis())) {
 				return SQLTable.MiscItems.getFloat("Username", p, "Boost_Mult");
 			}
 		}

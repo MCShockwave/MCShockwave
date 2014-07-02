@@ -20,8 +20,8 @@ public class SpeedCommand implements CommandExecutor {
 				} catch (IllegalArgumentException e) {
 					p.sendMessage(ChatColor.RED + "Invalid speed: " + args[0] + ", must be from 1 to 10.");
 				}
-			}
-			else p.setFlySpeed((float) 0.1); 
+			} else
+				p.setFlySpeed((float) 0.1);
 		}
 
 		return false;

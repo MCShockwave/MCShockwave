@@ -100,10 +100,10 @@ public class ChallengeManager {
 
 							if (p != null) {
 								p.playSound(p.getLocation(), Sound.LEVEL_UP, 1000, 0);
-								p.sendMessage("§f");
-								p.sendMessage("§a§lChallenge Complete!");
-								p.sendMessage("§eChallenge: §3§o" + ChatColor.stripColor(c.getDesc().replace("//", "")));
-								p.sendMessage("§f");
+								p.sendMessage("Â§f");
+								p.sendMessage("Â§aÂ§lChallenge Complete!");
+								p.sendMessage("Â§eChallenge: Â§3Â§o" + ChatColor.stripColor(c.getDesc().replace("//", "")));
+								p.sendMessage("Â§f");
 								Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 									public void run() {
 										if (c.reward < 0) {
@@ -116,7 +116,7 @@ public class ChallengeManager {
 							}
 						} else {
 							if (p != null) {
-								p.sendMessage("§aChallenge Progress: §2" + prog + " §8/ §2" + c.number);
+								p.sendMessage("Â§aChallenge Progress: Â§2" + prog + " Â§8/ Â§2" + c.number);
 							}
 						}
 

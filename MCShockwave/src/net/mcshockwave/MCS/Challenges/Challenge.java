@@ -158,11 +158,11 @@ public class Challenge {
 	public String getDesc() {
 		String[] repl = { "#:" + number, "[E]:" + extra.replace('_', ' ') };
 
-		String tds = "§b" + type.desc;
+		String tds = "Â§b" + type.desc;
 		for (String s : repl) {
 			String[] ss = s.split(":");
 			if (ss.length > 1 && ss[0] != null && ss[1] != null) {
-				tds = tds.replace(ss[0], "§6§o" + ss[1] + "§b");
+				tds = tds.replace(ss[0], "Â§6Â§o" + ss[1] + "Â§b");
 			}
 		}
 		String mds = null;
@@ -170,7 +170,7 @@ public class Challenge {
 			mds = mod.desc;
 		}
 
-		return tds + (mds == null ? "" : ("//§b " + mds));
+		return tds + (mds == null ? "" : ("//Â§b " + mds));
 	}
 
 	public int getDone(String pl) {

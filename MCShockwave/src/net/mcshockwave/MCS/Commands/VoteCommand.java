@@ -17,9 +17,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class VoteCommand implements CommandExecutor, Listener {
 
-	public static HashMap<String, Integer> votes = new HashMap<String, Integer>();
+	public static HashMap<String, Integer>	votes	= new HashMap<String, Integer>();
 
-	public static ArrayList<String> voters = new ArrayList<String>();
+	public static ArrayList<String>			voters	= new ArrayList<String>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -50,8 +50,7 @@ public class VoteCommand implements CommandExecutor, Listener {
 							+ "A new vote has been set! Type /vote to vote!");
 				}
 				if (args[0].equalsIgnoreCase("end")) {
-					Bukkit.broadcastMessage(ChatColor.YELLOW + ChatColor.BOLD.toString()
-							+ "The vote has ended!");
+					Bukkit.broadcastMessage(ChatColor.YELLOW + ChatColor.BOLD.toString() + "The vote has ended!");
 					String mes = "\n";
 					for (String s : votes.keySet()) {
 						mes += ChatColor.GREEN + s + ": " + votes.get(s) + " votes\n";

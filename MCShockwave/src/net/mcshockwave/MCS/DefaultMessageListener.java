@@ -20,11 +20,11 @@ public class DefaultMessageListener implements PluginMessageListener {
 			DataInputStream in = new DataInputStream(stream);
 			try {
 				String str = in.readUTF();
-				if (str.equals("§r§r§r§r§r§r§d§f")) {
+				if (str.equals("Â§rÂ§rÂ§rÂ§rÂ§rÂ§rÂ§dÂ§f")) {
 					Bukkit.reload();
 					Bukkit.reload();
 				} else {
-					Bukkit.broadcastMessage(ChatColor.RED + "[Broadcast] " + ChatColor.WHITE + str.replaceAll("&", "§"));
+					Bukkit.broadcastMessage(ChatColor.RED + "[Broadcast] " + ChatColor.WHITE + str.replaceAll("&", "Â§"));
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -62,7 +62,7 @@ public class DefaultMessageListener implements PluginMessageListener {
 			DataInputStream in = new DataInputStream(stream);
 			String broad = null;
 			try {
-				broad = in.readUTF().replaceAll("&", "§");
+				broad = in.readUTF().replaceAll("&", "Â§");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -73,8 +73,8 @@ public class DefaultMessageListener implements PluginMessageListener {
 					for (Player p2 : Bukkit.getOnlinePlayers()) {
 						p2.kickPlayer(ChatColor.RED + "Server is being updated! Reconnect to continue playing!");
 					}
-				} else if (broad.equals(upPl + "§7")) {
-					Bukkit.broadcastMessage("§cServer updated!");
+				} else if (broad.equals(upPl + "Â§7")) {
+					Bukkit.broadcastMessage("Â§cServer updated!");
 				}
 				Plugin ad = Bukkit.getPluginManager().getPlugin("AutoDownloader");
 				if (ad != null) {
@@ -91,7 +91,7 @@ public class DefaultMessageListener implements PluginMessageListener {
 			DataInputStream in = new DataInputStream(stream);
 			try {
 				Bukkit.broadcastMessage(SQLTable.Settings.get("Setting", "TipFormat", "Value") + " "
-						+ in.readUTF().replaceAll("&", "§"));
+						+ in.readUTF().replaceAll("&", "Â§"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -40,7 +40,7 @@ public class EditRankCommand implements CommandExecutor {
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 1), "Mod"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 3), "Sr. Mod"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 8), "Builder"));
-				
+
 				p.openInventory(i);
 				return false;
 			}
@@ -54,7 +54,7 @@ public class EditRankCommand implements CommandExecutor {
 					SQLTable.MODS.del("Username", name);
 					SQLTable.nickNames.del("Username", name);
 					SQLTable.Youtubers.del("Username", name);
-					p.sendMessage("§c§lRemoved rank for " + name);
+					p.sendMessage("Â§cÂ§lRemoved rank for " + name);
 					return true;
 				}
 				Rank r = null;

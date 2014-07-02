@@ -19,13 +19,15 @@ public class UpdateCommand implements CommandExecutor {
 			if (args.length > 0) {
 				if (args[0].equalsIgnoreCase("*")) {
 					for (String s : MCShockwave.servers) {
-						MCShockwave.serverSideBC(s,
-								ChatColor.translateAlternateColorCodes('&', "&1&2&3&4&5&6" + (args.length > 1 ? "&7" : "")));
+						MCShockwave.serverSideBC(
+								s,
+								ChatColor.translateAlternateColorCodes('&', "&1&2&3&4&5&6"
+										+ (args.length > 1 ? "&7" : "")));
 						sender.sendMessage(ChatColor.AQUA + "Updated plugin for server " + s
 								+ (args.length > 1 ? " (No Kick)" : ""));
 					}
 				}
-				
+
 				String server = args[0];
 
 				MCShockwave.serverSideBC(server,

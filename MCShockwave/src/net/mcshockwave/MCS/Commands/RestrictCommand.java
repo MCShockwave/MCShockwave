@@ -26,7 +26,7 @@ public class RestrictCommand implements CommandExecutor {
 						sender.sendMessage("Level restriction removed");
 					} else {
 						MCShockwave.minLevel = Integer.parseInt(typ);
-						sender.sendMessage("§cRestricted to level " + typ);
+						sender.sendMessage("Â§cRestricted to level " + typ);
 					}
 				}
 
@@ -36,13 +36,13 @@ public class RestrictCommand implements CommandExecutor {
 						sender.sendMessage("Rank restriction removed");
 					} else {
 						MCShockwave.min = Rank.valueOf(typ.toUpperCase());
-						sender.sendMessage("§cRestricted to rank " + typ);
+						sender.sendMessage("Â§cRestricted to rank " + typ);
 					}
 				}
 
 				if (res.equalsIgnoreCase("slots")) {
 					MCShockwave.maxPlayers = Integer.parseInt(typ);
-					sender.sendMessage("§cRestricted to " + typ + " slots");
+					sender.sendMessage("Â§cRestricted to " + typ + " slots");
 				}
 			}
 		}
