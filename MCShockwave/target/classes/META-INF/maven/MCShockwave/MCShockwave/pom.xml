@@ -6,6 +6,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MCShockwave</name>
 	<description>MCShockwave main plugin</description>
+	<packaging>jar</packaging>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -23,7 +28,6 @@
 				<directory>src/</directory>
 				<includes>
 					<include>plugin.yml</include>
-					<include>dirnumbers.1000</include>
 				</includes>
 			</resource>
 		</resources>
