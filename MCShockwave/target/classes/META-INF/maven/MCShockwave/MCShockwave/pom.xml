@@ -8,7 +8,6 @@
 	<description>MCShockwave main plugin</description>
 	<packaging>jar</packaging>
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<build>
@@ -20,6 +19,15 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<outputDirectory>C:\Eclipse Exports\</outputDirectory>
+					<finalName>${project.artifactId}</finalName>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -73,8 +73,8 @@ public class DefaultListener implements Listener {
 
 	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
 
-	List<String>                        hbuilders   = Arrays.asList("GreatSalad", "gamefrk17", "dandoop");
-	
+	List<String>						hbuilders	= Arrays.asList("GreatSalad", "gamefrk17", "dandoop");
+
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
@@ -324,8 +324,7 @@ public class DefaultListener implements Listener {
 				&& (!SQLTable.hasRank(p.getName(), Rank.ADMIN) && !p.isOp() && !hbuilders.contains(p.getName()))) {
 			e.setCancelled(true);
 		}
-		if ((argslc[0].equalsIgnoreCase("/deop"))
-				&& (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
+		if ((argslc[0].equalsIgnoreCase("/deop")) && (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
 			e.setCancelled(true);
 		}
 		if (argslc[0].equalsIgnoreCase("/?") || argslc[0].equalsIgnoreCase("/help")) {
@@ -423,13 +422,13 @@ public class DefaultListener implements Listener {
 		if (argslc[0].equalsIgnoreCase("/say")) {
 			e.setCancelled(true);
 			String s = args[1].replace("@r",
-					Bukkit.getOnlinePlayers()[rand.nextInt(Bukkit.getOnlinePlayers().length)].getName()).replace('&',
-					'§');
+					Bukkit.getOnlinePlayers()[rand.nextInt(Bukkit.getOnlinePlayers().length)].getName()).replace("&",
+					"§");
 			for (int i = 2; i < args.length; i++) {
 				s += " "
 						+ args[i].replace("@r",
 								Bukkit.getOnlinePlayers()[rand.nextInt(Bukkit.getOnlinePlayers().length)].getName())
-								.replace('&', '§');
+								.replace("&", "§");
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
 				Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "ADMIN" + ChatColor.DARK_GRAY
@@ -504,7 +503,8 @@ public class DefaultListener implements Listener {
 					+ "+'s can join this server!\nEarn XP by killing players in our gamemodes to level up!");
 		}
 
-		if ((!SQLTable.hasRank(pl, Rank.COAL) && !SQLTable.Youtubers.has("Username", pl)) && MCShockwave.maxPlayers <= Bukkit.getOnlinePlayers().length) {
+		if ((!SQLTable.hasRank(pl, Rank.COAL) && !SQLTable.Youtubers.has("Username", pl))
+				&& MCShockwave.maxPlayers <= Bukkit.getOnlinePlayers().length) {
 			event.disallow(Result.KICK_FULL, ChatColor.GREEN + "Server full! Buy VIP to join when a server is full!\n"
 					+ VIPLink + "\nOr join another one of our servers!");
 		}
@@ -513,7 +513,7 @@ public class DefaultListener implements Listener {
 	@EventHandler
 	public void setLeaveMessage(PlayerQuitEvent event) {
 		final Player p = event.getPlayer();
-		event.setQuitMessage(MCShockwave.mesLeave.replace('&', '§').replaceAll("%p", p.getName()));
+		event.setQuitMessage(MCShockwave.mesLeave.replace("&", "§").replaceAll("%p", p.getName()));
 
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 			public void run() {
@@ -532,7 +532,7 @@ public class DefaultListener implements Listener {
 	@EventHandler
 	public void setKickMessage(PlayerKickEvent event) {
 		final Player p = event.getPlayer();
-		event.setLeaveMessage(MCShockwave.mesKick.replace('&', '§').replaceAll("%p", p.getName()));
+		event.setLeaveMessage(MCShockwave.mesKick.replace("&", "§").replaceAll("%p", p.getName()));
 
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 			public void run() {
@@ -563,7 +563,7 @@ public class DefaultListener implements Listener {
 			}
 		}, 1L);
 
-		event.setJoinMessage(MCShockwave.mesJoin.replace('&', '§').replaceAll("%p", p.getName()));
+		event.setJoinMessage(MCShockwave.mesJoin.replace("&", "§").replaceAll("%p", p.getName()));
 		if (SQLTable.Settings.get("Setting", "Silent_Joins", "Value").contains("," + p.getName())) {
 			event.setJoinMessage("");
 		}
