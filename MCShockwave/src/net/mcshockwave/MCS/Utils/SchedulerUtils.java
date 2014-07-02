@@ -34,6 +34,10 @@ public class SchedulerUtils {
 		}
 		
 		public void next() {
+			if (terminated) {
+				return;
+			}
+			
 			id++;
 			if (id >= os.length) {
 				return;
