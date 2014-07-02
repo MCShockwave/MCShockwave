@@ -76,10 +76,10 @@ public class MCSCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("isbanned")) {
 				if (!BanManager.isBanned(args[1])) {
-					sender.sendMessage("§c" + args[1] + " is not banned");
+					sender.sendMessage("Â§c" + args[1] + " is not banned");
 					return false;
 				}
-				sender.sendMessage("§eBan reason for player " + args[1] + ":");
+				sender.sendMessage("Â§eBan reason for player " + args[1] + ":");
 				sender.sendMessage(BanManager.getBanReason(args[1]));
 			}
 			if (args[0].equalsIgnoreCase("join") && sender instanceof Player) {
@@ -155,10 +155,10 @@ public class MCSCommand implements CommandExecutor {
 				int topSearch = Integer.parseInt(args[2]);
 				for (int i = 0; i <= topSearch; i++) {
 					if (Arrays.asList(LevelUtils.getTop(i)).contains(pl)) {
-						sender.sendMessage("§cPlayer " + pl + " is rank " + i + " in XP");
+						sender.sendMessage("Â§cPlayer " + pl + " is rank " + i + " in XP");
 						break;
 					} else if (i == topSearch) {
-						sender.sendMessage("§cPlayer is not in top " + topSearch);
+						sender.sendMessage("Â§cPlayer is not in top " + topSearch);
 					}
 				}
 			}
@@ -167,16 +167,16 @@ public class MCSCommand implements CommandExecutor {
 				int topSearch = Integer.parseInt(args[2]);
 				for (int i = 0; i <= topSearch; i++) {
 					if (Arrays.asList(PointsUtils.getTop(i)).contains(pl)) {
-						sender.sendMessage("§cPlayer " + pl + " is rank " + i + " in Points");
+						sender.sendMessage("Â§cPlayer " + pl + " is rank " + i + " in Points");
 						break;
 					} else if (i == topSearch) {
-						sender.sendMessage("§cPlayer is not in top " + topSearch);
+						sender.sendMessage("Â§cPlayer is not in top " + topSearch);
 					}
 				}
 			}
 			if (args[0].equalsIgnoreCase("clearHistory")) {
 				SQLTable.BanHistory.delWhere("Username='" + args[1] + "'");
-				sender.sendMessage("§cCleared history for " + args[1]);
+				sender.sendMessage("Â§cCleared history for " + args[1]);
 			}
 			if (args[0].equalsIgnoreCase("testSched")) {
 				List<Object> os = new ArrayList<>();
@@ -262,7 +262,7 @@ public class MCSCommand implements CommandExecutor {
 				Location l = p.getLocation();
 				int x = l.getBlockX(), y = l.getBlockY(), z = l.getBlockZ();
 				p.getWorld().setSpawnLocation(x, y, z);
-				p.sendMessage("§aSet World Spawn to " + x + ", " + y + ", " + z);
+				p.sendMessage("Â§aSet World Spawn to " + x + ", " + y + ", " + z);
 			}
 
 			// don't ask
@@ -318,21 +318,21 @@ public class MCSCommand implements CommandExecutor {
 
 			if (args[0].equalsIgnoreCase("viewServerCount")) {
 				for (Entry<String, Integer> e : MCShockwave.serverCount.entrySet()) {
-					sender.sendMessage("§a" + e.getKey() + " : " + e.getValue() + "<>"
+					sender.sendMessage("Â§a" + e.getKey() + " : " + e.getValue() + "<>"
 							+ MCShockwave.getPlayerCount(e.getKey()));
 				}
 			}
 			if (args[0].equalsIgnoreCase("pingServers")) {
-				sender.sendMessage("§a§oPinging...");
+				sender.sendMessage("Â§aÂ§oPinging...");
 				for (String s : MCShockwave.servers) {
 					MCShockwave.sendCommand("BungeeCord", "PlayerCount", s);
 				}
-				sender.sendMessage("§bPinged!");
+				sender.sendMessage("Â§bPinged!");
 			}
 
 			if (args[0].equalsIgnoreCase("giveyoutuber") && SQLTable.hasRank(sender.getName(), Rank.ADMIN)) {
 				SQLTable.Youtubers.add("Username", args[1]);
-				sender.sendMessage("§c" + args[1] + " added as youtuber");
+				sender.sendMessage("Â§c" + args[1] + " added as youtuber");
 			}
 
 			if (args[0].equalsIgnoreCase("restartSQL")) {
@@ -340,7 +340,7 @@ public class MCSCommand implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("ip")) {
-				sender.sendMessage("§aIP: " + Bukkit.getIp());
+				sender.sendMessage("Â§aIP: " + Bukkit.getIp());
 			}
 
 			if (args[0].equalsIgnoreCase("genChallenge")) {
@@ -367,12 +367,12 @@ public class MCSCommand implements CommandExecutor {
 						String extra = args[3].equalsIgnoreCase("NONE") ? null : args[3];
 						ChallengeManager.incrChallenge(ChallengeType.valueOf(args[1]), mod, extra, args[4],
 								Integer.parseInt(args[5]), true);
-						sender.sendMessage("§aDone!");
+						sender.sendMessage("Â§aDone!");
 					} catch (Exception e) {
 						MiscUtils.printStackTrace(e);
 					}
 				} else {
-					sender.sendMessage("§c/mcs incrChal <type> <mod/none> <extra/none> <player> <amount>");
+					sender.sendMessage("Â§c/mcs incrChal <type> <mod/none> <extra/none> <player> <amount>");
 				}
 			}
 
@@ -386,10 +386,10 @@ public class MCSCommand implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("tasks")) {
-				sender.sendMessage("§aPending Tasks: (Plugin.ID [Running/Queued])");
-				sender.sendMessage("§e§nAsync§r §6§nSync§r\n §e");
+				sender.sendMessage("Â§aPending Tasks: (Plugin.ID [Running/Queued])");
+				sender.sendMessage("Â§eÂ§nAsyncÂ§r Â§6Â§nSyncÂ§r\n Â§e");
 				for (BukkitTask bt : Bukkit.getScheduler().getPendingTasks()) {
-					sender.sendMessage((bt.isSync() ? "§6" : "§e")
+					sender.sendMessage((bt.isSync() ? "Â§6" : "Â§e")
 							+ bt.getOwner().getName()
 							+ "."
 							+ bt.getTaskId()
@@ -397,9 +397,9 @@ public class MCSCommand implements CommandExecutor {
 							+ (Bukkit.getScheduler().isCurrentlyRunning(bt.getTaskId()) ? "Running" : Bukkit
 									.getScheduler().isQueued(bt.getTaskId()) ? "Queued" : "Unknown"));
 				}
-				sender.sendMessage("§aActive Workers: (ThreadName: Plugin.ID)");
+				sender.sendMessage("Â§aActive Workers: (ThreadName: Plugin.ID)");
 				for (BukkitWorker bw : Bukkit.getScheduler().getActiveWorkers()) {
-					sender.sendMessage("§b" + bw.getThread().getName() + ": " + bw.getOwner().getName() + "."
+					sender.sendMessage("Â§b" + bw.getThread().getName() + ": " + bw.getOwner().getName() + "."
 							+ bw.getTaskId());
 				}
 			}
