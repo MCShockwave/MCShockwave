@@ -7,9 +7,6 @@
 	<name>MCShockwave</name>
 	<description>MCShockwave main plugin</description>
 	<packaging>jar</packaging>
-	<properties>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
