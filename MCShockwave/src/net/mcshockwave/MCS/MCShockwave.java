@@ -17,6 +17,7 @@ import net.mcshockwave.MCS.Commands.MuteCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
 import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
+import net.mcshockwave.MCS.Commands.RoodCommand;
 import net.mcshockwave.MCS.Commands.RulesCommand;
 import net.mcshockwave.MCS.Commands.SMCommand;
 import net.mcshockwave.MCS.Commands.SetOpCommand;
@@ -129,6 +130,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("setop").setExecutor(new SetOpCommand());
 		getCommand("loaf").setExecutor(new LoafCommand());
 		getCommand("challenges").setExecutor(new ChallengeCommand());
+		getCommand("rood").setExecutor(new RoodCommand());
 
 		instance = this;
 

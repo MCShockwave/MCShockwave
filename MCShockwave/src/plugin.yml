@@ -41,3 +41,4 @@ commands:
    setop:
    challenges:
       aliases: [chal, challenge]
+   rood:
