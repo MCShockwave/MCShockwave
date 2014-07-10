@@ -22,7 +22,7 @@ public class RoodCommand implements CommandExecutor {
 			if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
 				if (CooldownUtils.isOnCooldown("/rood", p.getName())) {
 					MCShockwave.send(p, "You must wait %s seconds to use /rood again!",
-							CooldownUtils.getCooldownForSec("/loaf", p.getName(), 1));
+							CooldownUtils.getCooldownForSec("/rood", p.getName(), 1));
 					return true;
 				}
 				p.chat(ChatColor.DARK_RED + ">:c rood!");
