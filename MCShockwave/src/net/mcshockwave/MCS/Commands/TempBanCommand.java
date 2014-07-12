@@ -18,6 +18,9 @@ public class TempBanCommand implements CommandExecutor {
 		if (label.equalsIgnoreCase("tempban") && sender instanceof Player) {
 			Player p = (Player) sender;
 			if (SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
+				if (SQLTable.hasRank(args[1], Rank.ADMIN)) {
+					return true;
+				}
 				if (args.length >= 3) {
 					String toBan = args[0];
 					int min = 0;
