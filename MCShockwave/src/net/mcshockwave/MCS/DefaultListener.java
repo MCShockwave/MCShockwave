@@ -279,6 +279,18 @@ public class DefaultListener implements Listener {
 				event.getRecipients().remove(p2);
 			}
 		}
+		if (event.getMessage().equalsIgnoreCase("%s") || event.getMessage().equalsIgnoreCase("%n")) {
+			event.setCancelled(true);
+			return;
+		}
+		if (event.getMessage().contains("%s") || event.getMessage().contains("%S")) {
+			event.setMessage(event.getMessage().replace("%s", ""));
+			event.setMessage(event.getMessage().replace("%S", ""));
+		}
+		if (event.getMessage().contains("%n") || event.getMessage().contains("%N")) {
+			event.setMessage(event.getMessage().replace("%n", ""));
+			event.setMessage(event.getMessage().replace("%N", ""));
+		}
 		if (event.getMessage().contains("lemonparty.org")) {
 			event.setMessage(event.getMessage().replace("lemonparty.org", "I'm stupid"));
 		}
