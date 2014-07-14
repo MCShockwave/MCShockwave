@@ -12,6 +12,7 @@ import net.mcshockwave.MCS.Challenges.ChallengeGenerator;
 import net.mcshockwave.MCS.Challenges.ChallengeManager;
 import net.mcshockwave.MCS.Currency.LevelUtils;
 import net.mcshockwave.MCS.Currency.PointsUtils;
+import net.mcshockwave.MCS.Utils.DisguiseUtils;
 import net.mcshockwave.MCS.Utils.HoloUtils;
 import net.mcshockwave.MCS.Utils.ImageUtils;
 import net.mcshockwave.MCS.Utils.ItemMetaUtils;
@@ -401,6 +402,34 @@ public class MCSCommand implements CommandExecutor {
 				for (BukkitWorker bw : Bukkit.getScheduler().getActiveWorkers()) {
 					sender.sendMessage("§b" + bw.getThread().getName() + ": " + bw.getOwner().getName() + "."
 							+ bw.getTaskId());
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("disguise")) {
+				EntityType type = EntityType.valueOf(args[1].toUpperCase());
+
+				if (args.length > 2) {
+					DisguiseUtils.disguise(Bukkit.getPlayer(args[2]), type, true);
+				} else {
+					DisguiseUtils.disguise((Player) sender, type, true);
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("disguiseh")) {
+				EntityType type = EntityType.valueOf(args[1].toUpperCase());
+
+				if (args.length > 2) {
+					DisguiseUtils.disguise(Bukkit.getPlayer(args[2]), type, false);
+				} else {
+					DisguiseUtils.disguise((Player) sender, type, false);
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("undisguise")) {
+				if (args.length > 1) {
+					DisguiseUtils.undisguise(Bukkit.getPlayer(args[1]));
+				} else {
+					DisguiseUtils.undisguise((Player) sender);
 				}
 			}
 		}
