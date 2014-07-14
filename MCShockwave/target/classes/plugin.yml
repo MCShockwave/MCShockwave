@@ -1,0 +1,44 @@
+name: MCShockwave
+main: net.mcshockwave.MCS.MCShockwave
+version: 1.0
+author: Blaxcraft
+website: mcshockwave.net
+softdepend: [TabAPI]
+commands:
+   mcs:
+   mute:
+   unmute:
+   tempban:
+   vote:
+   history:
+   bc:
+   sm:
+   tablist:
+      aliases: [tl, tlist]
+   vanish:
+   editrank:
+   friend:
+   friends:
+   status:
+   reloadall:
+   updateplugin:
+   redeem:
+   sudo:
+   points:
+   data:
+      aliases: [stats, level]
+   exp:
+   restrict:
+   gmitem:
+   r:
+   silence:
+   rules:
+   flyspeed:
+   killplayer:
+   cri:
+   lloro:
+   loaf:
+   setop:
+   challenges:
+      aliases: [chal, challenge]
+   rood:
