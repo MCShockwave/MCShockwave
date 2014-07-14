@@ -353,6 +353,9 @@ public class DefaultListener implements Listener {
 		if ((argslc[0].equalsIgnoreCase("/deop")) && (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
 			e.setCancelled(true);
 		}
+		if ((argslc[0].equalsIgnoreCase("/glist")) && (!SQLTable.hasRank(p.getName(), Rank.JR_MOD))) {
+			e.setCancelled(true);
+		}
 		if (argslc[0].equalsIgnoreCase("/?") || argslc[0].equalsIgnoreCase("/help")) {
 			e.setCancelled(true);
 			p.sendMessage("§bIf you need help, contact an online staff member by\n"
