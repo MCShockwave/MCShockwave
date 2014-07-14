@@ -405,24 +405,16 @@ public class MCSCommand implements CommandExecutor {
 				}
 			}
 
-			if (args[0].equalsIgnoreCase("disguise")) {
+			if (args[0].startsWith("disguise")) {
+				String mod = args[0].replaceFirst("disguise", "");
 				EntityType type = EntityType.valueOf(args[1].toUpperCase());
+				Player targ = (Player) sender;
 
 				if (args.length > 2) {
-					DisguiseUtils.disguise(Bukkit.getPlayer(args[2]), type, true);
-				} else {
-					DisguiseUtils.disguise((Player) sender, type, true);
+					targ = Bukkit.getPlayer(args[2]);
 				}
-			}
 
-			if (args[0].equalsIgnoreCase("disguiseh")) {
-				EntityType type = EntityType.valueOf(args[1].toUpperCase());
-
-				if (args.length > 2) {
-					DisguiseUtils.disguise(Bukkit.getPlayer(args[2]), type, false);
-				} else {
-					DisguiseUtils.disguise((Player) sender, type, false);
-				}
+				DisguiseUtils.disguise(targ, type, !mod.contains("h"), mod.contains("s"));
 			}
 
 			if (args[0].equalsIgnoreCase("undisguise")) {

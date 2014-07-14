@@ -170,6 +170,13 @@ public class MCShockwave extends JavaPlugin {
 
 		DisguiseUtils.init(this);
 	}
+	
+	@Override
+	public void onDisable() {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			DisguiseUtils.undisguise(p);
+		}
+	}
 
 	public static void broadcast(String message) {
 		sendCommand("MCShockwave", message);
