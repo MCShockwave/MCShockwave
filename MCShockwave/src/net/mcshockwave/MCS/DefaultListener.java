@@ -74,7 +74,11 @@ public class DefaultListener implements Listener {
 	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
 
 	List<String>						hbuilders	= Arrays.asList("GreatSalad", "gamefrk17", "dandoop");
-
+	
+	List<String>                        srmods      = Arrays.asList("ItsCarrie", "CarroCake", "The_MightyOrange");
+	
+	List<String>                        hacks       = Arrays.asList("hack", "hax", "h4x");
+	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
@@ -224,6 +228,9 @@ public class DefaultListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
+		if (event.getMessage().contains("www.")) {
+			event.setMessage(event.getMessage().replace("www.", ""));
+		}
 		if (cuss == null) {
 			cuss = SQLTable.Settings.get("Setting", "CussBlock", "Value").split(",");
 		}
@@ -294,8 +301,15 @@ public class DefaultListener implements Listener {
 		if (event.getMessage().contains("lemonparty.org")) {
 			event.setMessage(event.getMessage().replace("lemonparty.org", "I'm stupid"));
 		}
-		if (event.getMessage().contains("www.")) {
-			event.setMessage(event.getMessage().replace("www.", ""));
+		boolean hex = false;
+		for (String s : hacks) {
+			if (event.getMessage().toLowerCase().contains(s)) {
+				event.setMessage(event.getMessage().toLowerCase().replace(s, "loaf"));
+				hex = true;
+			}
+		}
+		if (hex) {
+			MCShockwave.send(p, "Please do not call out %s! Please report rule breakers by using '@' before a chat message or at mcshockwave.net", "hacks!");
 		}
 		if (event.getMessage().startsWith("@")) {
 			event.getRecipients().clear();
