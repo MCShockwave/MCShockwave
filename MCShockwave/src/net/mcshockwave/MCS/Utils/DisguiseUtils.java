@@ -14,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -37,6 +38,8 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 public class DisguiseUtils {
 
 	public static HashMap<String, DisguiseUtils>	disguised;
+
+	public static ArrayList<String>					noresend	= new ArrayList<>();
 
 	public static void init(Plugin pl) {
 		disguised = new HashMap<>();
@@ -74,47 +77,26 @@ public class DisguiseUtils {
 					if (m instanceof Player) {
 						Player p = (Player) m;
 
-						if (disguised.containsKey(p.getName())) {
+						if (!noresend.contains(p.getName()) && disguised.containsKey(p.getName())) {
 							DisguiseUtils ut = disguised.get(p.getName());
-							if (ut.canSeeSelf && p.equals(event.getPlayer())) {
+							if (ut.canSeeSelf && p.getEntityId() == meta.getEntityId()) {
 								for (WrappedWatchableObject obj : meta.getEntityMetadata()) {
 									if (obj.getIndex() == 0) {
 										obj.setValue(getStatus(p, true));
 									}
 								}
-								event.setPacket(meta.getHandle());
+								event.setCancelled(true);
+								noresend.add(p.getName());
+								meta.sendPacket(p);
 
 								WrapperPlayServerEntityMetadata lm = new WrapperPlayServerEntityMetadata();
 								lm.setEntityId(ut.localid);
 								lm.setEntityMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
 								lm.sendPacket(p);
+								return;
 							}
 						}
-					}
-				}
-			}
-		});
-
-		man.addPacketListener(new PacketAdapter(pl, PacketType.Play.Server.ENTITY_EQUIPMENT) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				WrapperPlayServerEntityEquipment meta = new WrapperPlayServerEntityEquipment(event.getPacket());
-
-				Entity m = meta.getEntity(event);
-				if (m != null) {
-					if (m instanceof Player) {
-						Player p = (Player) m;
-
-						if (disguised.containsKey(p.getName())) {
-							DisguiseUtils ut = disguised.get(p.getName());
-							if (ut.canSeeSelf && p.equals(event.getPlayer())) {
-								WrapperPlayServerEntityEquipment[] eeql = getEquipmentPackets(p);
-								for (WrapperPlayServerEntityEquipment eeq : eeql) {
-									eeq.setEntityId(ut.localid);
-									eeq.sendPacket(p);
-								}
-							}
-						}
+						noresend.remove(p.getName());
 					}
 				}
 			}
