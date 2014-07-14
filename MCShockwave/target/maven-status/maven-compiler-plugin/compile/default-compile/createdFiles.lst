@@ -18,7 +18,9 @@ net\mcshockwave\MCS\Entities\CustomEntityRegistrar.class
 net\mcshockwave\MCS\DefaultListener$1.class
 net\mcshockwave\MCS\Commands\EXPCommand.class
 net\mcshockwave\MCS\Menu\ItemMenu$1.class
+META-INF\maven\MCShockwave\MCShockwave\pom.properties
 net\mcshockwave\MCS\DefaultListener$7.class
+META-INF\maven\MCShockwave\MCShockwave\pom.xml
 net\mcshockwave\MCS\Currency\ItemsUtils.class
 net\mcshockwave\MCS\Utils\MiscUtils.class
 net\mcshockwave\MCS\Commands\LoafCommand.class
@@ -51,6 +53,7 @@ net\mcshockwave\MCS\Utils\PacketUtils$ParticleEffect.class
 net\mcshockwave\MCS\MCShockwave$6.class
 net\mcshockwave\MCS\Commands\RulesCommand.class
 net\mcshockwave\MCS\MCShockwave$7.class
+net\mcshockwave\MCS\Utils\DisguiseUtils$1.class
 net\mcshockwave\MCS\Utils\ImageUtils$ImgChar.class
 net\mcshockwave\MCS\Commands\MCSCommand.class
 net\mcshockwave\MCS\Utils\BossBarUtils$1.class
@@ -60,6 +63,7 @@ net\mcshockwave\MCS\Utils\SchedulerUtils$GlobalSoundEffect.class
 net\mcshockwave\MCS\Menu\ItemMenu$1$1.class
 net\mcshockwave\MCS\Commands\MuteCommand.class
 net\mcshockwave\MCS\Commands\FriendCommand$3.class
+net\mcshockwave\MCS\Utils\DisguiseUtils.class
 net\mcshockwave\MCS\Commands\SilenceCommand.class
 net\mcshockwave\MCS\BanManager.class
 net\mcshockwave\MCS\MCShockwave$3.class
@@ -78,9 +82,9 @@ net\mcshockwave\MCS\Challenges\ChallengeManager$1.class
 net\mcshockwave\MCS\Commands\RestrictCommand.class
 net\mcshockwave\MCS\Challenges\Challenge$ChallengeType.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SoundEffect.class
+net\mcshockwave\MCS\Utils\HoloUtils.class
 net\mcshockwave\MCS\Commands\EditRankCommand.class
 net\mcshockwave\MCS\MCShockwave$11.class
-net\mcshockwave\MCS\Utils\HoloUtils.class
 net\mcshockwave\MCS\Commands\FriendCommand.class
 net\mcshockwave\MCS\SQLTable.class
 net\mcshockwave\MCS\Challenges\Challenge.class
