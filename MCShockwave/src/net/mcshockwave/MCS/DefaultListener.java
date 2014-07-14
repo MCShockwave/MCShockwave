@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class DefaultListener implements Listener {
 
@@ -74,11 +75,11 @@ public class DefaultListener implements Listener {
 	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
 
 	List<String>						hbuilders	= Arrays.asList("GreatSalad", "gamefrk17", "dandoop");
-	
-	List<String>                        srmods      = Arrays.asList("ItsCarrie", "CarroCake", "The_MightyOrange");
-	
-	List<String>                        hacks       = Arrays.asList("hack", "hax", "h4x");
-	
+
+	List<String>						srmods		= Arrays.asList("ItsCarrie", "CarroCake", "The_MightyOrange");
+
+	List<String>						hacks		= Arrays.asList("hack", "hax", "h4x");
+
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
@@ -228,9 +229,6 @@ public class DefaultListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		if (event.getMessage().contains("www.")) {
-			event.setMessage(event.getMessage().replace("www.", ""));
-		}
 		if (cuss == null) {
 			cuss = SQLTable.Settings.get("Setting", "CussBlock", "Value").split(",");
 		}
@@ -290,16 +288,9 @@ public class DefaultListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		if (event.getMessage().contains("%s") || event.getMessage().contains("%S")) {
-			event.setMessage(event.getMessage().replace("%s", ""));
-			event.setMessage(event.getMessage().replace("%S", ""));
-		}
-		if (event.getMessage().contains("%n") || event.getMessage().contains("%N")) {
-			event.setMessage(event.getMessage().replace("%n", ""));
-			event.setMessage(event.getMessage().replace("%N", ""));
-		}
-		if (event.getMessage().contains("lemonparty.org")) {
-			event.setMessage(event.getMessage().replace("lemonparty.org", "I'm stupid"));
+		String regex = Pattern.compile("(%s|%n)", Pattern.CASE_INSENSITIVE).toString();
+		if (event.getMessage().contains(regex)) {
+			event.setMessage(event.getMessage().replaceAll(regex, ""));
 		}
 		boolean hex = false;
 		for (String s : hacks) {
@@ -309,7 +300,10 @@ public class DefaultListener implements Listener {
 			}
 		}
 		if (hex) {
-			MCShockwave.send(p, "Please do not call out %s! Please report rule breakers by using '@' before a chat message or at mcshockwave.net", "hacks!");
+			MCShockwave
+					.send(p,
+							"Please do not call out %s! Please report rule breakers by using '@' before a chat message or at mcshockwave.net",
+							"hacks!");
 		}
 		if (event.getMessage().startsWith("@")) {
 			event.getRecipients().clear();
@@ -351,9 +345,6 @@ public class DefaultListener implements Listener {
 			e.setCancelled(true);
 		}
 		if ((argslc[0].equalsIgnoreCase("/deop")) && (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
-			e.setCancelled(true);
-		}
-		if ((argslc[0].equalsIgnoreCase("/glist")) && (!SQLTable.hasRank(p.getName(), Rank.JR_MOD))) {
 			e.setCancelled(true);
 		}
 		if (argslc[0].equalsIgnoreCase("/?") || argslc[0].equalsIgnoreCase("/help")) {

@@ -16,23 +16,22 @@ import org.bukkit.entity.Player;
 public class RoodCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender s, Command c, String t,String[] a) {
-		if (s instanceof Player) {
-			Player p = (Player) s;
-			if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
-				if (CooldownUtils.isOnCooldown("/rood", p.getName())) {
-					MCShockwave.send(p, "You must wait %s seconds to use /rood again!",
-							CooldownUtils.getCooldownForSec("/rood", p.getName(), 1));
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			if (SQLTable.hasRank(p.getName(), Rank.EMERALD)) {
+				if (CooldownUtils.isOnCooldown("/" + label, p.getName())) {
+					MCShockwave.send(p, "You must wait %s seconds to use /" + label + " again!",
+							CooldownUtils.getCooldownForSec("/" + label, p.getName(), 1));
 					return true;
 				}
 				p.chat(ChatColor.DARK_RED + ">:c rood!");
 				PacketUtils.playParticleEffect(ParticleEffect.ANGRY_VILLAGER, p.getLocation(), 0, 1, 10);
-				CooldownUtils.addCooldown("/" + t, p.getName(), 2400);
+				CooldownUtils.addCooldown("/" + label, p.getName(), 2400);
 			} else {
-				MCShockwave.send(p, "You must be %s to use /rood! Buy VIP at buy.mcshockwave.net", "Obsidian+");
+				MCShockwave.send(p, "You must be %s to use /" + label + " ! Buy VIP at buy.mcshockwave.net", "Obsidian+");
 			}
 		}
 		return false;
 	}
-
 }
