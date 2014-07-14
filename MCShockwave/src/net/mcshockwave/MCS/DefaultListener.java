@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DefaultListener implements Listener {
@@ -73,10 +74,6 @@ public class DefaultListener implements Listener {
 	Random								rand		= new Random();
 
 	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
-
-	List<String>						hbuilders	= Arrays.asList("GreatSalad", "gamefrk17", "dandoop");
-
-	List<String>						srmods		= Arrays.asList("ItsCarrie", "CarroCake", "The_MightyOrange");
 
 	List<String>						hacks		= Arrays.asList("hack", "hax", "h4x");
 
@@ -284,13 +281,12 @@ public class DefaultListener implements Listener {
 				event.getRecipients().remove(p2);
 			}
 		}
-		if (event.getMessage().equalsIgnoreCase("%s") || event.getMessage().equalsIgnoreCase("%n")) {
+		Pattern pat = Pattern.compile("(%s|%n)", Pattern.CASE_INSENSITIVE);
+		Matcher mat = pat.matcher(event.getMessage());
+		if (mat.find()) {
 			event.setCancelled(true);
+			MCShockwave.send(p, "Refrain from abusing %s, please", "chat functions");
 			return;
-		}
-		String regex = Pattern.compile("(%s|%n)", Pattern.CASE_INSENSITIVE).toString();
-		if (event.getMessage().contains(regex)) {
-			event.setMessage(event.getMessage().replaceAll(regex, ""));
 		}
 		boolean hex = false;
 		for (String s : hacks) {
@@ -303,7 +299,7 @@ public class DefaultListener implements Listener {
 			MCShockwave
 					.send(p,
 							"Please do not call out %s! Please report rule breakers by using '@' before a chat message or at mcshockwave.net",
-							"hacks!");
+							"hacks");
 		}
 		if (event.getMessage().startsWith("@")) {
 			event.getRecipients().clear();
@@ -340,9 +336,12 @@ public class DefaultListener implements Listener {
 
 		boolean showToAdmins = true;
 
-		if ((argslc[0].equalsIgnoreCase("/op"))
-				&& (!SQLTable.hasRank(p.getName(), Rank.ADMIN) && !p.isOp() && !hbuilders.contains(p.getName()))) {
-			e.setCancelled(true);
+		try { // MCShockwave.isOp() throws an exception
+			if (argslc[0].equalsIgnoreCase("/op")
+					&& (!SQLTable.hasRank(p.getName(), Rank.ADMIN) && !MCShockwave.isOp(p.getName()))) {
+				e.setCancelled(true);
+			}
+		} catch (Exception e1) { // we can ignore it
 		}
 		if ((argslc[0].equalsIgnoreCase("/deop")) && (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
 			e.setCancelled(true);
