@@ -2,6 +2,7 @@ net\mcshockwave\MCS\Commands\GMItemCommand$1.class
 net\mcshockwave\MCS\Commands\FriendCommand$5.class
 net\mcshockwave\MCS\Commands\CriCommand.class
 net\mcshockwave\MCS\Utils\CustomSignUtils$CustomSign.class
+net\mcshockwave\MCS\Utils\DisguiseUtils$4.class
 net\mcshockwave\MCS\Commands\FriendCommand$2.class
 net\mcshockwave\MCS\Commands\VoteCommand.class
 net\mcshockwave\MCS\MCShockwave$2.class
@@ -9,6 +10,7 @@ net\mcshockwave\MCS\Menu\ItemMenuListener.class
 net\mcshockwave\MCS\Commands\FriendCommand$1.class
 net\mcshockwave\MCS\Commands\MCSCommand$2.class
 net\mcshockwave\MCS\Commands\MCSCommand$1.class
+net\mcshockwave\MCS\Utils\FakePlayer.class
 net\mcshockwave\MCS\Utils\NBTUtils.class
 net\mcshockwave\MCS\DefaultListener$3.class
 net\mcshockwave\MCS\MCShockwave$9.class
@@ -75,6 +77,8 @@ net\mcshockwave\MCS\Utils\SchedulerUtils$SchedulerInstance$1.class
 net\mcshockwave\MCS\Commands\UpdateCommand.class
 net\mcshockwave\MCS\Commands\GMItemCommand.class
 net\mcshockwave\MCS\Menu\ItemMenu$Button.class
+net\mcshockwave\MCS\Utils\FakePlayer$2.class
+net\mcshockwave\MCS\Utils\FakePlayer$1.class
 net\mcshockwave\MCS\DefaultListener$6.class
 net\mcshockwave\MCS\wgen\CustomWorldGenVillageStart.class
 net\mcshockwave\MCS\DefaultListener$2.class
@@ -101,8 +105,8 @@ net\mcshockwave\MCS\Commands\HistoryCommand.class
 net\mcshockwave\MCS\SQLTable$Rank.class
 net\mcshockwave\MCS\Challenges\Challenge$ChallengeModifier.class
 net\mcshockwave\MCS\Utils\CustomSignUtils$SignRunnable.class
-net\mcshockwave\MCS\Commands\SMCommand.class
 net\mcshockwave\MCS\Utils\FireworkLaunchUtils.class
+net\mcshockwave\MCS\Commands\SMCommand.class
 net\mcshockwave\MCS\Utils\BossBarUtils$2$1.class
 net\mcshockwave\MCS\Challenges\ChallengeManager.class
 net\mcshockwave\MCS\Utils\BossBarUtils.class

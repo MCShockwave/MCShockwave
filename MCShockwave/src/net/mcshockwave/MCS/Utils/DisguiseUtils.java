@@ -1,5 +1,7 @@
 package net.mcshockwave.MCS.Utils;
 
+import net.minecraft.util.com.google.common.collect.Lists;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,12 +13,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
@@ -41,7 +45,10 @@ public class DisguiseUtils {
 
 	public static ArrayList<String>					noresend	= new ArrayList<>();
 
-	public static void init(Plugin pl) {
+	static Plugin									pl;
+
+	public static void init(Plugin plug) {
+		pl = plug;
 		disguised = new HashMap<>();
 		ProtocolManager man = ProtocolLibrary.getProtocolManager();
 
@@ -214,21 +221,21 @@ public class DisguiseUtils {
 	}
 
 	public static byte getStatus(Player p, boolean invis) {
-		byte status = 0;
+		byte status = 0x00;
 		if (p.getFireTicks() > 0) {
-			status += 0x01;
+			status |= 0x01;
 		}
 		if (p.isSneaking()) {
-			status += 0x02;
+			status |= 0x02;
 		}
 		if (p.isSprinting()) {
-			status += 0x08;
+			status |= 0x08;
 		}
 		if (p.isBlocking()) {
-			status += 0x10;
+			status |= 0x10;
 		}
 		if (p.hasPotionEffect(PotionEffectType.INVISIBILITY) || invis) {
-			status += 0x20;
+			status |= 0x20;
 		}
 		return status;
 	}
@@ -250,26 +257,36 @@ public class DisguiseUtils {
 		return data;
 	}
 
-	public static void undisguise(Player p) {
-		if (disguised.containsKey(p.getName())) {
-			DisguiseUtils ut = disguised.get(p.getName());
-			for (Player p2 : p.getWorld().getPlayers()) {
-				p2.hidePlayer(p);
-				p2.showPlayer(p);
-			}
-
-			if (ut.canSeeSelf) {
-				WrapperPlayServerEntityDestroy des = new WrapperPlayServerEntityDestroy();
-				des.setEntities(new int[] { ut.localid });
-				des.sendPacket(p);
-
-				WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
-				meta.setEntityId(p.getEntityId());
-				meta.setEntityMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
-				meta.sendPacket(p);
+	public static void undisguise(final Player p) {
+		DisguiseUtils ut = null;
+		for (Entry<String, DisguiseUtils> ds : Lists.newArrayList(disguised.entrySet())) {
+			if (ds.getKey().equalsIgnoreCase(p.getName())) {
+				ut = ds.getValue();
+				disguised.remove(ds.getKey());
 			}
 		}
-		disguised.remove(p.getName());
+
+		for (final Player p2 : p.getWorld().getPlayers()) {
+			p2.hidePlayer(p);
+			p2.showPlayer(p);
+
+			if (ut != null && ut.canSeeSelf) {
+				new BukkitRunnable() {
+					public void run() {
+						WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
+						meta.setEntityId(p.getEntityId());
+						meta.setEntityMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
+						meta.sendPacket(p2);
+					}
+				}.runTaskLater(pl, 10);
+			}
+		}
+
+		if (ut != null && ut.canSeeSelf) {
+			WrapperPlayServerEntityDestroy des = new WrapperPlayServerEntityDestroy();
+			des.setEntities(new int[] { ut.localid });
+			des.sendPacket(p);
+		}
 	}
 
 	public EntityType	type;
@@ -290,6 +307,11 @@ public class DisguiseUtils {
 	}
 
 	static Random	rand	= new Random();
+
+	@Override
+	public String toString() {
+		return "type:" + type + " showName:" + showName + " canSeeSelf:" + canSeeSelf + " localid:" + localid;
+	}
 
 	public static short getRandomID() {
 		short ret = -1;

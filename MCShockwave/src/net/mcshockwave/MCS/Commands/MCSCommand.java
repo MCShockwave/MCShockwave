@@ -13,6 +13,7 @@ import net.mcshockwave.MCS.Challenges.ChallengeManager;
 import net.mcshockwave.MCS.Currency.LevelUtils;
 import net.mcshockwave.MCS.Currency.PointsUtils;
 import net.mcshockwave.MCS.Utils.DisguiseUtils;
+import net.mcshockwave.MCS.Utils.FakePlayer;
 import net.mcshockwave.MCS.Utils.HoloUtils;
 import net.mcshockwave.MCS.Utils.ImageUtils;
 import net.mcshockwave.MCS.Utils.ItemMetaUtils;
@@ -423,6 +424,20 @@ public class MCSCommand implements CommandExecutor {
 				} else {
 					DisguiseUtils.undisguise((Player) sender);
 				}
+			}
+
+			if (args[0].equalsIgnoreCase("listdisguises")) {
+				sender.sendMessage("§8All disguises:");
+				for (Entry<String, DisguiseUtils> ds : DisguiseUtils.disguised.entrySet()) {
+					sender.sendMessage("§c" + ds.getKey() + ": §6" + ds.getValue().toString());
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("fakeplayer") && sender instanceof Player) {
+				Player p = (Player) sender;
+				FakePlayer fp = FakePlayer.spawnNew(p.getLocation(), args[1]);
+
+				fp.startAnimation(Integer.parseInt(args[2]), true);
 			}
 		}
 		return false;
