@@ -74,6 +74,10 @@ public class NametagUtils {
 	}
 
 	private static class NametagEntity extends EntityAmbient {
+		public NametagEntity(net.minecraft.server.v1_7_R2.World w) {
+			super(w);
+		}
+
 		public NametagEntity(Player player) {
 			super(((CraftWorld) player.getWorld()).getHandle());
 
