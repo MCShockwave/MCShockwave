@@ -12,8 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
@@ -269,23 +269,14 @@ public class DisguiseUtils {
 		for (final Player p2 : p.getWorld().getPlayers()) {
 			p2.hidePlayer(p);
 			p2.showPlayer(p);
-
-			if (ut != null && ut.canSeeSelf) {
-				new BukkitRunnable() {
-					public void run() {
-						WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
-						meta.setEntityId(p.getEntityId());
-						meta.setEntityMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
-						meta.sendPacket(p2);
-					}
-				}.runTaskLater(pl, 10);
-			}
 		}
 
 		if (ut != null && ut.canSeeSelf) {
 			WrapperPlayServerEntityDestroy des = new WrapperPlayServerEntityDestroy();
 			des.setEntities(new int[] { ut.localid });
 			des.sendPacket(p);
+			
+			p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10, 0));
 		}
 	}
 

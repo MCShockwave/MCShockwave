@@ -20,6 +20,7 @@ import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.ListUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
 import net.mcshockwave.MCS.Utils.MiscUtils;
+import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
@@ -438,6 +439,22 @@ public class MCSCommand implements CommandExecutor {
 				FakePlayer fp = FakePlayer.spawnNew(p.getLocation(), args[1]);
 
 				fp.startAnimation(Integer.parseInt(args[2]), true);
+			}
+
+			if (args[0].equalsIgnoreCase("hidetag")) {
+				if (args.length > 1) {
+					NametagUtils.hideNametag(Bukkit.getPlayer(args[1]));
+				} else {
+					NametagUtils.hideNametag((Player) sender);
+				}
+			}
+			
+			if (args[0].equalsIgnoreCase("showtag")) {
+				if (args.length > 1) {
+					NametagUtils.showNametag(Bukkit.getPlayer(args[1]));
+				} else {
+					NametagUtils.showNametag((Player) sender);
+				}
 			}
 		}
 		return false;
