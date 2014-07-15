@@ -2,6 +2,7 @@ net\mcshockwave\MCS\Commands\GMItemCommand$1.class
 net\mcshockwave\MCS\Commands\FriendCommand$5.class
 net\mcshockwave\MCS\Commands\CriCommand.class
 net\mcshockwave\MCS\Utils\CustomSignUtils$CustomSign.class
+net\mcshockwave\MCS\Utils\NametagUtils.class
 net\mcshockwave\MCS\Commands\FriendCommand$2.class
 net\mcshockwave\MCS\Commands\VoteCommand.class
 net\mcshockwave\MCS\MCShockwave$2.class
@@ -39,6 +40,7 @@ net\mcshockwave\MCS\wgen\CustomWorldGenDungeons.class
 net\mcshockwave\MCS\Utils\CustomSignUtils.class
 net\mcshockwave\MCS\Utils\ListUtils.class
 net\mcshockwave\MCS\Utils\ImageUtils.class
+net\mcshockwave\MCS\Utils\NametagUtils$NametagEntity.class
 net\mcshockwave\MCS\Currency\LevelUtils.class
 net\mcshockwave\MCS\Commands\ChallengeCommand.class
 net\mcshockwave\MCS\DefaultListener$5.class

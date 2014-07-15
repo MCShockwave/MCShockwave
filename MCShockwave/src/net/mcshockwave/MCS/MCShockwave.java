@@ -35,6 +35,7 @@ import net.mcshockwave.MCS.Menu.ItemMenu.ButtonRunnable;
 import net.mcshockwave.MCS.Menu.ItemMenuListener;
 import net.mcshockwave.MCS.Utils.CustomSignUtils.CustomSignListener;
 import net.mcshockwave.MCS.Utils.DisguiseUtils;
+import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.minecraft.server.v1_7_R2.ChatSerializer;
@@ -169,6 +170,8 @@ public class MCShockwave extends JavaPlugin {
 		pingForServer();
 
 		DisguiseUtils.init(this);
+		
+		NametagUtils.init();
 	}
 	
 	@Override
