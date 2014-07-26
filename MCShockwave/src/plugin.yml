@@ -39,6 +39,7 @@ commands:
    lloro:
    loaf:
    setop:
+   soz:
    challenges:
       aliases: [chal, challenge]
    rood:

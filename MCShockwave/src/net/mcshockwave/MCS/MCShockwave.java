@@ -133,6 +133,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("loaf").setExecutor(new LoafCommand());
 		getCommand("challenges").setExecutor(new ChallengeCommand());
 		getCommand("rood").setExecutor(new RoodCommand());
+		getCommand("soz").setExecutor(new SozCommand());
 
 		instance = this;
 
