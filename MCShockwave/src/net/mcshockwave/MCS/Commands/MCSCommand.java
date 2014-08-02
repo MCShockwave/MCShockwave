@@ -463,7 +463,7 @@ public class MCSCommand implements CommandExecutor {
 				ItemStack item = ((Player) sender).getItemInHand();
 				
 				NbtCompound comp = NBTUtils.fromItemTag(item);
-				comp.put("unbreakable", (byte) 1);
+				comp.put("Unbreakable", (byte) 1);
 				NBTUtils.setItemTag(item, comp);
 				
 				((Player) sender).setItemInHand(item);
