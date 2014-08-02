@@ -20,6 +20,8 @@ import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.ListUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
 import net.mcshockwave.MCS.Utils.MiscUtils;
+import net.mcshockwave.MCS.Utils.NBTUtils;
+import net.mcshockwave.MCS.Utils.NBTUtils.NbtCompound;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
@@ -455,6 +457,16 @@ public class MCSCommand implements CommandExecutor {
 				} else {
 					NametagUtils.showNametag((Player) sender);
 				}
+			}
+			
+			if (args[0].equalsIgnoreCase("unbreakable")) {
+				ItemStack item = ((Player) sender).getItemInHand();
+				
+				NbtCompound comp = NBTUtils.fromItemTag(item);
+				comp.put("unbreakable", (byte) 1);
+				NBTUtils.setItemTag(item, comp);
+				
+				((Player) sender).setItemInHand(item);
 			}
 		}
 		return false;
