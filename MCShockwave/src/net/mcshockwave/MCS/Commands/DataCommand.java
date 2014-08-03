@@ -85,7 +85,7 @@ public class DataCommand implements Listener, CommandExecutor {
 			pre = "None";
 		}
 		Button rank = new Button(false, Material.BEACON, 1, 0, "§bCurrent rank: §a" + getRankName(p),
-				"§d§nStats for rank:", "", "Points Multiplier: §e" + PointsUtils.getMultiplier(p.getName()) + "x",
+				"§d§nStats for rank:", "",
 				"XP Multiplier: §e" + LevelUtils.getMultiplier(p.getName()) + "x", "Prefix: §e" + pre,
 				"Max Friends: §e" + FriendCommand.getMaxFriends(p));
 		dm.addButton(rank, 6);

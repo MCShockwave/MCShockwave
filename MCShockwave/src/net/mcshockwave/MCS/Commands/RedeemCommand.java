@@ -37,7 +37,7 @@ public class RedeemCommand implements CommandExecutor {
 					SQLTable.RedeemCodes.set("Players", pls, "Code", code);
 					int amount = SQLTable.RedeemCodes.getInt("Code", code, "Amount");
 					
-					PointsUtils.addPoints(p, amount, "redeeming code \"" + code + "\"", false);
+					PointsUtils.addPoints(p, amount, "redeeming code \"" + code + "\"");
 					
 					MCShockwave.updateTab(p);
 				} else {

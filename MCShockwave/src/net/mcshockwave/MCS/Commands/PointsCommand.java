@@ -30,7 +30,7 @@ public class PointsCommand implements CommandExecutor {
 				}
 				if (args[0].equalsIgnoreCase("add")) {
 					if (Bukkit.getPlayer(args[1]) != null) {
-						PointsUtils.addPoints(Bukkit.getPlayer(args[1]), Integer.parseInt(args[2]), null, false);
+						PointsUtils.addPoints(Bukkit.getPlayer(args[1]), Integer.parseInt(args[2]), null);
 					}
 				}
 			}

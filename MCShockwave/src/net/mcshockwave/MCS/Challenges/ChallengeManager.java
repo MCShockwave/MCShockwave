@@ -109,7 +109,7 @@ public class ChallengeManager {
 										if (c.reward < 0) {
 											LevelUtils.addXP(p, Math.abs(c.reward), null, false);
 										} else {
-											PointsUtils.addPoints(p, Math.abs(c.reward), null, false);
+											PointsUtils.addPoints(p, Math.abs(c.reward), null);
 										}
 									}
 								}, 10);
