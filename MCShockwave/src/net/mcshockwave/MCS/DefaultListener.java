@@ -200,7 +200,7 @@ public class DefaultListener implements Listener {
 					}
 				});
 				if (i % 2 == 0) {
-					sc.add(4);
+					sc.add(2);
 				}
 			}
 			sc.add(8);
