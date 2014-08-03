@@ -35,6 +35,7 @@ net\mcshockwave\MCS\Commands\DataCommand.class
 net\mcshockwave\MCS\Commands\BCCommand.class
 net\mcshockwave\MCS\Utils\WriteUtil.class
 net\mcshockwave\MCS\Stats\Statistics.class
+net\mcshockwave\MCS\Utils\PetMaker$PathfinderGoalWalktoTile.class
 net\mcshockwave\MCS\Currency\LevelUtils$1.class
 net\mcshockwave\MCS\SQLTable$1.class
 net\mcshockwave\MCS\Utils\LocUtils.class
@@ -67,6 +68,7 @@ net\mcshockwave\MCS\Commands\RulesCommand.class
 net\mcshockwave\MCS\Utils\NBTUtils$NbtList.class
 net\mcshockwave\MCS\Utils\DisguiseUtils$1.class
 net\mcshockwave\MCS\Utils\ImageUtils$ImgChar.class
+net\mcshockwave\MCS\Utils\PetMaker.class
 net\mcshockwave\MCS\Utils\BossBarUtils$1.class
 net\mcshockwave\MCS\Commands\MCSCommand.class
 net\mcshockwave\MCS\MCShockwave$8.class

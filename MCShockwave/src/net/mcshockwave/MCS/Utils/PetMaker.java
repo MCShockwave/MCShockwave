@@ -87,8 +87,8 @@ public class PetMaker {
 			boolean flag = this.entity.getNavigation().c();
 
 			this.entity.getNavigation().b(false);
-			this.path = this.entity.getNavigation().a(targetLocation.getX() + 2, targetLocation.getY(),
-					targetLocation.getZ() + 2);
+			this.path = this.entity.getNavigation().a(targetLocation.getX() + 1, targetLocation.getY(),
+					targetLocation.getZ() + 1);
 			this.entity.getNavigation().b(flag);
 
 			if (this.path != null) {
@@ -99,7 +99,7 @@ public class PetMaker {
 
 		@Override
 		public void c() {
-			this.entity.getNavigation().a(this.path, 2D);
+			this.entity.getNavigation().a(this.path, 1.3D);
 		}
 	}
 }
