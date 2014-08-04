@@ -43,7 +43,6 @@ net\mcshockwave\MCS\MCShockwave$5.class
 net\mcshockwave\MCS\Commands\SpeedCommand.class
 net\mcshockwave\MCS\Utils\NBTUtils$ConvertedMap$1.class
 net\mcshockwave\MCS\MCShockwave$1.class
-net\mcshockwave\MCS\wgen\CustomWorldGenDungeons.class
 net\mcshockwave\MCS\Utils\CustomSignUtils.class
 net\mcshockwave\MCS\Utils\ListUtils.class
 net\mcshockwave\MCS\Utils\ImageUtils.class
@@ -97,7 +96,6 @@ net\mcshockwave\MCS\Utils\NBTUtils$ConvertedMap.class
 net\mcshockwave\MCS\Utils\FakePlayer$1.class
 net\mcshockwave\MCS\DefaultListener$6.class
 net\mcshockwave\MCS\Utils\NBTUtils$LoadCompoundMethod.class
-net\mcshockwave\MCS\wgen\CustomWorldGenVillageStart.class
 net\mcshockwave\MCS\DefaultListener$2.class
 net\mcshockwave\MCS\Challenges\ChallengeManager$1.class
 net\mcshockwave\MCS\Commands\RestrictCommand.class
@@ -134,5 +132,4 @@ net\mcshockwave\MCS\Commands\HistoryCommand$Ban.class
 net\mcshockwave\MCS\MCShockwave$4.class
 net\mcshockwave\MCS\Commands\PointsCommand.class
 net\mcshockwave\MCS\Utils\PacketUtils.class
-net\mcshockwave\MCS\Utils\StructureGeneratorUtils.class
 net\mcshockwave\MCS\Commands\SudoCommand.class
