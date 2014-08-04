@@ -1,15 +1,15 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.server.v1_7_R2.EntityInsentient;
-import net.minecraft.server.v1_7_R2.PathEntity;
-import net.minecraft.server.v1_7_R2.PathfinderGoal;
-import net.minecraft.server.v1_7_R2.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R2.PathfinderGoalSelector;
+import net.minecraft.server.v1_7_R4.EntityInsentient;
+import net.minecraft.server.v1_7_R4.PathEntity;
+import net.minecraft.server.v1_7_R4.PathfinderGoal;
+import net.minecraft.server.v1_7_R4.PathfinderGoalFloat;
+import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R2.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R4.util.UnsafeList;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.reflect.Field;

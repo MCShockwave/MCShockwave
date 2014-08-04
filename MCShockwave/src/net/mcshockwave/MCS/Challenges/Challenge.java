@@ -184,6 +184,6 @@ public class Challenge {
 	}
 
 	public static boolean enoughPlayersOnline() {
-		return Bukkit.getOnlinePlayers().length >= 8;
+		return Bukkit.getOnlinePlayers().size() >= 8;
 	}
 }

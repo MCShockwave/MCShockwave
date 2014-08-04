@@ -1,15 +1,15 @@
 package net.mcshockwave.MCS.Utils;
 
 import net.mcshockwave.MCS.Entities.CustomEntityRegistrar;
-import net.minecraft.server.v1_7_R2.Entity;
-import net.minecraft.server.v1_7_R2.EntityAmbient;
-import net.minecraft.server.v1_7_R2.EntityBat;
+import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.EntityAmbient;
+import net.minecraft.server.v1_7_R4.EntityBat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -74,7 +74,7 @@ public class NametagUtils {
 	}
 
 	private static class NametagEntity extends EntityAmbient {
-		public NametagEntity(net.minecraft.server.v1_7_R2.World w) {
+		public NametagEntity(net.minecraft.server.v1_7_R4.World w) {
 			super(w);
 		}
 

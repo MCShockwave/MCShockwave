@@ -38,15 +38,15 @@ import net.mcshockwave.MCS.Utils.DisguiseUtils;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
-import net.minecraft.server.v1_7_R2.ChatSerializer;
-import net.minecraft.server.v1_7_R2.IChatBaseComponent;
-import net.minecraft.server.v1_7_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R4.ChatSerializer;
+import net.minecraft.server.v1_7_R4.IChatBaseComponent;
+import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -231,8 +231,8 @@ public class MCShockwave extends JavaPlugin {
 			e.printStackTrace();
 		}
 
-		if (Bukkit.getOnlinePlayers().length > 0) {
-			Bukkit.getOnlinePlayers()[0].sendPluginMessage(instance, toSend, stream.toByteArray());
+		if (Bukkit.getOnlinePlayers().size() > 0) {
+			Bukkit.getOnlinePlayers().toArray(new Player[0])[0].sendPluginMessage(instance, toSend, stream.toByteArray());
 		}
 	}
 

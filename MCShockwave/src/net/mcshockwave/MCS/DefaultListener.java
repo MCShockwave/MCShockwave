@@ -441,12 +441,12 @@ public class DefaultListener implements Listener {
 		if (argslc[0].equalsIgnoreCase("/say")) {
 			e.setCancelled(true);
 			String s = args[1].replace("@r",
-					Bukkit.getOnlinePlayers()[rand.nextInt(Bukkit.getOnlinePlayers().length)].getName()).replace("&",
+					Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())].getName()).replace("&",
 					"§");
 			for (int i = 2; i < args.length; i++) {
 				s += " "
 						+ args[i].replace("@r",
-								Bukkit.getOnlinePlayers()[rand.nextInt(Bukkit.getOnlinePlayers().length)].getName())
+								Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())].getName())
 								.replace("&", "§");
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
@@ -523,7 +523,7 @@ public class DefaultListener implements Listener {
 		}
 
 		if ((!SQLTable.hasRank(pl, Rank.COAL) && !SQLTable.Youtubers.has("Username", pl))
-				&& MCShockwave.maxPlayers <= Bukkit.getOnlinePlayers().length) {
+				&& MCShockwave.maxPlayers <= Bukkit.getOnlinePlayers().size()) {
 			event.disallow(Result.KICK_FULL, ChatColor.GREEN + "Server full! Buy VIP to join when a server is full!\n"
 					+ VIPLink + "\nOr join another one of our servers!");
 		}

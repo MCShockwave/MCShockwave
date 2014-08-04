@@ -26,8 +26,10 @@ import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
-import net.minecraft.server.v1_7_R2.EntityPlayer;
-import net.minecraft.server.v1_7_R2.PacketPlayOutSpawnEntity;
+import net.minecraft.server.v1_7_R4.EnumDifficulty;
+import net.minecraft.server.v1_7_R4.EnumGamemode;
+import net.minecraft.server.v1_7_R4.PacketPlayOutRespawn;
+import net.minecraft.server.v1_7_R4.WorldType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,7 +39,6 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -112,12 +113,11 @@ public class MCSCommand implements CommandExecutor {
 				SQLTable.Settings.set("Value", s2, "Setting", "Silent_Joins");
 			}
 			if (args[0].equalsIgnoreCase("crashClient")) {
-				Player p = Bukkit.getPlayer(args[1]);
+				Player pl = Bukkit.getPlayer(args[1]);
 
-				EntityPlayer nmsPlayer = ((CraftPlayer) p).getHandle();
-				PacketPlayOutSpawnEntity pack = new PacketPlayOutSpawnEntity(nmsPlayer, 0);
-
-				PacketUtils.sendPacket(p, pack);
+				PacketPlayOutRespawn res = new PacketPlayOutRespawn(-10, EnumDifficulty.PEACEFUL, WorldType.NORMAL,
+						EnumGamemode.ADVENTURE);
+				PacketUtils.sendPacket(pl, res);
 			}
 			if (args[0].equalsIgnoreCase("sound") && args.length > 3 && sender instanceof Player) {
 				String sound = args[1].toUpperCase();
