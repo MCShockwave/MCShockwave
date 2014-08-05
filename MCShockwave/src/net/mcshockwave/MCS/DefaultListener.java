@@ -408,8 +408,8 @@ public class DefaultListener implements Listener {
 			reason = reason.replaceFirst(" ", "");
 
 			BanManager.setBanned(toBan, -1, reason, p.getName(), "Permanent");
-			Bukkit.broadcastMessage("§6[" + MCShockwave.server + "] §e" + p.getName() + " banned " + toBan
-					+ " permanently for " + reason);
+			MCShockwave.sendMessageToRank("§6[" + MCShockwave.server + "] §e" + p.getName() + " banned " + toBan
+					+ " permanently" + (reason.length() > 0 ? " for " + reason : ""), Rank.JR_MOD);
 		}
 		if (argslc[0].equalsIgnoreCase("/kick") && SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
 			e.setCancelled(true);

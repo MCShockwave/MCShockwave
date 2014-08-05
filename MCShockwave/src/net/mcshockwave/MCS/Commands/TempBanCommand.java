@@ -5,7 +5,6 @@ import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,8 +43,8 @@ public class TempBanCommand implements CommandExecutor {
 					reason = reason.replaceFirst(" ", "");
 
 					BanManager.setBanned(toBan, min, reason, sender.getName(), args[1]);
-					Bukkit.broadcastMessage("§6[" + MCShockwave.server + "] §e" + p.getName() + " temp-banned " + toBan
-							+ " for " + args[1] + " for " + reason);
+					MCShockwave.sendMessageToRank("§6[" + MCShockwave.server + "] §e" + p.getName() + " temp-banned " + toBan
+							+ " for " + args[1] + (reason.length() > 0 ? " for " + reason : ""), Rank.JR_MOD);
 					// if (k.isOnline()) {
 					// k.getPlayer().kickPlayer("Temp-banned for " + min +
 					// " minutes for " + reason);
