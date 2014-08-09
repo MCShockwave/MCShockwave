@@ -52,9 +52,7 @@ import org.bukkit.util.Vector;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -77,8 +75,6 @@ public class DefaultListener implements Listener {
 	Random								rand		= new Random();
 
 	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
-
-	List<String>						hacks		= Arrays.asList("hack", "hax", "h4x");
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
@@ -290,19 +286,6 @@ public class DefaultListener implements Listener {
 			event.setCancelled(true);
 			MCShockwave.send(p, "Refrain from abusing %s, please", "chat functions");
 			return;
-		}
-		boolean hex = false;
-		for (String s : hacks) {
-			if (event.getMessage().toLowerCase().contains(s)) {
-				event.setMessage(event.getMessage().toLowerCase().replace(s, "loaf"));
-				hex = true;
-			}
-		}
-		if (hex) {
-			MCShockwave
-					.send(p,
-							"Please do not call out %s! Please report rule breakers by using '@' before a chat message or at mcshockwave.net",
-							"hacks");
 		}
 		if (event.getMessage().startsWith("@")) {
 			event.getRecipients().clear();
@@ -544,7 +527,7 @@ public class DefaultListener implements Listener {
 		if (MCShockwave.min != null && !SQLTable.hasRank(pl, MCShockwave.min)
 				&& !Bukkit.getWhitelistedPlayers().contains(Bukkit.getOfflinePlayer(pl))) {
 			event.disallow(Result.KICK_WHITELIST, ChatColor.GREEN + "Only " + MCShockwave.min.name().replace('_', ' ')
-					+ "+'s can join this server!\nBuy VIP at buy.mcshockwave.net");
+					+ "+'s can join this server!");
 		}
 
 		if (MCShockwave.minLevel > -1 && LevelUtils.getLevelFromXP(LevelUtils.getXP(pl)) < MCShockwave.minLevel) {
@@ -667,37 +650,29 @@ public class DefaultListener implements Listener {
 			if (SQLTable.hasRank(p.getName(), Rank.COAL)) {
 				vipPre = ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "C" + ChatColor.DARK_GRAY + "oal "
 						+ ChatColor.RESET;
-				Rank.COAL.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.IRON)) {
 				vipPre = ChatColor.GRAY + "" + ChatColor.BOLD + "I" + ChatColor.GRAY + "ron " + ChatColor.RESET;
-				Rank.IRON.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.GOLD)) {
 				vipPre = ChatColor.YELLOW + "" + ChatColor.BOLD + "G" + ChatColor.YELLOW + "old " + ChatColor.RESET;
-				Rank.GOLD.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.DIAMOND)) {
 				vipPre = ChatColor.AQUA + "" + ChatColor.BOLD + "D" + ChatColor.AQUA + "iamond " + ChatColor.RESET;
-				Rank.DIAMOND.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.EMERALD)) {
 				vipPre = ChatColor.GREEN + "" + ChatColor.BOLD + "E" + ChatColor.GREEN + "merald " + ChatColor.RESET;
-				Rank.EMERALD.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
 				vipPre = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "O" + ChatColor.DARK_PURPLE + "bsidian "
 						+ ChatColor.RESET;
-				Rank.OBSIDIAN.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.NETHER)) {
 				vipPre = ChatColor.DARK_RED + "" + ChatColor.BOLD + "N" + ChatColor.DARK_RED + "ether "
 						+ ChatColor.RESET;
-				Rank.NETHER.suf.addPlayer(p);
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ENDER)) {
 				vipPre = "§0§lE§0nder §r";
-				Rank.ENDER.suf.addPlayer(p);
 			}
 			if (SQLTable.Youtubers.has("Username", p.getName())) {
 				vipPre = "§c§lYou§fTuber §r";
@@ -714,13 +689,10 @@ public class DefaultListener implements Listener {
 		}
 		if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
 			name = ChatColor.RED + p.getName();
-			Rank.ADMIN.suf.addPlayer(p);
 		} else if (SQLTable.hasRank(p.getName(), Rank.MOD)) {
 			name = ChatColor.GOLD + p.getName();
-			Rank.MOD.suf.addPlayer(p);
 		} else if (SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
 			name = ChatColor.GOLD + p.getName();
-			Rank.JR_MOD.suf.addPlayer(p);
 		}
 		if (SQLTable.nickNames.has("Username", p.getName())
 				&& SQLTable.nickNames.get("Username", p.getName(), "Color") != null
@@ -739,9 +711,6 @@ public class DefaultListener implements Listener {
 		name += "§r";
 
 		p.setDisplayName(name + ChatColor.RESET);
-		if (MCShockwave.server.equalsIgnoreCase("hub")) {
-			p.setScoreboard(MCShockwave.suffix);
-		}
 	}
 
 	@EventHandler

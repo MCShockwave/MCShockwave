@@ -3,7 +3,6 @@ package net.mcshockwave.MCS;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.Team;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -390,59 +389,43 @@ public class SQLTable {
 	public enum Rank {
 		COAL(
 			0,
-			ChatColor.DARK_GRAY,
-			ChatColor.BOLD + "C" + ChatColor.RESET),
+			ChatColor.DARK_GRAY),
 		IRON(
 			1,
-			ChatColor.GRAY,
-			ChatColor.BOLD + "I" + ChatColor.RESET),
+			ChatColor.GRAY),
 		GOLD(
 			2,
-			ChatColor.YELLOW,
-			ChatColor.BOLD + "G" + ChatColor.RESET),
+			ChatColor.YELLOW),
 		DIAMOND(
 			3,
-			ChatColor.AQUA,
-			ChatColor.BOLD + "D" + ChatColor.RESET),
+			ChatColor.AQUA),
 		EMERALD(
 			4,
-			ChatColor.GREEN,
-			ChatColor.BOLD + "E" + ChatColor.RESET),
+			ChatColor.GREEN),
 		OBSIDIAN(
 			5,
-			ChatColor.DARK_PURPLE,
-			ChatColor.BOLD + "O" + ChatColor.RESET),
+			ChatColor.DARK_PURPLE),
 		NETHER(
 			6,
-			ChatColor.DARK_RED,
-			ChatColor.BOLD + "N" + ChatColor.RESET),
+			ChatColor.DARK_RED),
 		ENDER(
 			7,
-			ChatColor.BLACK,
-			ChatColor.BOLD + "E" + ChatColor.RESET),
+			ChatColor.BLACK),
 		JR_MOD(
 			0,
-			ChatColor.GOLD,
-			"Jr. Mod"),
+			ChatColor.GOLD),
 		MOD(
 			0,
-			ChatColor.GOLD,
-			"Mod"),
+			ChatColor.GOLD),
 		ADMIN(
 			0,
-			ChatColor.RED,
-			"Admin");
+			ChatColor.RED);
 
 		int		val;
-		Team	suf;
+		public ChatColor sufColor;
 
-		Rank(int val, ChatColor sufColor, String sufChar) {
+		Rank(int val, ChatColor sufColor) {
 			this.val = val;
-			this.suf = MCShockwave.suffix.registerNewTeam(name());
-			// this.suf.setSuffix(" " + sufColor + "[" + sufChar + sufColor +
-			// "]");
-			this.suf.setPrefix(sufColor.toString());
-			this.suf.setCanSeeFriendlyInvisibles(false);
 		}
 	}
 }
