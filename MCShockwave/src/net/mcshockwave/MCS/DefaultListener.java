@@ -12,7 +12,10 @@ import net.mcshockwave.MCS.Stats.Statistics;
 import net.mcshockwave.MCS.Utils.FireworkLaunchUtils;
 import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
+import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
+import net.minecraft.server.v1_7_R4.ChatSerializer;
+import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import net.minecraft.util.org.apache.commons.lang3.text.WordUtils;
 
 import org.bukkit.Bukkit;
@@ -322,7 +325,32 @@ public class DefaultListener implements Listener {
 		// }
 		// }
 		// event.getRecipients().clear();
-		event.setFormat(p.getDisplayName() + ChatColor.RESET + ": " + event.getMessage());
+		if (event.getMessage().contains("JSON")) {
+			String json = "{\"text\":\"\",\"extra\":[{\"text\":\"§8[{{LVL}}§8]\",\"hoverEvent\":{\"action"
+					+ "\":\"show_text\",\"value\":\"{{LVL.TEXT}}\"}},{\"text\":\""
+					+ "{{DISPLAYNAME}}\",\"hoverEvent\":{\"action\":\"show_text\",\"value\""
+					+ ":\"{{DISPLAYNAME.TEXT}}\"}},{\"text\":\": {{MESSAGE}}\"}]}";
+
+			int lvl = LevelUtils.getLevelFromXP(LevelUtils.getXP(p));
+
+			String[] form = { "LVL:" + LevelUtils.getSuffixColor(lvl) + "§l" + lvl,
+					"LVL.TEXT:User: " + p.getName() + "\\n\\n§cLevel information here",
+					"DISPLAYNAME:" + p.getDisplayName().substring(p.getDisplayName().indexOf(']', 2) + 1),
+					"DISPLAYNAME.TEXT:User: " + p.getName() + "\\n\\n§cSome information here",
+					"MESSAGE:" + event.getMessage() };
+			for (String s : form) {
+				String[] ss = s.split(":", 2);
+				json = json.replace("{{" + ss[0] + "}}", ss[1]);
+			}
+
+			for (Player rec : event.getRecipients()) {
+				PacketUtils.sendPacket(rec, new PacketPlayOutChat(ChatSerializer.a(json)));
+			}
+
+			event.setCancelled(true);
+		} else {
+			event.setFormat(p.getDisplayName() + ChatColor.RESET + ": " + event.getMessage());
+		}
 	}
 
 	@EventHandler
@@ -440,14 +468,16 @@ public class DefaultListener implements Listener {
 		}
 		if (argslc[0].equalsIgnoreCase("/say")) {
 			e.setCancelled(true);
-			String s = args[1].replace("@r",
-					Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())].getName()).replace("&",
-					"§");
+			String s = args[1].replace(
+					"@r",
+					Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())]
+							.getName()).replace("&", "§");
 			for (int i = 2; i < args.length; i++) {
 				s += " "
-						+ args[i].replace("@r",
-								Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())].getName())
-								.replace("&", "§");
+						+ args[i].replace(
+								"@r",
+								Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers()
+										.size())].getName()).replace("&", "§");
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
 				Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "ADMIN" + ChatColor.DARK_GRAY
