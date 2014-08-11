@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class CommandRegistrar {
 
-	public void registerCommand(JavaPlugin plugin, String cmd, String... aliases) {
+	public static void registerCommand(JavaPlugin plugin, String cmd, String... aliases) {
 		PluginCommand command = getCommand(plugin, cmd);
 
 		command.setAliases(Arrays.asList(aliases));

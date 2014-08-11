@@ -108,6 +108,7 @@ net\mcshockwave\MCS\Commands\FriendCommand.class
 net\mcshockwave\MCS\SQLTable.class
 net\mcshockwave\MCS\Challenges\Challenge.class
 net\mcshockwave\MCS\Commands\RedeemCommand.class
+net\mcshockwave\MCS\Utils\CommandRegistrar.class
 net\mcshockwave\MCS\Currency\PointsUtils.class
 net\mcshockwave\MCS\Commands\TabCommand.class
 net\mcshockwave\MCS\Utils\ItemMetaUtils.class
