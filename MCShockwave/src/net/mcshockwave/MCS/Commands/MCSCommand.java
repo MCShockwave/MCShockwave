@@ -59,6 +59,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+
 public class MCSCommand implements CommandExecutor {
 
 	MCShockwave	plugin;
@@ -450,7 +454,7 @@ public class MCSCommand implements CommandExecutor {
 					NametagUtils.hideNametag((Player) sender);
 				}
 			}
-			
+
 			if (args[0].equalsIgnoreCase("showtag")) {
 				if (args.length > 1) {
 					NametagUtils.showNametag(Bukkit.getPlayer(args[1]));
@@ -458,15 +462,24 @@ public class MCSCommand implements CommandExecutor {
 					NametagUtils.showNametag((Player) sender);
 				}
 			}
-			
+
 			if (args[0].equalsIgnoreCase("unbreakable")) {
 				ItemStack item = ((Player) sender).getItemInHand();
-				
+
 				NbtCompound comp = NBTUtils.fromItemTag(item);
 				comp.put("Unbreakable", (byte) 1);
 				NBTUtils.setItemTag(item, comp);
-				
+
 				((Player) sender).setItemInHand(item);
+			}
+
+			if (args[0].equalsIgnoreCase("nopackets")) {
+				boolean has = nopackets.contains(args[1]);
+				nopackets.remove(args[1]);
+				if (!has) {
+					nopackets.add(args[1]);
+				}
+				sender.sendMessage("§6" + args[1] + " is " + (has ? "no longer" : "now") + " in the noPacket list");
 			}
 		}
 		return false;
@@ -478,5 +491,18 @@ public class MCSCommand implements CommandExecutor {
 		}
 		SQLTable.VIPS.del("Username", p);
 		SQLTable.VIPS.add("Username", p, "TypeId", id + "", "TimeLeft", time + "");
+	}
+
+	public static ArrayList<String>	nopackets	= new ArrayList<>();
+
+	public static void init() {
+		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(MCShockwave.instance) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				if (nopackets.contains(event.getPlayer().getName())) {
+					event.setCancelled(true);
+				}
+			}
+		});
 	}
 }
