@@ -1,5 +1,38 @@
 package net.mcshockwave.MCS.Commands;
 
+import static com.comphenix.protocol.PacketType.Play.Server.ABILITIES;
+import static com.comphenix.protocol.PacketType.Play.Server.ANIMATION;
+import static com.comphenix.protocol.PacketType.Play.Server.ATTACH_ENTITY;
+import static com.comphenix.protocol.PacketType.Play.Server.BED;
+import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_ACTION;
+import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATION;
+import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_CHANGE;
+import static com.comphenix.protocol.PacketType.Play.Server.COLLECT;
+import static com.comphenix.protocol.PacketType.Play.Server.CRAFT_PROGRESS_BAR;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_DESTROY;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_EFFECT;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_EQUIPMENT;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_HEAD_ROTATION;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_LOOK;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_METADATA;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_MOVE_LOOK;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_STATUS;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_TELEPORT;
+import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_VELOCITY;
+import static com.comphenix.protocol.PacketType.Play.Server.EXPERIENCE;
+import static com.comphenix.protocol.PacketType.Play.Server.EXPLOSION;
+import static com.comphenix.protocol.PacketType.Play.Server.NAMED_ENTITY_SPAWN;
+import static com.comphenix.protocol.PacketType.Play.Server.NAMED_SOUND_EFFECT;
+import static com.comphenix.protocol.PacketType.Play.Server.PLAYER_INFO;
+import static com.comphenix.protocol.PacketType.Play.Server.REL_ENTITY_MOVE;
+import static com.comphenix.protocol.PacketType.Play.Server.REMOVE_ENTITY_EFFECT;
+import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY;
+import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY_EXPERIENCE_ORB;
+import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY_LIVING;
+import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY_WEATHER;
+import static com.comphenix.protocol.PacketType.Play.Server.WORLD_EVENT;
+import static com.comphenix.protocol.PacketType.Play.Server.WORLD_PARTICLES;
 import net.mcshockwave.MCS.BanManager;
 import net.mcshockwave.MCS.DefaultListener;
 import net.mcshockwave.MCS.MCShockwave;
@@ -49,9 +82,11 @@ import org.bukkit.scheduler.BukkitWorker;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -62,35 +97,14 @@ import javax.imageio.ImageIO;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
 public class MCSCommand implements CommandExecutor {
 
 	MCShockwave	plugin;
 
-	public MCSCommand(MCShockwave instance) {
-		plugin = instance;
-
-		ProtocolLibrary.getProtocolManager().addPacketListener(
-				new PacketAdapter(plugin, PacketType.Play.Server.getInstance().values()) {
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						PacketType[] types = new PacketType[] { PacketType.Play.Server.KEEP_ALIVE,
-								PacketType.Play.Server.CHAT, PacketType.Play.Server.PLAYER_INFO,
-								PacketType.Play.Server.RESPAWN, PacketType.Play.Server.TAB_COMPLETE,
-								PacketType.Play.Server.TILE_ENTITY_DATA, PacketType.Play.Server.WINDOW_ITEMS };
-						if (Arrays.asList(types).contains(event.getPacketType())) {
-							return;
-						}
-						if (nopackets.contains(event.getPlayer().getName())) {
-							event.setCancelled(true);
-							event.setReadOnly(true);
-						}
-					}
-				});
-	}
-
-	Random	rand	= new Random();
+	Random		rand	= new Random();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command com, String label, String[] args) {
@@ -493,10 +507,20 @@ public class MCSCommand implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("nopackets")) {
-				boolean has = nopackets.contains(args[1]);
+				boolean has = nopackets.containsKey(args[1]);
+				if (has && Bukkit.getPlayer(args[1]) != null) {
+					Player snd = Bukkit.getPlayer(args[1]);
+					for (PacketContainer con : nopackets.get(args[1])) {
+						try {
+							ProtocolLibrary.getProtocolManager().sendServerPacket(snd, con);
+						} catch (InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 				nopackets.remove(args[1]);
 				if (!has) {
-					nopackets.add(args[1]);
+					nopackets.put(args[1], new ArrayList<PacketContainer>());
 				}
 				sender.sendMessage("§6" + args[1] + " is " + (has ? "no longer" : "now") + " in the nopacket list");
 			}
@@ -512,5 +536,26 @@ public class MCSCommand implements CommandExecutor {
 		SQLTable.VIPS.add("Username", p, "TypeId", id + "", "TimeLeft", time + "");
 	}
 
-	public static ArrayList<String>	nopackets	= new ArrayList<>();
+	public static HashMap<String, ArrayList<PacketContainer>>	nopackets	= new HashMap<>();
+
+	public MCSCommand(MCShockwave instance) {
+		plugin = instance;
+
+		PacketType[] types = new PacketType[] { ABILITIES, ANIMATION, ATTACH_ENTITY, BED, BLOCK_ACTION,
+				BLOCK_BREAK_ANIMATION, BLOCK_CHANGE, COLLECT, CRAFT_PROGRESS_BAR, ENTITY, ENTITY_DESTROY,
+				ENTITY_EFFECT, ENTITY_EQUIPMENT, ENTITY_HEAD_ROTATION, ENTITY_LOOK, ENTITY_METADATA, ENTITY_MOVE_LOOK,
+				ENTITY_STATUS, ENTITY_TELEPORT, ENTITY_VELOCITY, EXPERIENCE, EXPLOSION, NAMED_ENTITY_SPAWN,
+				NAMED_SOUND_EFFECT, PLAYER_INFO, REL_ENTITY_MOVE, REMOVE_ENTITY_EFFECT, SPAWN_ENTITY,
+				SPAWN_ENTITY_EXPERIENCE_ORB, SPAWN_ENTITY_LIVING, SPAWN_ENTITY_WEATHER, WORLD_EVENT, WORLD_PARTICLES };
+		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, types) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				if (nopackets.containsKey(event.getPlayer().getName())) {
+					nopackets.get(event.getPlayer().getName()).add(event.getPacket());
+					event.setCancelled(true);
+					event.setReadOnly(true);
+				}
+			}
+		});
+	}
 }
