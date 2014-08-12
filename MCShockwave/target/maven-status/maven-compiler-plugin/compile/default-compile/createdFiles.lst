@@ -15,6 +15,7 @@ net\mcshockwave\MCS\Utils\FakePlayer.class
 net\mcshockwave\MCS\Utils\NBTUtils.class
 net\mcshockwave\MCS\DefaultListener$3.class
 net\mcshockwave\MCS\Utils\NBTUtils$CachedNativeWrapper.class
+net\mcshockwave\MCS\Commands\MCSCommand$3.class
 net\mcshockwave\MCS\MCShockwave$9.class
 net\mcshockwave\MCS\MCShockwave$10.class
 net\mcshockwave\MCS\Utils\ImageUtils$1.class

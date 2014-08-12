@@ -167,8 +167,6 @@ public class MCShockwave extends JavaPlugin {
 		DisguiseUtils.init(this);
 		
 		NametagUtils.init();
-		
-		MCSCommand.init();
 	}
 	
 	@Override

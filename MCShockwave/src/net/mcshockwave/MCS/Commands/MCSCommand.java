@@ -59,6 +59,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
@@ -69,6 +70,24 @@ public class MCSCommand implements CommandExecutor {
 
 	public MCSCommand(MCShockwave instance) {
 		plugin = instance;
+
+		ProtocolLibrary.getProtocolManager().addPacketListener(
+				new PacketAdapter(plugin, PacketType.Play.Server.getInstance().values()) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						PacketType[] types = new PacketType[] { PacketType.Play.Server.KEEP_ALIVE,
+								PacketType.Play.Server.CHAT, PacketType.Play.Server.PLAYER_INFO,
+								PacketType.Play.Server.RESPAWN, PacketType.Play.Server.TAB_COMPLETE,
+								PacketType.Play.Server.TILE_ENTITY_DATA, PacketType.Play.Server.WINDOW_ITEMS };
+						if (Arrays.asList(types).contains(event.getPacketType())) {
+							return;
+						}
+						if (nopackets.contains(event.getPlayer().getName())) {
+							event.setCancelled(true);
+							event.setReadOnly(true);
+						}
+					}
+				});
 	}
 
 	Random	rand	= new Random();
@@ -479,7 +498,7 @@ public class MCSCommand implements CommandExecutor {
 				if (!has) {
 					nopackets.add(args[1]);
 				}
-				sender.sendMessage("§6" + args[1] + " is " + (has ? "no longer" : "now") + " in the noPacket list");
+				sender.sendMessage("§6" + args[1] + " is " + (has ? "no longer" : "now") + " in the nopacket list");
 			}
 		}
 		return false;
@@ -494,15 +513,4 @@ public class MCSCommand implements CommandExecutor {
 	}
 
 	public static ArrayList<String>	nopackets	= new ArrayList<>();
-
-	public static void init() {
-		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(MCShockwave.instance) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				if (nopackets.contains(event.getPlayer().getName())) {
-					event.setCancelled(true);
-				}
-			}
-		});
-	}
 }
