@@ -27,10 +27,6 @@ import static com.comphenix.protocol.PacketType.Play.Server.NAMED_SOUND_EFFECT;
 import static com.comphenix.protocol.PacketType.Play.Server.PLAYER_INFO;
 import static com.comphenix.protocol.PacketType.Play.Server.REL_ENTITY_MOVE;
 import static com.comphenix.protocol.PacketType.Play.Server.REMOVE_ENTITY_EFFECT;
-import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY;
-import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY_EXPERIENCE_ORB;
-import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY_LIVING;
-import static com.comphenix.protocol.PacketType.Play.Server.SPAWN_ENTITY_WEATHER;
 import static com.comphenix.protocol.PacketType.Play.Server.WORLD_EVENT;
 import static com.comphenix.protocol.PacketType.Play.Server.WORLD_PARTICLES;
 import net.mcshockwave.MCS.BanManager;
@@ -61,6 +57,7 @@ import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
 import net.minecraft.server.v1_7_R4.EnumDifficulty;
 import net.minecraft.server.v1_7_R4.EnumGamemode;
+import net.minecraft.server.v1_7_R4.PacketPlayOutGameStateChange;
 import net.minecraft.server.v1_7_R4.PacketPlayOutRespawn;
 import net.minecraft.server.v1_7_R4.WorldType;
 
@@ -76,6 +73,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
@@ -506,11 +504,17 @@ public class MCSCommand implements CommandExecutor {
 				((Player) sender).setItemInHand(item);
 			}
 
+			if (args[0].equalsIgnoreCase("gamestate")) {
+				PacketPlayOutGameStateChange gs = new PacketPlayOutGameStateChange(Integer.parseInt(args[2]),
+						Float.parseFloat(args[3]));
+				PacketUtils.sendPacket(Bukkit.getPlayer(args[1]), gs);
+			}
+
 			if (args[0].equalsIgnoreCase("nopackets")) {
 				boolean has = nopackets.containsKey(args[1]);
 				if (has && Bukkit.getPlayer(args[1]) != null) {
 					Player snd = Bukkit.getPlayer(args[1]);
-					for (PacketContainer con : nopackets.get(args[1])) {
+					for (PacketContainer con : nopackets.get(args[1]).toArray(new PacketContainer[0])) {
 						try {
 							ProtocolLibrary.getProtocolManager().sendServerPacket(snd, con);
 						} catch (InvocationTargetException e) {
@@ -523,6 +527,24 @@ public class MCSCommand implements CommandExecutor {
 					nopackets.put(args[1], new ArrayList<PacketContainer>());
 				}
 				sender.sendMessage("§6" + args[1] + " is " + (has ? "no longer" : "now") + " in the nopacket list");
+			}
+
+			if (args[0].equalsIgnoreCase("echest")) {
+				Player p = (Player) sender;
+				String name = args[1];
+
+				Inventory chest = null;
+				if (Bukkit.getPlayer(name) != null) {
+					chest = Bukkit.getPlayer(name).getEnderChest();
+				}
+				
+				if (chest == null) {
+					return false;
+				}
+
+				Inventory open = Bukkit.createInventory(null, 27, "Ender Chest");
+				open.setContents(chest.getContents());
+				p.openInventory(open);
 			}
 		}
 		return false;
@@ -545,8 +567,7 @@ public class MCSCommand implements CommandExecutor {
 				BLOCK_BREAK_ANIMATION, BLOCK_CHANGE, COLLECT, CRAFT_PROGRESS_BAR, ENTITY, ENTITY_DESTROY,
 				ENTITY_EFFECT, ENTITY_EQUIPMENT, ENTITY_HEAD_ROTATION, ENTITY_LOOK, ENTITY_METADATA, ENTITY_MOVE_LOOK,
 				ENTITY_STATUS, ENTITY_TELEPORT, ENTITY_VELOCITY, EXPERIENCE, EXPLOSION, NAMED_ENTITY_SPAWN,
-				NAMED_SOUND_EFFECT, PLAYER_INFO, REL_ENTITY_MOVE, REMOVE_ENTITY_EFFECT, SPAWN_ENTITY,
-				SPAWN_ENTITY_EXPERIENCE_ORB, SPAWN_ENTITY_LIVING, SPAWN_ENTITY_WEATHER, WORLD_EVENT, WORLD_PARTICLES };
+				NAMED_SOUND_EFFECT, PLAYER_INFO, REL_ENTITY_MOVE, REMOVE_ENTITY_EFFECT, WORLD_EVENT, WORLD_PARTICLES };
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, types) {
 			@Override
 			public void onPacketSending(PacketEvent event) {

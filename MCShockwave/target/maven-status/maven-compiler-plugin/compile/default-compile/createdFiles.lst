@@ -81,6 +81,7 @@ net\mcshockwave\MCS\Utils\DisguiseUtils.class
 net\mcshockwave\MCS\Utils\NBTUtils$StreamOptions.class
 net\mcshockwave\MCS\Commands\SilenceCommand.class
 net\mcshockwave\MCS\Utils\DisguiseUtils$3.class
+net\mcshockwave\MCS\Utils\UUIDFetcher.class
 net\mcshockwave\MCS\BanManager.class
 net\mcshockwave\MCS\Utils\NBTUtils$LoadMethodSkinUpdate.class
 net\mcshockwave\MCS\MCShockwave$3.class
