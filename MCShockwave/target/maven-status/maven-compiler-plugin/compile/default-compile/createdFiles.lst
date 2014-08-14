@@ -14,6 +14,7 @@ net\mcshockwave\MCS\Commands\MCSCommand$1.class
 net\mcshockwave\MCS\Utils\FakePlayer.class
 net\mcshockwave\MCS\Utils\NBTUtils.class
 net\mcshockwave\MCS\DefaultListener$3.class
+net\mcshockwave\MCS\Commands\KillCommand$1.class
 net\mcshockwave\MCS\Utils\NBTUtils$CachedNativeWrapper.class
 net\mcshockwave\MCS\Commands\MCSCommand$3.class
 net\mcshockwave\MCS\MCShockwave$9.class
@@ -21,6 +22,7 @@ net\mcshockwave\MCS\MCShockwave$10.class
 net\mcshockwave\MCS\Utils\ImageUtils$1.class
 net\mcshockwave\MCS\Utils\DisguiseUtils$2.class
 net\mcshockwave\MCS\Entities\CustomEntityRegistrar.class
+net\mcshockwave\MCS\Utils\MidiUtils.class
 net\mcshockwave\MCS\DefaultListener$1.class
 net\mcshockwave\MCS\Utils\NBTUtils$NbtType.class
 net\mcshockwave\MCS\Commands\EXPCommand.class
@@ -80,6 +82,7 @@ net\mcshockwave\MCS\Commands\FriendCommand$3.class
 net\mcshockwave\MCS\Utils\DisguiseUtils.class
 net\mcshockwave\MCS\Utils\NBTUtils$StreamOptions.class
 net\mcshockwave\MCS\Commands\SilenceCommand.class
+net\mcshockwave\MCS\Utils\MidiUtils$ToneUtil.class
 net\mcshockwave\MCS\Utils\DisguiseUtils$3.class
 net\mcshockwave\MCS\Utils\UUIDFetcher.class
 net\mcshockwave\MCS\BanManager.class
@@ -103,6 +106,7 @@ net\mcshockwave\MCS\Challenges\ChallengeManager$1.class
 net\mcshockwave\MCS\Commands\RestrictCommand.class
 net\mcshockwave\MCS\Challenges\Challenge$ChallengeType.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SoundEffect.class
+net\mcshockwave\MCS\Utils\MidiUtils$NoteBlockReceiver.class
 net\mcshockwave\MCS\Utils\HoloUtils.class
 net\mcshockwave\MCS\MCShockwave$11.class
 net\mcshockwave\MCS\Commands\EditRankCommand.class

@@ -48,6 +48,7 @@ import net.mcshockwave.MCS.Utils.ImageUtils;
 import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.ListUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
+import net.mcshockwave.MCS.Utils.MidiUtils;
 import net.mcshockwave.MCS.Utils.MiscUtils;
 import net.mcshockwave.MCS.Utils.NBTUtils;
 import net.mcshockwave.MCS.Utils.NBTUtils.NbtCompound;
@@ -80,11 +81,13 @@ import org.bukkit.scheduler.BukkitWorker;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -537,7 +540,7 @@ public class MCSCommand implements CommandExecutor {
 				if (Bukkit.getPlayer(name) != null) {
 					chest = Bukkit.getPlayer(name).getEnderChest();
 				}
-				
+
 				if (chest == null) {
 					return false;
 				}
@@ -545,6 +548,19 @@ public class MCSCommand implements CommandExecutor {
 				Inventory open = Bukkit.createInventory(null, 27, "Ender Chest");
 				open.setContents(chest.getContents());
 				p.openInventory(open);
+			}
+
+			if (args[0].equalsIgnoreCase("midi")) {
+				InputStream str = MCShockwave.instance.getResource(args[1] + ".mid");
+				HashSet<String> playTo = new HashSet<String>();
+				if (args.length > 2) {
+					playTo.add(args[2]);
+				} else {
+					playTo.add(sender.getName());
+				}
+				MidiUtils.playMidiQuietly(str, 1.25f, playTo);
+				sender.sendMessage("§6Playing " + args[1].toLowerCase() + " to "
+						+ playTo.toArray(new String[0])[0]);
 			}
 		}
 		return false;

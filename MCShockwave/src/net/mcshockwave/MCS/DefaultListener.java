@@ -521,7 +521,10 @@ public class DefaultListener implements Listener {
 		// event.disallow(Result.KICK_BANNED, s);
 		// }
 		if (BanManager.isBanned(pl)) {
-			event.disallow(Result.KICK_BANNED, BanManager.getBanReason(pl));
+			event.disallow(
+					Result.KICK_BANNED,
+					BanManager.getBanReason(pl)
+							+ "      §cIf you feel you were wrongfully banned, appeal on our site at §b§ohttp://forums.mcshockwave.net/");
 		}
 
 		if (MCShockwave.min != null && !SQLTable.hasRank(pl, MCShockwave.min)
