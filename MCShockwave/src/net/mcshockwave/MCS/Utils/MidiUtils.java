@@ -175,7 +175,7 @@ public class MidiUtils {
 
 			// get pitch and volume from the midi message
 			float pitch = (float) ToneUtil.midiToPitch(message);
-			float volume = VOLUME_RANGE * (message.getData2() / 127.0f);
+			float volume = VOLUME_RANGE * (127.0f / message.getData2());
 
 			// get the correct instrument
 			Integer patch = channelPatches.get(message.getChannel());
@@ -186,7 +186,7 @@ public class MidiUtils {
 			for (String s : listeners.toArray(new String[0])) {
 				if (Bukkit.getPlayer(s) != null) {
 					Player p = Bukkit.getPlayer(s);
-					p.playSound(p.getLocation(), instrument, volume, pitch);
+					p.playSound(p.getLocation(), instrument, (volume - volume) + 1, pitch);
 				} else {
 					listeners.remove(s);
 				}
