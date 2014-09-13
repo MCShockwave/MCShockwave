@@ -9,8 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import org.mcsg.double0negative.tabapi.TabAPI;
-
 public class TabCommand implements CommandExecutor {
 
 	// public static ArrayList<Player> tab = new ArrayList<Player>();
@@ -24,9 +22,6 @@ public class TabCommand implements CommandExecutor {
 				p.sendMessage("§cTabAPI is disabled!");
 				return false;
 			}
-
-			TabAPI.disableTabForPlayer(p);
-			TabAPI.setPriority(MCShockwave.instance, p, -2);
 
 			MCShockwave.updateTab(p);
 

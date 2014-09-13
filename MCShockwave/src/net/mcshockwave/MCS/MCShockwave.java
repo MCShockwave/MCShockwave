@@ -57,8 +57,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import org.mcsg.double0negative.tabapi.TabAPI;
-
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
@@ -436,73 +434,6 @@ public class MCShockwave extends JavaPlugin {
 	}
 
 	public static void updateTab(final Player p) {
-		if (!Bukkit.getPluginManager().isPluginEnabled("TabAPI")) {
-			return;
-		}
-
-		TabAPI.setTabString(instance, p, 0, 0, ChatColor.RED + "§l         The", 10000);
-		TabAPI.setTabString(instance, p, 0, 1, ChatColor.RED + "§lMCShockwave", 10000);
-		TabAPI.setTabString(instance, p, 0, 2, ChatColor.RED + "§lNetwork", 10000);
-
-		if (server != null) {
-			if (server.equalsIgnoreCase("ztd")) {
-				TabAPI.setTabString(instance, p, 2, 0, ChatColor.GOLD + "Level");
-				TabAPI.setTabString(instance, p, 3, 0,
-						ChatColor.AQUA + SQLTable.Zombiez.get("Username", p.getName(), "Level") + TabAPI.nextNull());
-
-				TabAPI.setTabString(instance, p, 2, 2, ChatColor.GOLD + "Credits");
-				TabAPI.setTabString(
-						instance,
-						p,
-						3,
-						2,
-						ChatColor.AQUA + "" + SQLTable.Zombiez.getInt("Username", p.getName(), "Credits")
-								+ TabAPI.nextNull());
-			} else {
-				TabAPI.setTabString(instance, p, 2, 1, ChatColor.GOLD + "Points");
-				TabAPI.setTabString(
-						instance,
-						p,
-						3,
-						1,
-						ChatColor.AQUA + "" + SQLTable.Points.getInt("Username", p.getName(), "Points")
-								+ TabAPI.nextNull());
-			}
-		} else {
-			instance.pingForServer();
-		}
-
-		TabAPI.setTabString(instance, p, 5, 0, ChatColor.GREEN + "§lPlayers:");
-		int pping = ((CraftPlayer) p).getHandle().ping;
-
-		TabAPI.setTabString(instance, p, 5, 2, p.getPlayerListName(), pping);
-
-		int x = 0;
-		int y = 6;
-
-		for (Player p2 : Bukkit.getOnlinePlayers()) {
-			if (y > TabAPI.getVertSize()) {
-				break;
-			}
-			if (p == p2) {
-				continue;
-			}
-
-			int ping = ((CraftPlayer) p2).getHandle().ping;
-			TabAPI.setTabString(instance, p, y, x, p2.getPlayerListName(), ping);
-
-			x++;
-			if (x > 2) {
-				x = 0;
-				y++;
-			}
-		}
-
-		Bukkit.getScheduler().runTaskLater(instance, new Runnable() {
-			public void run() {
-				TabAPI.updatePlayer(p);
-			}
-		}, 10l);
 	}
 
 	public static boolean isOp(String name) throws SQLException {
