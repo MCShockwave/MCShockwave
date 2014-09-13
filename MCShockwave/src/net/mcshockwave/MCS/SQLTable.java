@@ -40,6 +40,7 @@ public class SQLTable {
 	public static final SQLTable	Scavenger			= new SQLTable("Scavenger");
 	public static final SQLTable	Settings			= new SQLTable("Settings");
 	public static final SQLTable	SkillTokens			= new SQLTable("SkillTokens");
+	public static final SQLTable    SRMODS              = new SQLTable("SRMODS");
 	public static final SQLTable	Statistics			= new SQLTable("Statistics");
 	public static final SQLTable	Tips				= new SQLTable("Tips");
 	public static final SQLTable	Updater				= new SQLTable("Updater");
@@ -353,15 +354,17 @@ public class SQLTable {
 
 	public static boolean hasRank(String name, Rank r) {
 		if (r == Rank.JR_MOD) {
-			return JunMODS.has("Username", name) || MODS.has("Username", name) || ADMINS.has("Username", name);
+			return JunMODS.has("Username", name) || MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else if (r == Rank.MOD) {
-			return MODS.has("Username", name) || ADMINS.has("Username", name);
+			return MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
+		} else if (r == Rank.SR_MOD) {
+			return SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else if (r == Rank.ADMIN) {
 			return ADMINS.has("Username", name);
-		} else if (VIPS.has("Username", name) || JunMODS.has("Username", name) || MODS.has("Username", name)
-				|| ADMINS.has("Username", name)) {
+		} else if (VIPS.has("Username", name) || JunMODS.has("Username", name) || MODS.has("Username", name) ||
+				SRMODS.has("Username", name) || ADMINS.has("Username", name)) {
 			return VIPS.getInt("Username", name, "TypeID") >= r.val || JunMODS.has("Username", name)
-					|| MODS.has("Username", name) || ADMINS.has("Username", name);
+					|| MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else
 			return false;
 	}
@@ -370,6 +373,8 @@ public class SQLTable {
 		clearRank(name);
 		if (r == Rank.ADMIN) {
 			ADMINS.add("Username", name);
+		} else if (r == Rank.SR_MOD) {
+			SRMODS.add("Username", name);
 		} else if (r == Rank.MOD) {
 			MODS.add("Username", name);
 		} else if (r == Rank.JR_MOD) {
@@ -380,7 +385,7 @@ public class SQLTable {
 	}
 
 	public static void clearRank(String name) {
-		SQLTable[] tables = { ADMINS, MODS, JunMODS, VIPS, Youtubers };
+		SQLTable[] tables = { ADMINS, SRMODS, MODS, JunMODS, VIPS, Youtubers };
 		for (SQLTable t : tables) {
 			t.del("Username", name);
 		}
@@ -415,6 +420,9 @@ public class SQLTable {
 			0,
 			ChatColor.GOLD),
 		MOD(
+			0,
+			ChatColor.GOLD),
+		SR_MOD(
 			0,
 			ChatColor.GOLD),
 		ADMIN(
