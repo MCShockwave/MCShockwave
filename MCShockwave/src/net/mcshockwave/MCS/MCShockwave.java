@@ -289,7 +289,7 @@ public class MCShockwave extends JavaPlugin {
 	}
 
 	public static Rank getRankForPlayer(Player p) {
-		Rank[] ranks = { Rank.ADMIN, Rank.MOD, Rank.JR_MOD, Rank.ENDER, Rank.NETHER, Rank.OBSIDIAN, Rank.EMERALD,
+		Rank[] ranks = { Rank.ADMIN, Rank.SR_MOD, Rank.MOD, Rank.JR_MOD, Rank.ENDER, Rank.NETHER, Rank.OBSIDIAN, Rank.EMERALD,
 				Rank.DIAMOND, Rank.GOLD, Rank.IRON, Rank.COAL };
 		for (Rank r : ranks) {
 			if (SQLTable.hasRank(p.getName(), r)) {
