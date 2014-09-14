@@ -21,7 +21,7 @@ public class PointsCommand implements CommandExecutor {
 						+ PointsUtils.getPoints((Player) sender) + ChatColor.GREEN + " points.");
 			}
 			if (args.length == 3
-					&& (sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.MOD) && sender.isOp() || !(sender instanceof Player)
+					&& (sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.SR_MOD) || !(sender instanceof Player)
 							&& sender.isOp())) {
 				if (args[0].equalsIgnoreCase("set")) {
 					if (Bukkit.getPlayer(args[1]) != null) {

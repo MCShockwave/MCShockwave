@@ -28,6 +28,10 @@ public class EXPCommand implements CommandExecutor {
 						LevelUtils.addXP(Bukkit.getPlayer(args[1]), Integer.parseInt(args[2]), null, false);
 					}
 				}
+				if (args[0].equalsIgnoreCase("setlevel")) {
+					int levelto = LevelUtils.getXPPerLevel(Integer.parseInt(args[2]));
+					LevelUtils.setXP(Bukkit.getPlayer(args[1]), levelto);
+				}
 			}
 		}
 		return false;

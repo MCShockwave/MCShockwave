@@ -13,7 +13,7 @@ public class RestrictCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.MOD) || !(sender instanceof Player)
+		if (sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.SR_MOD) || !(sender instanceof Player)
 				&& sender.isOp()) {
 
 			if (args.length > 1) {

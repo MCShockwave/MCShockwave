@@ -52,6 +52,7 @@ public class EditRankCommand implements CommandExecutor {
 					SQLTable.VIPS.del("Username", name);
 					SQLTable.JunMODS.del("Username", name);
 					SQLTable.MODS.del("Username", name);
+					SQLTable.SRMODS.del("Username", name);
 					SQLTable.nickNames.del("Username", name);
 					SQLTable.Youtubers.del("Username", name);
 					p.sendMessage("§c§lRemoved rank for " + name);

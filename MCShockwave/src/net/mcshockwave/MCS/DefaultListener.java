@@ -819,7 +819,7 @@ public class DefaultListener implements Listener {
 						exec(p, edit, "nick name " + edit);
 					}
 					if (data == 3) {
-						exec(p, edit, "MOD");
+						exec(p, edit, "SR_MOD");
 						exec(p, edit, "prefix Sr._Moderator");
 						exec(p, edit, "nick color AQUA");
 						exec(p, edit, "nick name " + edit);
