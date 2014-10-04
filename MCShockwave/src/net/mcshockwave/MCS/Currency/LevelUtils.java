@@ -184,10 +184,26 @@ public class LevelUtils {
 		return ChatColor.DARK_GREEN;
 	}
 
-	public static String[] getTop(int num) {
+	public static String[] getTop(int num, boolean includeStaff) {
 		LinkedHashMap<String, String> get = SQLTable.Level.getAllOrder("Username", "XP", num);
+		boolean recheck = true;
+		while (!includeStaff && recheck) {
+			recheck = false;
+			for (String s : get.keySet()) {
+				if (SQLTable.hasRank(s, Rank.JR_MOD)) {
+					num++;
+					recheck = true;
+				}
+			}
+			if (recheck) {
+				get = SQLTable.Level.getAllOrder("Username", "XP", num);
+			}
+		}
 		List<String> ret = new ArrayList<>();
 		for (String s : get.keySet()) {
+			if (!includeStaff && SQLTable.hasRank(s, Rank.JR_MOD)) {
+				continue;
+			}
 			ret.add(s);
 		}
 		return ret.toArray(new String[0]);
