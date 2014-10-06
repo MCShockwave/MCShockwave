@@ -14,6 +14,7 @@ import net.mcshockwave.MCS.Commands.KillCommand;
 import net.mcshockwave.MCS.Commands.LoafCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
 import net.mcshockwave.MCS.Commands.MuteCommand;
+import net.mcshockwave.MCS.Commands.PointXPMultiplier;
 import net.mcshockwave.MCS.Commands.PointsCommand;
 import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
@@ -75,6 +76,9 @@ public class MCShockwave extends JavaPlugin {
 	public static String					server			= null;
 
 	public static boolean					chatEnabled		= true;
+	
+	public static int                       pointmult       = 1;
+	public static int                       xpmult          = 1;
 
 	public static final String				pre				= ChatColor.translateAlternateColorCodes('&',
 																	"&b[&lFriends&b] &r");
@@ -126,6 +130,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("loaf").setExecutor(new LoafCommand());
 		getCommand("challenges").setExecutor(new ChallengeCommand());
 		getCommand("rood").setExecutor(new RoodCommand());
+		getCommand("multiplier").setExecutor(new PointXPMultiplier());
 
 		instance = this;
 

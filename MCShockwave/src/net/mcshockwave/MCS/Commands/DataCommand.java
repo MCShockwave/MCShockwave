@@ -63,7 +63,7 @@ public class DataCommand implements Listener, CommandExecutor {
 		ArrayList<String> topLore = new ArrayList<>();
 		topLore.add("");
 		int n = 1;
-		for (String s : LevelUtils.getTop(5, false)) {
+		for (String s : LevelUtils.getTop(5)) {
 			int le = LevelUtils.getLevelFromXP(SQLTable.Level.getInt("Username", s, "XP"));
 			topLore.add(n + ". §a" + s + "§7 - Level §o" + le);
 			n++;
@@ -72,7 +72,7 @@ public class DataCommand implements Listener, CommandExecutor {
 		topLore.add("§e§nTop Points:");
 		topLore.add("");
 		n = 1;
-		for (String s : PointsUtils.getTop(5, false)) {
+		for (String s : PointsUtils.getTop(5)) {
 			int po = SQLTable.Points.getInt("Username", s, "Points");
 			topLore.add(n + ". §a" + s + "§7 - §o" + po + "§7 points");
 			n++;

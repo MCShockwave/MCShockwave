@@ -187,17 +187,17 @@ public class MCSCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("getTopXp")) {
 				sender.sendMessage("Top Players - XP [" + args[1] + "]");
-				sender.sendMessage(LevelUtils.getTop(Integer.parseInt(args[1]), true));
+				sender.sendMessage(LevelUtils.getTop(Integer.parseInt(args[1])));
 			}
 			if (args[0].equalsIgnoreCase("getTopPoints")) {
 				sender.sendMessage("Top Players - Points [" + args[1] + "]");
-				sender.sendMessage(PointsUtils.getTop(Integer.parseInt(args[1]), true));
+				sender.sendMessage(PointsUtils.getTop(Integer.parseInt(args[1])));
 			}
 			if (args[0].equalsIgnoreCase("getRankXP")) {
 				String pl = args[1];
 				int topSearch = Integer.parseInt(args[2]);
 				for (int i = 0; i <= topSearch; i++) {
-					if (Arrays.asList(LevelUtils.getTop(i, true)).contains(pl)) {
+					if (Arrays.asList(LevelUtils.getTop(i)).contains(pl)) {
 						sender.sendMessage("§cPlayer " + pl + " is rank " + i + " in XP");
 						break;
 					} else if (i == topSearch) {
@@ -209,7 +209,7 @@ public class MCSCommand implements CommandExecutor {
 				String pl = args[1];
 				int topSearch = Integer.parseInt(args[2]);
 				for (int i = 0; i <= topSearch; i++) {
-					if (Arrays.asList(PointsUtils.getTop(i, true)).contains(pl)) {
+					if (Arrays.asList(PointsUtils.getTop(i)).contains(pl)) {
 						sender.sendMessage("§cPlayer " + pl + " is rank " + i + " in Points");
 						break;
 					} else if (i == topSearch) {

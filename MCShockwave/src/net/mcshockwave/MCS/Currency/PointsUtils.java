@@ -2,8 +2,6 @@ package net.mcshockwave.MCS.Currency;
 
 import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
-import net.mcshockwave.MCS.SQLTable.Rank;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -30,7 +28,7 @@ public class PointsUtils {
 		MCShockwave.updateTab(p);
 	}
 
-	public static String[] getTop(int num, boolean includeStaff) {
+	/*public static String[] getTop(int num, boolean includeStaff) {
 		LinkedHashMap<String, String> get = SQLTable.Points.getAllOrder("Username", "Points", num);
 		boolean recheck = true;
 		while (!includeStaff && recheck) {
@@ -50,6 +48,15 @@ public class PointsUtils {
 			if (!includeStaff && SQLTable.hasRank(s, Rank.JR_MOD)) {
 				continue;
 			}
+			ret.add(s);
+		}
+		return ret.toArray(new String[0]);
+	}*/
+	
+	public static String[] getTop(int num) {
+		LinkedHashMap<String, String> get = SQLTable.Points.getAllOrder("Username", "Points", num);
+		List<String> ret = new ArrayList<>();
+		for (String s : get.keySet()) {
 			ret.add(s);
 		}
 		return ret.toArray(new String[0]);
