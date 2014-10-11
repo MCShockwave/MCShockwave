@@ -27,13 +27,14 @@ public class NametagUtils {
 		CustomEntityRegistrar.addCustomEntity("NametagHider", EntityType.BAT, EntityBat.class, NametagEntity.class);
 
 		Iterator<org.bukkit.entity.Entity> localIterator2;
-		for (Iterator<World> localIterator1 = Bukkit.getWorlds().iterator(); localIterator1.hasNext(); localIterator2
-				.hasNext()) {
+		for (Iterator<World> localIterator1 = Bukkit.getWorlds().iterator(); localIterator1.hasNext(); localIterator2.hasNext()) {
 			World world = (World) localIterator1.next();
 			localIterator2 = world.getEntities().iterator();
-			org.bukkit.entity.Entity entity = (org.bukkit.entity.Entity) localIterator2.next();
-			if ((entity instanceof NametagEntity)) {
-				entity.remove();
+			if (localIterator2.hasNext()) {
+				org.bukkit.entity.Entity entity = (org.bukkit.entity.Entity) localIterator2.next();
+				if ((entity instanceof NametagEntity)) {
+					entity.remove();
+				}
 			}
 		}
 	}
