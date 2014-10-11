@@ -42,3 +42,4 @@ commands:
    challenges:
       aliases: [chal, challenge]
    rood:
+   multiplier:
