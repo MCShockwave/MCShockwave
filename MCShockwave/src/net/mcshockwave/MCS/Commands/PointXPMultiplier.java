@@ -18,20 +18,25 @@ public class PointXPMultiplier implements CommandExecutor {
 			if (!SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
 				return false;
 			}
-			if (a.length == 0 ) {
+			if (a.length == 0) {
 				MCShockwave.send(p, "§6Improper Syntax: §r%s", "Invalid Argument Count");
 				return false;
 			}
 			String type = a[0];
 			if (a.length == 1) {
 				if (type.equalsIgnoreCase("test")) {
-					p.sendMessage("Point Multiplier: " + MCShockwave.pointmult);
-					p.sendMessage("XP Multiplier: " + MCShockwave.xpmult);
+					p.sendMessage("Point Multiplier Client: " + MCShockwave.pointmult);
+					p.sendMessage("XP Multiplier Client: " + MCShockwave.xpmult);
+					p.sendMessage("Point Multiplier SQL: " + SQLTable.getMultiplier("Point"));
+					p.sendMessage("XP Multiplier SQL: " + SQLTable.getMultiplier("XP"));
 					return true;
 				}
 				if (type.equalsIgnoreCase("reset")) {
-					MCShockwave.pointmult = 1;
-					MCShockwave.xpmult = 1;
+					//MCShockwave.pointmult = 1;
+					//MCShockwave.xpmult = 1;
+					SQLTable.setMultiplier("Point", 1);
+					SQLTable.setMultiplier("XP", 1);
+					SQLTable.restartConnection();
 					MCShockwave.broadcast(ChatColor.RED, "Server multipliers %s!", "deactivated");
 					return true;
 				}
@@ -48,15 +53,18 @@ public class PointXPMultiplier implements CommandExecutor {
 				MCShockwave.send(p, "§6Improper Syntax: §r%s", "Can not be " + multiplier + "!");
 				return false;
 			}
-			//Make the two network wide using SQL later
 			if (type.equalsIgnoreCase("point")) {
 				MCShockwave.broadcast(ChatColor.AQUA, "Server point multiplier %s!", "activated");
-				MCShockwave.pointmult = multiplier;
+				//MCShockwave.pointmult = multiplier;
+				SQLTable.setMultiplier("Point", multiplier);
+				SQLTable.restartConnection();
 				return true;
 			}
 			if (type.equalsIgnoreCase("xp")) {
 				MCShockwave.broadcast(ChatColor.AQUA, "Server xp multiplier %s!", "activated");
-				MCShockwave.xpmult = multiplier;
+				//MCShockwave.xpmult = multiplier;
+				SQLTable.setMultiplier("Point", multiplier);
+				SQLTable.restartConnection();
 				return true;
 			}
 			if (type.equalsIgnoreCase("all")) {

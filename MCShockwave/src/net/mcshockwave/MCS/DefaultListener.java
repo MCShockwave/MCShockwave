@@ -80,7 +80,7 @@ public class DefaultListener implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
 
-		if (p.getLastDamageCause().getCause() != DamageCause.CUSTOM) {
+		if (p.getLastDamageCause().getCause() != null && p.getLastDamageCause().getCause() != DamageCause.CUSTOM) {
 			Statistics.incrDeaths(p.getName());
 			if (p.getKiller() != null) {
 				Statistics.incrKills(p.getKiller().getName());
