@@ -10,8 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PointXPMultiplier implements CommandExecutor {
-	
+public class MultiplierCommand implements CommandExecutor {
+
 	public boolean onCommand(CommandSender s, Command c, String l, String[] a) {
 		if (s instanceof Player) {
 			Player p = (Player) s;
@@ -25,25 +25,24 @@ public class PointXPMultiplier implements CommandExecutor {
 			String type = a[0];
 			if (a.length == 1) {
 				if (type.equalsIgnoreCase("test")) {
-					p.sendMessage("Point Multiplier Client: " + MCShockwave.pointmult);
-					p.sendMessage("XP Multiplier Client: " + MCShockwave.xpmult);
-					p.sendMessage("Point Multiplier SQL: " + SQLTable.getMultiplier("Point"));
-					p.sendMessage("XP Multiplier SQL: " + SQLTable.getMultiplier("XP"));
+					p.sendMessage("Point Multiplier Local: " + MCShockwave.pointmult);
+					p.sendMessage("XP Multiplier Local: " + MCShockwave.xpmult);
+					p.sendMessage("Point Multiplier Remote: " + MCShockwave.getGlobalMultiplier(false));
+					p.sendMessage("XP Multiplier Remote: " + MCShockwave.getGlobalMultiplier(true));
 					return true;
 				}
 				if (type.equalsIgnoreCase("reset")) {
-					//MCShockwave.pointmult = 1;
-					//MCShockwave.xpmult = 1;
-					SQLTable.setMultiplier("Point", 1);
-					SQLTable.setMultiplier("XP", 1);
-					SQLTable.restartConnection();
+					// MCShockwave.pointmult = 1;
+					// MCShockwave.xpmult = 1;
+					MCShockwave.setGlobalMultiplier(false, 1);
+					MCShockwave.setGlobalMultiplier(true, 1);
 					MCShockwave.broadcast(ChatColor.RED, "Server multipliers %s!", "deactivated");
 					return true;
 				}
 			}
 			String m = a[1];
 			int multiplier = 0;
-			
+
 			try {
 				multiplier = Integer.parseInt(m);
 			} catch (NumberFormatException e) {
@@ -55,23 +54,21 @@ public class PointXPMultiplier implements CommandExecutor {
 			}
 			if (type.equalsIgnoreCase("point")) {
 				MCShockwave.broadcast(ChatColor.AQUA, "Server point multiplier %s!", "activated");
-				//MCShockwave.pointmult = multiplier;
-				SQLTable.setMultiplier("Point", multiplier);
-				SQLTable.restartConnection();
+				// MCShockwave.pointmult = multiplier;
+				MCShockwave.setGlobalMultiplier(false, multiplier);
 				return true;
 			}
 			if (type.equalsIgnoreCase("xp")) {
 				MCShockwave.broadcast(ChatColor.AQUA, "Server xp multiplier %s!", "activated");
-				//MCShockwave.xpmult = multiplier;
-				SQLTable.setMultiplier("Point", multiplier);
-				SQLTable.restartConnection();
+				// MCShockwave.xpmult = multiplier;
+				MCShockwave.setGlobalMultiplier(true, multiplier);
 				return true;
 			}
 			if (type.equalsIgnoreCase("all")) {
-				
-			}	
+
+			}
 		}
 		return false;
 	}
-	
+
 }

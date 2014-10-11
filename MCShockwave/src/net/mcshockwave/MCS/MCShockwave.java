@@ -14,7 +14,7 @@ import net.mcshockwave.MCS.Commands.KillCommand;
 import net.mcshockwave.MCS.Commands.LoafCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
 import net.mcshockwave.MCS.Commands.MuteCommand;
-import net.mcshockwave.MCS.Commands.PointXPMultiplier;
+import net.mcshockwave.MCS.Commands.MultiplierCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
 import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
@@ -51,6 +51,7 @@ import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -76,9 +77,9 @@ public class MCShockwave extends JavaPlugin {
 	public static String					server			= null;
 
 	public static boolean					chatEnabled		= true;
-	
-	public static int                       pointmult       = 1;
-	public static int                       xpmult          = 1;
+
+	public static int						pointmult		= 1;
+	public static int						xpmult			= 1;
 
 	public static final String				pre				= ChatColor.translateAlternateColorCodes('&',
 																	"&b[&lFriends&b] &r");
@@ -130,7 +131,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("loaf").setExecutor(new LoafCommand());
 		getCommand("challenges").setExecutor(new ChallengeCommand());
 		getCommand("rood").setExecutor(new RoodCommand());
-		getCommand("multiplier").setExecutor(new PointXPMultiplier());
+		getCommand("multiplier").setExecutor(new MultiplierCommand());
 
 		instance = this;
 
@@ -168,10 +169,17 @@ public class MCShockwave extends JavaPlugin {
 		pingForServer();
 
 		DisguiseUtils.init(this);
-		
+
 		NametagUtils.init();
+
+		new BukkitRunnable() {
+			public void run() {
+				MCShockwave.pointmult = getGlobalMultiplier(false);
+				MCShockwave.xpmult = getGlobalMultiplier(true);
+			}
+		}.runTaskTimer(instance, 6000, 6000); // 5 minutes
 	}
-	
+
 	@Override
 	public void onDisable() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -230,7 +238,8 @@ public class MCShockwave extends JavaPlugin {
 		}
 
 		if (Bukkit.getOnlinePlayers().size() > 0) {
-			Bukkit.getOnlinePlayers().toArray(new Player[0])[0].sendPluginMessage(instance, toSend, stream.toByteArray());
+			Bukkit.getOnlinePlayers().toArray(new Player[0])[0].sendPluginMessage(instance, toSend,
+					stream.toByteArray());
 		}
 	}
 
@@ -293,9 +302,18 @@ public class MCShockwave extends JavaPlugin {
 		p.sendMessage(ChatColor.DARK_GRAY + "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 	}
 
+	public static int getGlobalMultiplier(boolean xp) {
+		return SQLTable.NetMultipliers.getInt("MultiplierType", xp ? "XP" : "Point", "Multiplier");
+	}
+
+	public static void setGlobalMultiplier(boolean xp, int to) {
+		SQLTable.NetMultipliers.del("MultiplierType", xp ? "XP" : "Point");
+		SQLTable.NetMultipliers.add("MultiplierType", xp ? "XP" : "Point", "Multiplier", to + "");
+	}
+
 	public static Rank getRankForPlayer(Player p) {
-		Rank[] ranks = { Rank.ADMIN, Rank.SR_MOD, Rank.MOD, Rank.JR_MOD, Rank.ENDER, Rank.NETHER, Rank.OBSIDIAN, Rank.EMERALD,
-				Rank.DIAMOND, Rank.GOLD, Rank.IRON, Rank.COAL };
+		Rank[] ranks = { Rank.ADMIN, Rank.SR_MOD, Rank.MOD, Rank.JR_MOD, Rank.ENDER, Rank.NETHER, Rank.OBSIDIAN,
+				Rank.EMERALD, Rank.DIAMOND, Rank.GOLD, Rank.IRON, Rank.COAL };
 		for (Rank r : ranks) {
 			if (SQLTable.hasRank(p.getName(), r)) {
 				return r;

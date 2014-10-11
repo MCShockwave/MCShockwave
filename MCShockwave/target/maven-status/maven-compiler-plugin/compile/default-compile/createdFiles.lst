@@ -29,6 +29,7 @@ net\mcshockwave\MCS\Commands\EXPCommand.class
 net\mcshockwave\MCS\Menu\ItemMenu$1.class
 net\mcshockwave\MCS\Utils\NBTUtils$Wrapper.class
 net\mcshockwave\MCS\DefaultListener$7.class
+net\mcshockwave\MCS\Commands\MultiplierCommand.class
 net\mcshockwave\MCS\Currency\ItemsUtils.class
 net\mcshockwave\MCS\Utils\MiscUtils.class
 net\mcshockwave\MCS\Utils\NBTUtils$NbtCompound.class

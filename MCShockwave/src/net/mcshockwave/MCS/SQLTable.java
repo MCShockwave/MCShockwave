@@ -30,9 +30,9 @@ public class SQLTable {
 	public static final SQLTable	MODS				= new SQLTable("MODS");
 	public static final SQLTable	Muted				= new SQLTable("Muted");
 	public static final SQLTable	MynerimItems		= new SQLTable("MynerimItems");
-	public static final SQLTable    NetMultipliers      = new SQLTable("NetMultipliers");
+	public static final SQLTable	NetMultipliers		= new SQLTable("NetMultipliers");
 	public static final SQLTable	nickNames			= new SQLTable("nickNames");
-	public static final SQLTable	OPS		            = new SQLTable("OPS");
+	public static final SQLTable	OPS					= new SQLTable("OPS");
 	public static final SQLTable	PermaItems			= new SQLTable("PermaItems");
 	public static final SQLTable	Points				= new SQLTable("Points");
 	public static final SQLTable	PrivateMutes		= new SQLTable("PrivateMutes");
@@ -41,7 +41,7 @@ public class SQLTable {
 	public static final SQLTable	Scavenger			= new SQLTable("Scavenger");
 	public static final SQLTable	Settings			= new SQLTable("Settings");
 	public static final SQLTable	SkillTokens			= new SQLTable("SkillTokens");
-	public static final SQLTable    SRMODS              = new SQLTable("SRMODS");
+	public static final SQLTable	SRMODS				= new SQLTable("SRMODS");
 	public static final SQLTable	Statistics			= new SQLTable("Statistics");
 	public static final SQLTable	Tips				= new SQLTable("Tips");
 	public static final SQLTable	Updater				= new SQLTable("Updater");
@@ -94,8 +94,6 @@ public class SQLTable {
 			enable();
 			e.printStackTrace();
 		}
-		MCShockwave.pointmult = SQLTable.getMultiplier("Point");
-		MCShockwave.xpmult = SQLTable.getMultiplier("XP");
 	}
 
 	public static void restartConnection() {
@@ -110,8 +108,6 @@ public class SQLTable {
 			enable();
 			e.printStackTrace();
 		}
-		MCShockwave.pointmult = SQLTable.getMultiplier("Point");
-		MCShockwave.xpmult = SQLTable.getMultiplier("XP");
 	}
 
 	public boolean has(String col, String val) {
@@ -356,30 +352,19 @@ public class SQLTable {
 			restartConnection();
 		}
 	}
-	
-	public static int getMultiplier(String name) {
-		if (!(name.equals("XP") || name.equals("Point"))) {
-			return 0;
-		}
-		return NetMultipliers.getInt("MultiplierType", name, "Multiplier");
-	}
-	
-	public static void setMultiplier(String name, int to) {
-		NetMultipliers.del("MultiplierType", name);
-		NetMultipliers.add("MultiplierType", name, "Multiplier", to + "");
-	}
-	
+
 	public static boolean hasRank(String name, Rank r) {
 		if (r == Rank.JR_MOD) {
-			return JunMODS.has("Username", name) || MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
+			return JunMODS.has("Username", name) || MODS.has("Username", name) || SRMODS.has("Username", name)
+					|| ADMINS.has("Username", name);
 		} else if (r == Rank.MOD) {
 			return MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else if (r == Rank.SR_MOD) {
 			return SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else if (r == Rank.ADMIN) {
 			return ADMINS.has("Username", name);
-		} else if (VIPS.has("Username", name) || JunMODS.has("Username", name) || MODS.has("Username", name) ||
-				SRMODS.has("Username", name) || ADMINS.has("Username", name)) {
+		} else if (VIPS.has("Username", name) || JunMODS.has("Username", name) || MODS.has("Username", name)
+				|| SRMODS.has("Username", name) || ADMINS.has("Username", name)) {
 			return VIPS.getInt("Username", name, "TypeID") >= r.val || JunMODS.has("Username", name)
 					|| MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else
@@ -446,8 +431,8 @@ public class SQLTable {
 			0,
 			ChatColor.RED);
 
-		int		val;
-		public ChatColor sufColor;
+		int					val;
+		public ChatColor	sufColor;
 
 		Rank(int val, ChatColor sufColor) {
 			this.val = val;
