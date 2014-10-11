@@ -51,6 +51,7 @@ import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -171,8 +172,12 @@ public class MCShockwave extends JavaPlugin {
 
 		NametagUtils.init();
 
-		MCShockwave.pointmult = getGlobalMultiplier(false);
-		MCShockwave.xpmult = getGlobalMultiplier(true);
+		new BukkitRunnable() {
+			public void run() {
+				MCShockwave.pointmult = getGlobalMultiplier(false);
+				MCShockwave.xpmult = getGlobalMultiplier(true);
+			}
+		}.runTaskTimer(instance, 6000, 6000); // 5 minutes
 	}
 
 	@Override
