@@ -2,6 +2,7 @@ package net.mcshockwave.MCS;
 
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Commands.BCCommand;
+import net.mcshockwave.MCS.Commands.BootsCommand;
 import net.mcshockwave.MCS.Commands.ChallengeCommand;
 import net.mcshockwave.MCS.Commands.CriCommand;
 import net.mcshockwave.MCS.Commands.DataCommand;
@@ -51,8 +52,6 @@ import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -132,6 +131,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("challenges").setExecutor(new ChallengeCommand());
 		getCommand("rood").setExecutor(new RoodCommand());
 		getCommand("multiplier").setExecutor(new MultiplierCommand());
+		getCommand("boots").setExecutor(new BootsCommand());
 
 		instance = this;
 
@@ -172,12 +172,8 @@ public class MCShockwave extends JavaPlugin {
 
 		NametagUtils.init();
 
-		new BukkitRunnable() {
-			public void run() {
-				MCShockwave.pointmult = getGlobalMultiplier(false);
-				MCShockwave.xpmult = getGlobalMultiplier(true);
-			}
-		}.runTaskTimer(instance, 6000, 6000); // 5 minutes
+		MCShockwave.pointmult = getGlobalMultiplier(false);
+		MCShockwave.xpmult = getGlobalMultiplier(true);
 	}
 
 	@Override

@@ -32,8 +32,8 @@ public class MultiplierCommand implements CommandExecutor {
 					return true;
 				}
 				if (type.equalsIgnoreCase("reset")) {
-					// MCShockwave.pointmult = 1;
-					// MCShockwave.xpmult = 1;
+					MCShockwave.pointmult = 1;
+					MCShockwave.xpmult = 1;
 					MCShockwave.setGlobalMultiplier(false, 1);
 					MCShockwave.setGlobalMultiplier(true, 1);
 					MCShockwave.broadcast(ChatColor.RED, "Server multipliers %s!", "deactivated");
@@ -54,18 +54,23 @@ public class MultiplierCommand implements CommandExecutor {
 			}
 			if (type.equalsIgnoreCase("point")) {
 				MCShockwave.broadcast(ChatColor.AQUA, "Server point multiplier %s!", "activated");
-				// MCShockwave.pointmult = multiplier;
+				MCShockwave.pointmult = multiplier;
 				MCShockwave.setGlobalMultiplier(false, multiplier);
 				return true;
 			}
 			if (type.equalsIgnoreCase("xp")) {
 				MCShockwave.broadcast(ChatColor.AQUA, "Server xp multiplier %s!", "activated");
-				// MCShockwave.xpmult = multiplier;
+				MCShockwave.xpmult = multiplier;
 				MCShockwave.setGlobalMultiplier(true, multiplier);
 				return true;
 			}
 			if (type.equalsIgnoreCase("all")) {
-
+				MCShockwave.broadcast(ChatColor.AQUA, "All server multipliers %s!", "activated!");
+				MCShockwave.xpmult = multiplier;
+				MCShockwave.pointmult = multiplier;
+				MCShockwave.setGlobalMultiplier(true, multiplier);
+				MCShockwave.setGlobalMultiplier(false, multiplier);
+				return true;
 			}
 		}
 		return false;

@@ -14,6 +14,7 @@ import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
+import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.minecraft.server.v1_7_R4.ChatSerializer;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import net.minecraft.util.org.apache.commons.lang3.text.WordUtils;
@@ -739,7 +740,48 @@ public class DefaultListener implements Listener {
 		}
 		throw new IllegalArgumentException("No Button Found");
 	}
+	
+	@EventHandler
+	public void BootsShop(InventoryClickEvent e) {
+		Player p = (Player) e.getWhoClicked();
+		if (!e.getInventory().getTitle().equals(p.getName())) {
+			return;
+		}
+		e.setCancelled(true);
+		if (e.getSlot() != 4) {
+			return;
+		}
+		int o = 0;
+		if (SQLTable.MiscItems.has("Username", p.getName())) {
+			o = SQLTable.MiscItems.getInt("Username", p.getName(), "Red_Boots");
+		} else {
+			SQLTable.MiscItems.add("Username", p.getName());
+		}
+		if (o == 1) {
+			if (!MCShockwave.server.equalsIgnoreCase("hub")) {
+				MCShockwave.send(p, "You can only use §cRed Boots§r§7 in the %s server!", "hub");
+				p.getOpenInventory().close();
+				return;
+			}
+			PacketUtils.playParticleEffect(ParticleEffect.FLAME, p.getEyeLocation(), 1, 5, 10);
+			p.getWorld().playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 2);
+			MCShockwave.send(ChatColor.RED, p, "Removed your %s", "Red boots.");
+			p.getInventory().setBoots(null);
+			p.getOpenInventory().close();
+			return;
+		} else {
+			int points = PointsUtils.getPoints(p);
+			if (points < 250000) {
+				MCShockwave.send(ChatColor.RED, p, "Not enough %s to buy that!", "points");
+				return;
+			}
+			PointsUtils.addPoints(p, -250000, "buying Red Boots (Permanent)");
+			SQLTable.MiscItems.set("Red_Boots", "" + 1, "Username", p.getName());
+		}
+		p.getOpenInventory().close();
+	}
 
+	
 	@EventHandler
 	public void onInventoryClick(final InventoryClickEvent event) {
 		final Inventory i = event.getInventory();
