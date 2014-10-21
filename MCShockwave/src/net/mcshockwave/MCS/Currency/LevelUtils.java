@@ -184,36 +184,20 @@ public class LevelUtils {
 		return ChatColor.DARK_GREEN;
 	}
 
-	/*public static String[] getTop(int num, boolean includeStaff) {
-		LinkedHashMap<String, String> get = SQLTable.Level.getAllOrder("Username", "XP", num);
-		boolean recheck = true;
-		while (!includeStaff && recheck) {
-			recheck = false;
-			for (String s : get.keySet()) {
-				if (SQLTable.hasRank(s, Rank.JR_MOD)) {
-					num++;
-					recheck = true;
+	public static String[] getTop(int num, boolean staff) {
+		LinkedHashMap<String, String> get = SQLTable.Level.getAllOrder("Username", "XP", num + 10);
+		List<String> ret = new ArrayList<>();
+		for (String s : get.keySet()) {
+			if (ret.size() == num) {
+				break;
+			}
+			if (staff) {
+				ret.add(s);
+			} else {
+				if (!SQLTable.hasRank(s, Rank.JR_MOD)) {
+					ret.add(s);
 				}
 			}
-			if (recheck) {
-				get = SQLTable.Level.getAllOrder("Username", "XP", num);
-			}
-		}
-		List<String> ret = new ArrayList<>();
-		for (String s : get.keySet()) {
-			if (!includeStaff && SQLTable.hasRank(s, Rank.JR_MOD)) {
-				continue;
-			}
-			ret.add(s);
-		}
-		return ret.toArray(new String[0]);
-	}*/
-	
-	public static String[] getTop(int num) {
-		LinkedHashMap<String, String> get = SQLTable.Level.getAllOrder("Username", "XP", num);
-		List<String> ret = new ArrayList<>();
-		for (String s : get.keySet()) {
-			ret.add(s);
 		}
 		return ret.toArray(new String[0]);
 	}

@@ -81,7 +81,11 @@ public class DefaultListener implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
 
-		if (p.getLastDamageCause().getCause() != null && p.getLastDamageCause().getCause() != DamageCause.CUSTOM) {
+		if (p.getLastDamageCause() == null) {
+			return;
+		}
+		
+		if (p.getLastDamageCause().getCause() != DamageCause.CUSTOM) {
 			Statistics.incrDeaths(p.getName());
 			if (p.getKiller() != null) {
 				Statistics.incrKills(p.getKiller().getName());
@@ -496,7 +500,7 @@ public class DefaultListener implements Listener {
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void onPlayerLogin(PlayerLoginEvent event) {
+	public void onPlayerLogin(final PlayerLoginEvent event) {
 		final String pl = event.getPlayer().getName();
 		// if (SQLTable.Banned.has("Username", pl)) {
 		// long min =
@@ -521,6 +525,7 @@ public class DefaultListener implements Listener {
 		// }
 		// event.disallow(Result.KICK_BANNED, s);
 		// }
+		
 		if (BanManager.isBanned(pl)) {
 			event.disallow(
 					Result.KICK_BANNED,

@@ -5,15 +5,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DefaultMessageListener implements PluginMessageListener {
 
 	@Override
-	public void onPluginMessageReceived(String s, Player p, byte[] ba) {
+	public void onPluginMessageReceived(String s, final Player p, byte[] ba) {
 		if (s.equalsIgnoreCase("MCShockwave")) {
 
 			ByteArrayInputStream stream = new ByteArrayInputStream(ba);
@@ -161,6 +161,23 @@ public class DefaultMessageListener implements PluginMessageListener {
 
 					MCShockwave.serverCount.remove(ser);
 					MCShockwave.serverCount.put(ser, players);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if (cmd.equalsIgnoreCase("IP")) {
+				try {
+					final String ip = in.readUTF();
+					int port = in.readInt();
+					if (!SQLTable.IPLogs.has("Username", p.getName())) {
+						SQLTable.IPLogs.add("Username", p.getName(), "ID", "" + 1, "IP", ip, "Port", "" + port);
+					} else {
+						ArrayList<String> ips = SQLTable.IPLogs.getAll("Username", p.getName(), "IP");
+						if (!ips.contains(ip)) {
+							SQLTable.IPLogs.add("Username", p.getName(), "ID", "" + (ips.size() + 1), "IP", ip, "Port", "" + port);
+						}
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -23,6 +23,8 @@ public class SQLTable {
 	public static final SQLTable	ForceCosts			= new SQLTable("ForceCosts");
 	public static final SQLTable	ForceCooldowns		= new SQLTable("ForceCooldowns");
 	public static final SQLTable	Friends				= new SQLTable("Friends");
+	public static final SQLTable    IPBans              = new SQLTable("IPBans");
+	public static final SQLTable    IPLogs              = new SQLTable("IPLogs");
 	public static final SQLTable	JunMODS				= new SQLTable("JunMODS");
 	public static final SQLTable	Level				= new SQLTable("Level");
 	public static final SQLTable	MiscItems			= new SQLTable("MiscItems");

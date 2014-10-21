@@ -11,6 +11,8 @@ import net.mcshockwave.MCS.Commands.EditRankCommand;
 import net.mcshockwave.MCS.Commands.FriendCommand;
 import net.mcshockwave.MCS.Commands.GMItemCommand;
 import net.mcshockwave.MCS.Commands.HistoryCommand;
+import net.mcshockwave.MCS.Commands.IPBanCommand;
+import net.mcshockwave.MCS.Commands.IPCommand;
 import net.mcshockwave.MCS.Commands.KillCommand;
 import net.mcshockwave.MCS.Commands.LoafCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
@@ -132,6 +134,8 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("rood").setExecutor(new RoodCommand());
 		getCommand("multiplier").setExecutor(new MultiplierCommand());
 		getCommand("boots").setExecutor(new BootsCommand());
+		getCommand("ipcheck").setExecutor(new IPCommand());
+		getCommand("ipban").setExecutor(new IPBanCommand());
 
 		instance = this;
 
@@ -171,9 +175,6 @@ public class MCShockwave extends JavaPlugin {
 		DisguiseUtils.init(this);
 
 		NametagUtils.init();
-
-		MCShockwave.pointmult = getGlobalMultiplier(false);
-		MCShockwave.xpmult = getGlobalMultiplier(true);
 	}
 
 	@Override
@@ -306,7 +307,12 @@ public class MCShockwave extends JavaPlugin {
 		SQLTable.NetMultipliers.del("MultiplierType", xp ? "XP" : "Point");
 		SQLTable.NetMultipliers.add("MultiplierType", xp ? "XP" : "Point", "Multiplier", to + "");
 	}
-
+	
+	public static void refreshGlobalMultiplier() {
+		MCShockwave.pointmult = getGlobalMultiplier(false);
+		MCShockwave.xpmult = getGlobalMultiplier(true);
+	}
+	
 	public static Rank getRankForPlayer(Player p) {
 		Rank[] ranks = { Rank.ADMIN, Rank.SR_MOD, Rank.MOD, Rank.JR_MOD, Rank.ENDER, Rank.NETHER, Rank.OBSIDIAN,
 				Rank.EMERALD, Rank.DIAMOND, Rank.GOLD, Rank.IRON, Rank.COAL };
