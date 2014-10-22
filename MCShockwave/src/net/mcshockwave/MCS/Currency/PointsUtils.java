@@ -31,7 +31,7 @@ public class PointsUtils {
 	}
 	
 	public static String[] getTop(int num, boolean staff) {
-		LinkedHashMap<String, String> get = SQLTable.Points.getAllOrder("Username", "Points", num + 10);
+		LinkedHashMap<String, String> get = SQLTable.Points.getAllOrder("Username", "Points", staff ? num : num + 10);
 		List<String> ret = new ArrayList<>();
 		for (String s : get.keySet()) {
 			if (ret.size() == num) {

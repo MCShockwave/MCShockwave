@@ -185,7 +185,7 @@ public class LevelUtils {
 	}
 
 	public static String[] getTop(int num, boolean staff) {
-		LinkedHashMap<String, String> get = SQLTable.Level.getAllOrder("Username", "XP", num + 10);
+		LinkedHashMap<String, String> get = SQLTable.Level.getAllOrder("Username", "XP", staff ? num : num + 10);
 		List<String> ret = new ArrayList<>();
 		for (String s : get.keySet()) {
 			if (ret.size() == num) {
