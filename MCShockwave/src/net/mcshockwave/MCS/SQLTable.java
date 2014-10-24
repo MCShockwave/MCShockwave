@@ -369,12 +369,17 @@ public class SQLTable {
 				|| SRMODS.has("Username", name) || ADMINS.has("Username", name)) {
 			return VIPS.getInt("Username", name, "TypeID") >= r.val || JunMODS.has("Username", name)
 					|| MODS.has("Username", name) || SRMODS.has("Username", name) || ADMINS.has("Username", name);
+		} else if (r == Rank.YOUTUBE) {
+			return Youtubers.has("Username", name) || JunMODS.has("Username", name) || MODS.has("Username", name) 
+					|| SRMODS.has("Username", name) || ADMINS.has("Username", name);
 		} else
 			return false;
 	}
 
 	public static void setRank(String name, Rank r) {
-		clearRank(name);
+		if (r != Rank.YOUTUBE) {
+			clearRank(name);
+		}
 		if (r == Rank.ADMIN) {
 			ADMINS.add("Username", name);
 		} else if (r == Rank.SR_MOD) {
@@ -383,13 +388,15 @@ public class SQLTable {
 			MODS.add("Username", name);
 		} else if (r == Rank.JR_MOD) {
 			JunMODS.add("Username", name);
+		} else if (r == Rank.YOUTUBE) {
+			Youtubers.add("Username", name);
 		} else if (r != null) {
 			VIPS.add("Username", name, "TypeId", r.val + "");
 		}
 	}
 
 	public static void clearRank(String name) {
-		SQLTable[] tables = { ADMINS, SRMODS, MODS, JunMODS, VIPS, Youtubers };
+		SQLTable[] tables = { ADMINS, SRMODS, MODS, JunMODS, VIPS};
 		for (SQLTable t : tables) {
 			t.del("Username", name);
 		}
@@ -420,15 +427,18 @@ public class SQLTable {
 		ENDER(
 			7,
 			ChatColor.BLACK),
+		YOUTUBE(
+			0,
+			ChatColor.DARK_RED),
 		JR_MOD(
 			0,
-			ChatColor.GOLD),
+			ChatColor.YELLOW),
 		MOD(
 			0,
 			ChatColor.GOLD),
 		SR_MOD(
 			0,
-			ChatColor.GOLD),
+			ChatColor.BLUE),
 		ADMIN(
 			0,
 			ChatColor.RED);

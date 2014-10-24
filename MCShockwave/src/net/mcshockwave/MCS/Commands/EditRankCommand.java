@@ -36,6 +36,7 @@ public class EditRankCommand implements CommandExecutor {
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.OBSIDIAN), "Obsidian VIP"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.NETHERRACK), "Nether VIP"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.ENDER_STONE), "Ender VIP"));
+				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.FIREWORK), "YouTuber"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 4), "Jr. Mod"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 1), "Mod"));
 				i.addItem(ItemMetaUtils.setItemName(new ItemStack(Material.WOOL, 1, (short) 3), "Sr. Mod"));

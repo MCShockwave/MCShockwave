@@ -359,6 +359,9 @@ public class DefaultListener implements Listener {
 			}
 		} catch (Exception e1) { // we can ignore it
 		}
+		if (argslc[0].equalsIgnoreCase("/kill")) {
+			e.setCancelled(true);
+		}
 		if ((argslc[0].equalsIgnoreCase("/deop")) && (!SQLTable.hasRank(p.getName(), Rank.ADMIN))) {
 			e.setCancelled(true);
 		}
@@ -673,18 +676,17 @@ public class DefaultListener implements Listener {
 				vipPre = ChatColor.GREEN + "" + ChatColor.BOLD + "E" + ChatColor.GREEN + "merald " + ChatColor.RESET;
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
-				vipPre = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "O" + ChatColor.DARK_PURPLE + "bsidian "
-						+ ChatColor.RESET;
+				vipPre = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "O" + ChatColor.DARK_PURPLE + "bsidian " + ChatColor.RESET;
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.NETHER)) {
-				vipPre = ChatColor.DARK_RED + "" + ChatColor.BOLD + "N" + ChatColor.DARK_RED + "ether "
-						+ ChatColor.RESET;
+				vipPre = ChatColor.DARK_RED + "" + ChatColor.BOLD + "N" + ChatColor.DARK_RED + "ether " + ChatColor.RESET;
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ENDER)) {
-				vipPre = "§0§lE§0nder §r";
+				vipPre = ChatColor.BLACK + "" + ChatColor.BOLD + "E" + ChatColor.BLACK + "nder " + ChatColor.RESET; 
 			}
 			if (SQLTable.Youtubers.has("Username", p.getName())) {
-				vipPre = "§c§lYou§fTuber §r";
+				String s = "§c§lYou§fTuber §r" + vipPre;
+				vipPre = s;
 			}
 		}
 
@@ -849,7 +851,10 @@ public class DefaultListener implements Listener {
 				if (cu.getType() == Material.ENDER_STONE) {
 					exec(p, edit, "ENDER");
 				}
-
+				if (cu.getType() == Material.FIREWORK) {
+					exec(p, edit, "YOUTUBE");
+				}
+				
 				if (cu.getType() == Material.WOOL) {
 					short data = cu.getDurability();
 
