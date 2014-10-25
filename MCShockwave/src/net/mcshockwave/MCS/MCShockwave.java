@@ -2,7 +2,6 @@ package net.mcshockwave.MCS;
 
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Commands.BCCommand;
-import net.mcshockwave.MCS.Commands.BootsCommand;
 import net.mcshockwave.MCS.Commands.ChallengeCommand;
 import net.mcshockwave.MCS.Commands.CriCommand;
 import net.mcshockwave.MCS.Commands.DataCommand;
@@ -16,8 +15,8 @@ import net.mcshockwave.MCS.Commands.IPCommand;
 import net.mcshockwave.MCS.Commands.KillCommand;
 import net.mcshockwave.MCS.Commands.LoafCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
-import net.mcshockwave.MCS.Commands.MuteCommand;
 import net.mcshockwave.MCS.Commands.MultiplierCommand;
+import net.mcshockwave.MCS.Commands.MuteCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
 import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
@@ -54,6 +53,7 @@ import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -95,6 +95,10 @@ public class MCShockwave extends JavaPlugin {
 	public static HashMap<String, Integer>	serverCount		= new HashMap<>();
 
 	public void onEnable() {
+		instance = this;
+
+		SQLTable.enable();
+
 		Bukkit.getPluginManager().registerEvents(new DefaultListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new ItemMenuListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CustomSignListener(), this);
@@ -133,13 +137,9 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("challenges").setExecutor(new ChallengeCommand());
 		getCommand("rood").setExecutor(new RoodCommand());
 		getCommand("multiplier").setExecutor(new MultiplierCommand());
-		getCommand("boots").setExecutor(new BootsCommand());
+		// getCommand("boots").setExecutor(new BootsCommand());
 		getCommand("ipcheck").setExecutor(new IPCommand());
 		getCommand("ipban").setExecutor(new IPBanCommand());
-
-		instance = this;
-
-		SQLTable.enable();
 
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 			public void run() {
@@ -307,12 +307,12 @@ public class MCShockwave extends JavaPlugin {
 		SQLTable.NetMultipliers.del("MultiplierType", xp ? "XP" : "Point");
 		SQLTable.NetMultipliers.add("MultiplierType", xp ? "XP" : "Point", "Multiplier", to + "");
 	}
-	
+
 	public static void refreshGlobalMultiplier() {
 		MCShockwave.pointmult = getGlobalMultiplier(false);
 		MCShockwave.xpmult = getGlobalMultiplier(true);
 	}
-	
+
 	public static Rank getRankForPlayer(Player p) {
 		Rank[] ranks = { Rank.ADMIN, Rank.SR_MOD, Rank.MOD, Rank.JR_MOD, Rank.ENDER, Rank.NETHER, Rank.OBSIDIAN,
 				Rank.EMERALD, Rank.DIAMOND, Rank.GOLD, Rank.IRON, Rank.COAL };

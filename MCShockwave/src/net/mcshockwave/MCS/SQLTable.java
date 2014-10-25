@@ -86,6 +86,11 @@ public class SQLTable {
 			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
 					SqlPass).reverse().toString());
 			stmt = con.createStatement();
+			
+			if (stmt == null) {
+				Bukkit.broadcastMessage("SQL Failed to initialize!");
+				enable();
+			}
 
 			conRestart = Bukkit.getScheduler().runTaskTimer(MCShockwave.instance, new Runnable() {
 				public void run() {

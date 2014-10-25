@@ -30,6 +30,7 @@ net\mcshockwave\MCS\Menu\ItemMenu$1.class
 net\mcshockwave\MCS\Utils\NBTUtils$Wrapper.class
 net\mcshockwave\MCS\DefaultListener$7.class
 net\mcshockwave\MCS\Commands\MultiplierCommand.class
+net\mcshockwave\MCS\Commands\BootsCommand.class
 net\mcshockwave\MCS\Currency\ItemsUtils.class
 net\mcshockwave\MCS\Utils\MiscUtils.class
 net\mcshockwave\MCS\Utils\NBTUtils$NbtCompound.class
@@ -109,7 +110,6 @@ net\mcshockwave\MCS\Challenges\Challenge$ChallengeType.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SoundEffect.class
 net\mcshockwave\MCS\Utils\MidiUtils$NoteBlockReceiver.class
 net\mcshockwave\MCS\Utils\HoloUtils.class
-net\mcshockwave\MCS\MCShockwave$11.class
 net\mcshockwave\MCS\Commands\EditRankCommand.class
 net\mcshockwave\MCS\Commands\FriendCommand.class
 net\mcshockwave\MCS\SQLTable.class
@@ -128,9 +128,11 @@ net\mcshockwave\MCS\Commands\HistoryCommand.class
 net\mcshockwave\MCS\SQLTable$Rank.class
 net\mcshockwave\MCS\Challenges\Challenge$ChallengeModifier.class
 net\mcshockwave\MCS\Utils\CustomSignUtils$SignRunnable.class
+net\mcshockwave\MCS\Commands\IPCommand.class
 net\mcshockwave\MCS\Utils\FireworkLaunchUtils.class
 net\mcshockwave\MCS\Commands\SMCommand.class
 net\mcshockwave\MCS\Utils\BossBarUtils$2$1.class
+net\mcshockwave\MCS\Commands\IPBanCommand.class
 net\mcshockwave\MCS\Challenges\ChallengeManager.class
 net\mcshockwave\MCS\Utils\BossBarUtils.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SchedulerInstance.class

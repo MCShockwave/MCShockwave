@@ -31,9 +31,10 @@ public class BootsCommand implements CommandExecutor, Listener {
 			o = SQLTable.MiscItems.getInt("Username", p.getName(), "Red_Boots");
 		} else {
 			SQLTable.MiscItems.add("Username", p.getName());
-		}		
+		}
 		if (o == 0) {
-			ItemMetaUtils.setLore(it, ChatColor.DARK_PURPLE + "Yes, they are finally back! Purchase for 250,000 points and show your style!");
+			ItemMetaUtils.setLore(it, ChatColor.DARK_PURPLE
+					+ "Yes, they are finally back! Purchase for 250,000 points and show your style!");
 		} else {
 			ItemMetaUtils.setLore(it, ChatColor.AQUA + "Enjoy your nostalgic 1.0 red boots!!! Click to un-equip.");
 		}

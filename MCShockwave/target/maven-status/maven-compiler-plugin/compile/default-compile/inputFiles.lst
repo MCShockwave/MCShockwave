@@ -1,8 +1,10 @@
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Utils\FireworkLaunchUtils.java
+C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\IPBanCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\SetOpCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\HistoryCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Entities\CustomEntityRegistrar.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\DataCommand.java
+C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\IPCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\BanManager.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\VanishCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\TempBanCommand.java
@@ -38,14 +40,15 @@ C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\EditRankCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\KillCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\CriCommand.java
+C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\BootsCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Currency\LevelUtils.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Utils\WriteUtil.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\ChallengeCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\RulesCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\RedeemCommand.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\SpeedCommand.java
-C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Utils\LocUtils.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\SMCommand.java
+C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Utils\LocUtils.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\MCShockwave.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\DefaultListener.java
 C:\Users\Brady\Documents\GitHub\MCShockwave\MCShockwave\src\net\mcshockwave\MCS\Commands\VoteCommand.java
