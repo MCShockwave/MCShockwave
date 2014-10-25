@@ -109,6 +109,7 @@ net\mcshockwave\MCS\Challenges\Challenge$ChallengeType.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SoundEffect.class
 net\mcshockwave\MCS\Utils\MidiUtils$NoteBlockReceiver.class
 net\mcshockwave\MCS\Utils\HoloUtils.class
+net\mcshockwave\MCS\MCShockwave$11.class
 net\mcshockwave\MCS\Commands\EditRankCommand.class
 net\mcshockwave\MCS\Commands\FriendCommand.class
 net\mcshockwave\MCS\SQLTable.class
