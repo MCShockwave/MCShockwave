@@ -43,3 +43,6 @@ commands:
       aliases: [chal, challenge]
    rood:
    multiplier:
+   boots:
+   ipcheck:
+   ipban:
