@@ -84,7 +84,7 @@ public class DefaultListener implements Listener {
 		if (p.getLastDamageCause() == null) {
 			return;
 		}
-		
+
 		if (p.getLastDamageCause().getCause() != DamageCause.CUSTOM) {
 			Statistics.incrDeaths(p.getName());
 			if (p.getKiller() != null) {
@@ -134,7 +134,9 @@ public class DefaultListener implements Listener {
 			int id = SQLTable.Scavenger.getIntWhere(where, "ID");
 			String players = SQLTable.Scavenger.getWhere(where, "PlayersFound");
 			String clue = SQLTable.Scavenger.getWhere(where, "Clue");
+			int amount = players.split(",").length - 1;
 			if (players.contains(p.getName())) {
+				p.sendMessage("§a" + amount + " " + (amount == 1 ? "person has" : "people have") + " found this clue!");
 				p.sendMessage(ChatColor.BLUE + clue);
 				return;
 			}
@@ -147,9 +149,19 @@ public class DefaultListener implements Listener {
 				}
 			}
 
+			String place = (amount + 1) + "";
+			if (place.endsWith("1")) {
+				place += "st";
+			} else if (place.endsWith("2")) {
+				place += "nd";
+			} else if (place.endsWith("3")) {
+				place += "rd";
+			} else {
+				place += "th";
+			}
 			p.sendMessage(ChatColor.RED + "You found the next "
-					+ WordUtils.capitalizeFully(b.getType().name().replace('_', ' ')) + "!\n" + ChatColor.AQUA
-					+ "Next clue:");
+					+ WordUtils.capitalizeFully(b.getType().name().replace('_', ' ')) + "!\n§aYou were the " + place
+					+ " person to find this clue\n" + ChatColor.AQUA + "Next clue:");
 			p.sendMessage(ChatColor.BLUE + clue);
 
 			SQLTable.Scavenger.set("PlayersFound",
@@ -528,7 +540,7 @@ public class DefaultListener implements Listener {
 		// }
 		// event.disallow(Result.KICK_BANNED, s);
 		// }
-		
+
 		if (BanManager.isBanned(pl)) {
 			event.disallow(
 					Result.KICK_BANNED,
@@ -676,13 +688,15 @@ public class DefaultListener implements Listener {
 				vipPre = ChatColor.GREEN + "" + ChatColor.BOLD + "E" + ChatColor.GREEN + "merald " + ChatColor.RESET;
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.OBSIDIAN)) {
-				vipPre = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "O" + ChatColor.DARK_PURPLE + "bsidian " + ChatColor.RESET;
+				vipPre = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "O" + ChatColor.DARK_PURPLE + "bsidian "
+						+ ChatColor.RESET;
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.NETHER)) {
-				vipPre = ChatColor.DARK_RED + "" + ChatColor.BOLD + "N" + ChatColor.DARK_RED + "ether " + ChatColor.RESET;
+				vipPre = ChatColor.DARK_RED + "" + ChatColor.BOLD + "N" + ChatColor.DARK_RED + "ether "
+						+ ChatColor.RESET;
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ENDER)) {
-				vipPre = ChatColor.BLACK + "" + ChatColor.BOLD + "E" + ChatColor.BLACK + "nder " + ChatColor.RESET; 
+				vipPre = ChatColor.BLACK + "" + ChatColor.BOLD + "E" + ChatColor.BLACK + "nder " + ChatColor.RESET;
 			}
 			if (SQLTable.Youtubers.has("Username", p.getName())) {
 				String s = "§c§lYou§fTuber §r" + vipPre;
@@ -747,7 +761,7 @@ public class DefaultListener implements Listener {
 		}
 		throw new IllegalArgumentException("No Button Found");
 	}
-	
+
 	@EventHandler
 	public void BootsShop(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
@@ -788,7 +802,6 @@ public class DefaultListener implements Listener {
 		p.getOpenInventory().close();
 	}
 
-	
 	@EventHandler
 	public void onInventoryClick(final InventoryClickEvent event) {
 		final Inventory i = event.getInventory();
@@ -854,7 +867,7 @@ public class DefaultListener implements Listener {
 				if (cu.getType() == Material.FIREWORK) {
 					exec(p, edit, "YOUTUBE");
 				}
-				
+
 				if (cu.getType() == Material.WOOL) {
 					short data = cu.getDurability();
 
