@@ -70,6 +70,7 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -111,7 +112,7 @@ public class MCSCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command com, String label, String[] args) {
 		if (label.equalsIgnoreCase("mcs")
 				&& (sender.isOp() || sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.JR_MOD))) {
-			if (args[0].equalsIgnoreCase("vip") && SQLTable.hasRank(sender.getName(), Rank.ADMIN)) {
+			if (args[0].equalsIgnoreCase("vip") && (SQLTable.hasRank(sender.getName(), Rank.ADMIN) || sender instanceof ConsoleCommandSender)) {
 				if (args.length >= 4) {
 					setVIP(args[1], Integer.parseInt(args[2]), Long.parseLong(args[3]));
 				} else if (args.length == 3) {

@@ -1,5 +1,7 @@
 package net.mcshockwave.MCS;
 
+import net.mcshockwave.MCS.SQLTable.Rank;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -176,6 +178,19 @@ public class DefaultMessageListener implements PluginMessageListener {
 						ArrayList<String> ips = SQLTable.IPLogs.getAll("Username", p.getName(), "IP");
 						if (!ips.contains(ip)) {
 							SQLTable.IPLogs.add("Username", p.getName(), "ID", "" + (ips.size() + 1), "IP", ip, "Port", "" + port);
+						}
+					}
+					ArrayList<String> acts = SQLTable.IPLogs.getAll("IP", ip, "Username");
+					if (acts.size() > 1) {
+						for (String act : acts) {
+							if (SQLTable.IPBans.has("Username", act)) {
+								MCShockwave.sendMessageToRank(ChatColor.RED + "" + ChatColor.BOLD + "WARNING: Alt account of IP-Banned user (" + act + ") detected!: " + p.getName(), Rank.JR_MOD);
+								break;
+							}
+							if (BanManager.isBanned(act)) {
+								MCShockwave.sendMessageToRank(ChatColor.GOLD + "" + ChatColor.BOLD + "WARNING: Alt account of banned user (" + act + ") detected!: " + p.getName(), Rank.JR_MOD);
+								break;
+							}
 						}
 					}
 				} catch (Exception e) {
