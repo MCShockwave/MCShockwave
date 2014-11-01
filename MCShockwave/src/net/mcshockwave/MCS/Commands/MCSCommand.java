@@ -111,7 +111,7 @@ public class MCSCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command com, String label, String[] args) {
 		if (label.equalsIgnoreCase("mcs")
 				&& (sender.isOp() || sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.JR_MOD))) {
-			if (args[0].equalsIgnoreCase("vip")) {
+			if (args[0].equalsIgnoreCase("vip") && SQLTable.hasRank(sender.getName(), Rank.ADMIN)) {
 				if (args.length >= 4) {
 					setVIP(args[1], Integer.parseInt(args[2]), Long.parseLong(args[3]));
 				} else if (args.length == 3) {
