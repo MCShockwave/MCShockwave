@@ -561,6 +561,31 @@ public class MCSCommand implements CommandExecutor {
 				MidiUtils.playMidiQuietly(str, 1.25f, playTo);
 				sender.sendMessage("§6Playing " + args[1].toLowerCase() + " to " + playTo.toArray(new String[0])[0]);
 			}
+
+			if (args[0].equalsIgnoreCase("version")) {
+				Player g = Bukkit.getPlayer(args[1]);
+				MCShockwave.send((Player) sender, "%s is using Minecraft version %s", g.getName(),
+						MCShockwave.getClientVersion(g));
+			}
+
+			if (args[0].equalsIgnoreCase("versions")) {
+				sender.sendMessage("§6Current logged connections:");
+				for (Entry<String, String> en : MCShockwave.getConnectionVersions()) {
+					String display = en.getKey();
+					for (Player pc : Bukkit.getOnlinePlayers()) {
+						if (MCShockwave.getConnectionName(pc).equals(en.getKey())) {
+							display = pc.getName();
+						}
+					}
+					sender.sendMessage("§e" + display + " §0- §e§o" + en.getValue());
+				}
+			}
+
+			if (args[0].equalsIgnoreCase("getIP")) {
+				Player p = Bukkit.getPlayer(args[1]);
+				sender.sendMessage("Hostname: " + p.getAddress().getHostName());
+				sender.sendMessage("Port: " + p.getAddress().getPort());
+			}
 		}
 		return false;
 	}

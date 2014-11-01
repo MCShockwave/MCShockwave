@@ -583,6 +583,8 @@ public class DefaultListener implements Listener {
 
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 				"enjin setpoints " + p.getName() + " " + PointsUtils.getPoints(p));
+
+		MCShockwave.removeClientFromVersionList(MCShockwave.getConnectionName(p));
 	}
 
 	@EventHandler
@@ -599,6 +601,8 @@ public class DefaultListener implements Listener {
 				}
 			}
 		}, 10l);
+
+		MCShockwave.removeClientFromVersionList(MCShockwave.getConnectionName(p));
 	}
 
 	@EventHandler

@@ -3,6 +3,7 @@ main: net.mcshockwave.MCS.MCShockwave
 version: 1.0
 author: Blaxcraft
 website: mcshockwave.net
+depend: [ProtocolLib]
 softdepend: [TabAPI]
 commands:
    mcs:
