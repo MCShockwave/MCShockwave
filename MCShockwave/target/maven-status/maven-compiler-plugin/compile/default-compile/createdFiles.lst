@@ -80,6 +80,7 @@ net\mcshockwave\MCS\Menu\ItemMenu$ButtonRunnable.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$GlobalSoundEffect.class
 net\mcshockwave\MCS\Menu\ItemMenu$1$1.class
 net\mcshockwave\MCS\Commands\MuteCommand.class
+net\mcshockwave\MCS\Commands\MCSCommand$4.class
 net\mcshockwave\MCS\Commands\FriendCommand$3.class
 net\mcshockwave\MCS\Utils\DisguiseUtils.class
 net\mcshockwave\MCS\Utils\NBTUtils$StreamOptions.class
@@ -114,6 +115,7 @@ net\mcshockwave\MCS\MCShockwave$11.class
 net\mcshockwave\MCS\Commands\EditRankCommand.class
 net\mcshockwave\MCS\Commands\FriendCommand.class
 net\mcshockwave\MCS\SQLTable.class
+net\mcshockwave\MCS\Commands\MCSCommand$5.class
 net\mcshockwave\MCS\Challenges\Challenge.class
 net\mcshockwave\MCS\Commands\RedeemCommand.class
 net\mcshockwave\MCS\Utils\CommandRegistrar.class

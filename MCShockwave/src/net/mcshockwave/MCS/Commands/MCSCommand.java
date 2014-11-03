@@ -64,6 +64,8 @@ import net.minecraft.server.v1_7_R4.WorldType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -79,6 +81,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
+import org.bukkit.util.Vector;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -112,7 +115,8 @@ public class MCSCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command com, String label, String[] args) {
 		if (label.equalsIgnoreCase("mcs")
 				&& (sender.isOp() || sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.JR_MOD))) {
-			if (args[0].equalsIgnoreCase("vip") && (SQLTable.hasRank(sender.getName(), Rank.ADMIN) || sender instanceof ConsoleCommandSender)) {
+			if (args[0].equalsIgnoreCase("vip")
+					&& (SQLTable.hasRank(sender.getName(), Rank.ADMIN) || sender instanceof ConsoleCommandSender)) {
 				if (args.length >= 4) {
 					setVIP(args[1], Integer.parseInt(args[2]), Long.parseLong(args[3]));
 				} else if (args.length == 3) {
@@ -586,6 +590,36 @@ public class MCSCommand implements CommandExecutor {
 				Player p = Bukkit.getPlayer(args[1]);
 				sender.sendMessage("Hostname: " + p.getAddress().getHostName());
 				sender.sendMessage("Port: " + p.getAddress().getPort());
+			}
+
+			if (args[0].equalsIgnoreCase("rocket")) {
+				final Player t = Bukkit.getPlayer(args[1]);
+
+				SchedulerUtils ut = SchedulerUtils.getNew();
+				ut.add(t);
+				ut.add("§9§lHave fun in space!");
+				for (int i = 0; i < 25; i++) {
+					ut.add(2);
+					ut.add(new Runnable() {
+						public void run() {
+							if (t.getGameMode() == GameMode.CREATIVE) {
+								t.setGameMode(GameMode.ADVENTURE);
+							}
+							t.setVelocity(new Vector(0, 2, 0));
+							t.getWorld().playEffect(t.getLocation(), Effect.SMOKE, rand.nextInt(8));
+							PacketUtils.playParticleEffect(ParticleEffect.FLAME, t.getLocation(), 0, 0.05f, 10);
+							t.getWorld().playSound(t.getLocation(), Sound.FIZZ, 10, 0.5f);
+						}
+					});
+				}
+				ut.add(new Runnable() {
+					public void run() {
+						t.getWorld().playEffect(t.getLocation(), Effect.EXPLOSION, 0);
+						t.getWorld().createExplosion(t.getLocation(), 0);
+						t.damage(t.getMaxHealth());
+					}
+				});
+				ut.execute();
 			}
 		}
 		return false;
