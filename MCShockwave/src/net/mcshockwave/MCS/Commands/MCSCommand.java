@@ -569,20 +569,17 @@ public class MCSCommand implements CommandExecutor {
 
 			if (args[0].equalsIgnoreCase("version")) {
 				Player g = Bukkit.getPlayer(args[1]);
-				MCShockwave.send((Player) sender, "%s is using Minecraft version %s", g.getName(),
+				MCShockwave.send((Player) sender, "%s is using Minecraft version %s (protocol %s)", g.getName(),
+						MCShockwave.getStringVersionFromProtocolVersion(MCShockwave.getClientVersion(g)),
 						MCShockwave.getClientVersion(g));
 			}
 
 			if (args[0].equalsIgnoreCase("versions")) {
-				sender.sendMessage("§6Current logged connections:");
-				for (Entry<String, String> en : MCShockwave.getConnectionVersions()) {
-					String display = en.getKey();
-					for (Player pc : Bukkit.getOnlinePlayers()) {
-						if (MCShockwave.getConnectionName(pc).equals(en.getKey())) {
-							display = pc.getName();
-						}
-					}
-					sender.sendMessage("§e" + display + " §0- §e§o" + en.getValue());
+				sender.sendMessage("§6Current versions of online players:");
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					int pv = MCShockwave.getClientVersion(p);
+					sender.sendMessage("§e" + p.getName() + " §0- §e§o"
+							+ MCShockwave.getStringVersionFromProtocolVersion(pv));
 				}
 			}
 
@@ -590,6 +587,18 @@ public class MCSCommand implements CommandExecutor {
 				Player p = Bukkit.getPlayer(args[1]);
 				sender.sendMessage("Hostname: " + p.getAddress().getHostName());
 				sender.sendMessage("Port: " + p.getAddress().getPort());
+			}
+
+			if (args[0].equalsIgnoreCase("title")) {
+				int fi = 20;
+				int le = Integer.parseInt(args[1]);
+				int fo = 20;
+				String title = ChatColor.translateAlternateColorCodes('&', args[2].replace('_', ' '));
+				String subtitle = ChatColor.translateAlternateColorCodes('&', args[3].replace('_', ' '));
+
+				List<Player> pls = new ArrayList<>();
+				pls.addAll(Bukkit.getOnlinePlayers());
+				PacketUtils.playTitle(pls, fi, le, fo, title, subtitle);
 			}
 
 			if (args[0].equalsIgnoreCase("rocket")) {

@@ -63,6 +63,7 @@ net\mcshockwave\MCS\Menu\ItemMenu.class
 net\mcshockwave\MCS\Challenges\ChallengeGenerator.class
 net\mcshockwave\MCS\Commands\VanishCommand.class
 net\mcshockwave\MCS\Commands\RoodCommand.class
+net\mcshockwave\MCS\Utils\PacketUtils$1.class
 net\mcshockwave\MCS\Commands\KillCommand.class
 net\mcshockwave\MCS\Utils\NBTUtils$ConvertedList.class
 net\mcshockwave\MCS\Utils\PacketUtils$ParticleEffect.class
@@ -95,6 +96,7 @@ net\mcshockwave\MCS\Utils\SchedulerUtils.class
 net\mcshockwave\MCS\Utils\CooldownUtils.class
 net\mcshockwave\MCS\Utils\HoloUtils$1.class
 net\mcshockwave\MCS\Utils\CustomSignUtils$CustomSignListener.class
+net\mcshockwave\MCS\Utils\PacketUtils$TitleAction.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SchedulerInstance$1.class
 net\mcshockwave\MCS\Commands\UpdateCommand.class
 net\mcshockwave\MCS\Commands\GMItemCommand.class
@@ -111,7 +113,6 @@ net\mcshockwave\MCS\Challenges\Challenge$ChallengeType.class
 net\mcshockwave\MCS\Utils\SchedulerUtils$SoundEffect.class
 net\mcshockwave\MCS\Utils\MidiUtils$NoteBlockReceiver.class
 net\mcshockwave\MCS\Utils\HoloUtils.class
-net\mcshockwave\MCS\MCShockwave$11.class
 net\mcshockwave\MCS\Commands\EditRankCommand.class
 net\mcshockwave\MCS\Commands\FriendCommand.class
 net\mcshockwave\MCS\SQLTable.class
@@ -121,9 +122,11 @@ net\mcshockwave\MCS\Commands\RedeemCommand.class
 net\mcshockwave\MCS\Utils\CommandRegistrar.class
 net\mcshockwave\MCS\Currency\PointsUtils.class
 net\mcshockwave\MCS\Commands\TabCommand.class
+net\mcshockwave\MCS\Utils\PacketUtils$PacketPlayOutTitle.class
 net\mcshockwave\MCS\Utils\ItemMetaUtils.class
 net\mcshockwave\MCS\MCShockwave.class
 net\mcshockwave\MCS\Commands\TempBanCommand.class
+net\mcshockwave\MCS\DefaultListener$8.class
 net\mcshockwave\MCS\Menu\ItemMenu$Button$1.class
 net\mcshockwave\MCS\DefaultListener$4.class
 net\mcshockwave\MCS\Currency\ItemsUtils$1.class
@@ -144,5 +147,6 @@ net\mcshockwave\MCS\Commands\SetOpCommand.class
 net\mcshockwave\MCS\Commands\HistoryCommand$Ban.class
 net\mcshockwave\MCS\MCShockwave$4.class
 net\mcshockwave\MCS\Commands\PointsCommand.class
+net\mcshockwave\MCS\Utils\PacketUtils$PacketPlayOutHeaderFooter.class
 net\mcshockwave\MCS\Utils\PacketUtils.class
 net\mcshockwave\MCS\Commands\SudoCommand.class

@@ -39,7 +39,6 @@ import net.mcshockwave.MCS.Menu.ItemMenu.ButtonRunnable;
 import net.mcshockwave.MCS.Menu.ItemMenuListener;
 import net.mcshockwave.MCS.Utils.CustomSignUtils.CustomSignListener;
 import net.mcshockwave.MCS.Utils.DisguiseUtils;
-import net.mcshockwave.MCS.Utils.MiscUtils;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
@@ -61,15 +60,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.Set;
 
-import com.comphenix.packetwrapper.WrapperHandshakeClientSetProtocol;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
@@ -104,7 +95,8 @@ public class MCShockwave extends JavaPlugin {
 			"ztd", "build"									};
 	public static HashMap<String, Integer>	serverCount		= new HashMap<>();
 
-	private static HashMap<String, String>	clientVersion	= new HashMap<>();
+	public static String					tabHeader		= "§c§lMCShockwave Network",
+			tabFooter = "§bwww.mcshockwave.net §9IP: play.mcshockwave.net";
 
 	public void onEnable() {
 		instance = this;
@@ -186,23 +178,9 @@ public class MCShockwave extends JavaPlugin {
 
 		DisguiseUtils.init(this);
 
-		try {
-			ProtocolLibrary.getProtocolManager().addPacketListener(
-					new PacketAdapter(this, PacketType.Handshake.Client.SET_PROTOCOL) {
-						@Override
-						public void onPacketReceiving(PacketEvent event) {
-							PacketContainer pack = event.getPacket();
-							WrapperHandshakeClientSetProtocol whcsp = new WrapperHandshakeClientSetProtocol(pack);
-							int pv = whcsp.getProtocolVersion();
-							String ver = pv == 4 ? "1.7.2" : pv == 5 ? "1.7.10" : pv == 47 ? "1.8" : "PV" + pv;
-							clientVersion.put(event.getPlayer().getName(), ver);
-						}
-					});
-		} catch (Exception e) {
-			MiscUtils.printStackTrace(e);
-		}
-
 		NametagUtils.init();
+
+		PacketUtils.registerPackets();
 	}
 
 	@Override
@@ -359,22 +337,13 @@ public class MCShockwave extends JavaPlugin {
 		return 0;
 	}
 
-	public static String getConnectionName(Player p) {
-		String connection = "UNKNOWN[/" + p.getAddress().getHostName() + ":" + p.getAddress().getPort() + "]";
-		return connection;
+	public static int getClientVersion(Player p) {
+		int pver = ((CraftPlayer) p).getHandle().playerConnection.networkManager.getVersion();
+		return pver;
 	}
 
-	public static String getClientVersion(Player p) {
-		String connection = getConnectionName(p);
-		return clientVersion.get(connection);
-	}
-
-	public static void removeClientFromVersionList(String name) {
-		clientVersion.remove(name);
-	}
-
-	public static Set<Entry<String, String>> getConnectionVersions() {
-		return clientVersion.entrySet();
+	public static String getStringVersionFromProtocolVersion(int protocol) {
+		return protocol == 4 ? "1.7.2" : protocol == 5 ? "1.7.10" : protocol == 47 ? "1.8" : "PV" + protocol;
 	}
 
 	public static ItemMenu getMGServers(ItemMenu im) {

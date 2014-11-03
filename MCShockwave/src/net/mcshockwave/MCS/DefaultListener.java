@@ -14,6 +14,7 @@ import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
+import net.mcshockwave.MCS.Utils.PacketUtils.PacketPlayOutHeaderFooter;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.minecraft.server.v1_7_R4.ChatSerializer;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
@@ -49,6 +50,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.sql.SQLException;
@@ -583,8 +585,6 @@ public class DefaultListener implements Listener {
 
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 				"enjin setpoints " + p.getName() + " " + PointsUtils.getPoints(p));
-
-		MCShockwave.removeClientFromVersionList(MCShockwave.getConnectionName(p));
 	}
 
 	@EventHandler
@@ -601,8 +601,6 @@ public class DefaultListener implements Listener {
 				}
 			}
 		}, 10l);
-
-		MCShockwave.removeClientFromVersionList(MCShockwave.getConnectionName(p));
 	}
 
 	@EventHandler
@@ -650,6 +648,21 @@ public class DefaultListener implements Listener {
 		}, 10l);
 
 		Statistics.initStats(p.getName());
+
+		new BukkitRunnable() {
+			public void run() {
+				if (MCShockwave.getClientVersion(p) == 47) {
+					String head = "{text:\"" + MCShockwave.tabHeader + "\"}";
+					String foot = "{text:\"" + MCShockwave.tabFooter + "\"}";
+					PacketPlayOutHeaderFooter pack = new PacketPlayOutHeaderFooter(head, foot);
+					PacketUtils.sendPacket(p, pack);
+
+					if (MCShockwave.server.equalsIgnoreCase("hub")) {
+						PacketUtils.playTitle(p, 10, 10, 60, "§c§lMCShockwave Network", null);
+					}
+				}
+			}
+		}.runTaskLater(MCShockwave.instance, 20);
 
 		try {
 			p.sendMessage(SQLTable.Settings.get("Setting", "JM-" + MCShockwave.server, "Value"));
