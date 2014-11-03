@@ -590,11 +590,11 @@ public class MCSCommand implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("title")) {
-				int fi = 20;
-				int le = Integer.parseInt(args[1]);
-				int fo = 20;
-				String title = ChatColor.translateAlternateColorCodes('&', args[2].replace('_', ' '));
-				String subtitle = ChatColor.translateAlternateColorCodes('&', args[3].replace('_', ' '));
+				int fi = Integer.parseInt(args[1]);
+				int le = Integer.parseInt(args[2]);
+				int fo = Integer.parseInt(args[3]);
+				String title = ChatColor.translateAlternateColorCodes('&', args[4].replace('_', ' '));
+				String subtitle = ChatColor.translateAlternateColorCodes('&', args[5].replace('_', ' '));
 
 				List<Player> pls = new ArrayList<>();
 				pls.addAll(Bukkit.getOnlinePlayers());
