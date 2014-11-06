@@ -820,6 +820,20 @@ public class DefaultListener implements Listener {
 	}
 
 	@EventHandler
+	public void onPlayerChat1(AsyncPlayerChatEvent event) {
+		String chatmsg = event.getMessage();
+
+		Player p = event.getPlayer();
+
+		if (!SQLTable.hasRank(p.getName(), Rank.JR_MOD)
+				&& (chatmsg.toLowerCase().contains("hack"))) {
+			event.setCancelled(true);
+			p.sendMessage("Please obtain proof or alert a staff member using '@' before a message instead of calling out hacks!");
+
+		}
+	}
+
+	@EventHandler
 	public void onInventoryClick(final InventoryClickEvent event) {
 		final Inventory i = event.getInventory();
 		HumanEntity he = event.getWhoClicked();
