@@ -165,6 +165,7 @@ public class PacketUtils {
 
 	public static void registerPackets() {
 		try {
+			addPacket(EnumProtocol.PLAY, true, 0x44, PacketPlayOutWorldBorder.class);
 			addPacket(EnumProtocol.PLAY, true, 0x45, PacketPlayOutTitle.class);
 			addPacket(EnumProtocol.PLAY, true, 0x47, PacketPlayOutHeaderFooter.class);
 		} catch (Exception e) {
@@ -229,6 +230,28 @@ public class PacketUtils {
 			for (Player p : pls) {
 				sendPacket(p, subtitle);
 			}
+		}
+	}
+
+	public static void setWorldBorder(Player p, double x, double z, double radius, int warnTime, int warnBlocks) {
+		setWorldBorder(Arrays.asList(p), x, z, radius, warnTime, warnBlocks);
+	}
+
+	public static void setWorldBorder(List<Player> ps, double x, double z, double radius, int warnTime, int warnBlocks) {
+		PacketPlayOutWorldBorder pack = new PacketPlayOutWorldBorder(x, z, radius, radius, 0, warnTime, warnBlocks);
+		for (Player p : ps) {
+			sendPacket(p, pack);
+		}
+	}
+
+	public static void lerpBorder(Player p, double oldrad, double newrad, long speed) {
+		lerpBorder(Arrays.asList(p), oldrad, newrad, speed);
+	}
+
+	public static void lerpBorder(List<Player> ps, double oldrad, double newrad, long speed) {
+		PacketPlayOutWorldBorder pack = new PacketPlayOutWorldBorder(oldrad, newrad, speed);
+		for (Player p : ps) {
+			sendPacket(p, pack);
 		}
 	}
 
@@ -315,5 +338,169 @@ public class PacketUtils {
 		public void handle(PacketListener pl) {
 		}
 
+	}
+
+	// for all your worldbordering needs
+	public static class PacketPlayOutWorldBorder extends Packet {
+
+		WorldBorderAction	act;
+
+		// SET_SIZE
+		double				radius;
+
+		/** Action: SET SIZE **/
+		public PacketPlayOutWorldBorder(double radius) {
+			act = WorldBorderAction.SET_SIZE;
+			this.radius = radius;
+		}
+
+		// LERP_SIZE
+		double	oldradius;
+		double	newradius;
+		long	speed;
+
+		/** Action: LERP SIZE **/
+		public PacketPlayOutWorldBorder(double oldradius, double newradius, long speed) {
+			act = WorldBorderAction.LERP_SIZE;
+			this.oldradius = oldradius;
+			this.newradius = newradius;
+			this.newradius = newradius;
+		}
+
+		// SET_CENTER
+		double	x;
+		double	z;
+
+		/** Action: SET CENTER **/
+		public PacketPlayOutWorldBorder(double x, double z) {
+			act = WorldBorderAction.SET_CENTER;
+			this.x = x;
+			this.z = z;
+		}
+
+		// INITIALIZE
+		int	portalTeleportBoundary	= 29999984;
+
+		/** Action: INITIALIZE **/
+		public PacketPlayOutWorldBorder(double x, double z, double oldradius, double newradius, long speed,
+				int warningTime, int warningBlocks) {
+			act = WorldBorderAction.INITIALIZE;
+			this.x = x;
+			this.z = z;
+			this.oldradius = oldradius;
+			this.newradius = newradius;
+			this.speed = speed;
+			this.warningTime = warningTime;
+			this.warningBlocks = warningBlocks;
+		}
+
+		// SET_WARNING_TIME
+		int	warningTime;
+
+		/**
+		 * Action: SET WARNING TIME
+		 * 
+		 * @param TIME
+		 *            Does nothing, signifies setting warning time instead of
+		 *            warning blocks
+		 **/
+		public PacketPlayOutWorldBorder(int warningTime, boolean TIME) {
+			this.act = WorldBorderAction.SET_WARNING_TIME;
+			this.warningTime = warningTime;
+		}
+
+		public// SET_WARNING_BLOCKS
+		int	warningBlocks;
+
+		/** Action: SET WARNING BLOCKS **/
+		public PacketPlayOutWorldBorder(int warningBlocks) {
+			this.act = WorldBorderAction.SET_WARNING_BLOCKS;
+			this.warningBlocks = warningBlocks;
+		}
+
+		public void a(PacketDataSerializer pds) throws IOException {
+			this.act = WorldBorderAction.values()[pds.a()];
+			switch (act) {
+				case SET_SIZE:
+					radius = pds.readDouble();
+					break;
+				case LERP_SIZE:
+					oldradius = pds.readDouble();
+					newradius = pds.readDouble();
+					speed = pds.readLong();
+					break;
+				case SET_CENTER:
+					x = pds.readDouble();
+					z = pds.readDouble();
+					break;
+				case INITIALIZE:
+					x = pds.readDouble();
+					z = pds.readDouble();
+					oldradius = pds.readDouble();
+					newradius = pds.readDouble();
+					speed = pds.readLong();
+					portalTeleportBoundary = pds.a();
+					warningTime = pds.a();
+					warningBlocks = pds.a();
+					break;
+				case SET_WARNING_TIME:
+					warningTime = pds.a();
+					break;
+				case SET_WARNING_BLOCKS:
+					warningBlocks = pds.a();
+					break;
+				default:
+					break;
+			}
+		}
+
+		public void b(PacketDataSerializer pds) throws IOException {
+			pds.b(act.ordinal());
+			switch (act) {
+				case SET_SIZE:
+					pds.writeDouble(radius);
+					break;
+				case LERP_SIZE:
+					pds.writeDouble(oldradius);
+					pds.writeDouble(newradius);
+					pds.writeLong(speed);
+					break;
+				case SET_CENTER:
+					pds.writeDouble(x);
+					pds.writeDouble(z);
+					break;
+				case INITIALIZE:
+					pds.writeDouble(x);
+					pds.writeDouble(z);
+					pds.writeDouble(oldradius);
+					pds.writeDouble(newradius);
+					pds.writeLong(speed);
+					pds.b(portalTeleportBoundary);
+					pds.b(warningTime);
+					pds.b(warningBlocks);
+					break;
+				case SET_WARNING_TIME:
+					pds.b(warningTime);
+					break;
+				case SET_WARNING_BLOCKS:
+					pds.b(warningBlocks);
+					break;
+				default:
+					break;
+			}
+		}
+
+		public void handle(PacketListener pl) {
+		}
+
+	}
+
+	public static enum WorldBorderAction {
+		SET_SIZE,
+		LERP_SIZE,
+		SET_CENTER,
+		INITIALIZE,
+		SET_WARNING_TIME,
+		SET_WARNING_BLOCKS;
 	}
 }

@@ -54,6 +54,7 @@ import net.mcshockwave.MCS.Utils.NBTUtils;
 import net.mcshockwave.MCS.Utils.NBTUtils.NbtCompound;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
+import net.mcshockwave.MCS.Utils.PacketUtils.PacketPlayOutWorldBorder;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
 import net.minecraft.server.v1_7_R4.EnumDifficulty;
@@ -599,6 +600,49 @@ public class MCSCommand implements CommandExecutor {
 				List<Player> pls = new ArrayList<>();
 				pls.addAll(Bukkit.getOnlinePlayers());
 				PacketUtils.playTitle(pls, fi, le, fo, title, subtitle);
+			}
+
+			if (args[0].equalsIgnoreCase("wb")) {
+				if (args.length == 1) {
+					sender.sendMessage("§c/mcs wb 0 radius§e - SET_SIZE");
+					sender.sendMessage("§c/mcs wb 1 oldrad newrad speed§e - LERP_SIZE");
+					sender.sendMessage("§c/mcs wb 2 x z§e - SET_CENTER");
+					sender.sendMessage("§c/mcs wb 3 x z oldrad newrad speed warntime warnblocks§e - INITIALIZE");
+					sender.sendMessage("§c/mcs wb 4 warntime§e - SET_WARNING_TIME");
+					sender.sendMessage("§c/mcs wb 5 warnblocks§e - SET_WARNING_BLOCKS");
+				} else {
+					int act = Integer.parseInt(args[1]);
+					PacketPlayOutWorldBorder pack = null;
+
+					if (act == 0) {
+						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]));
+					}
+					if (act == 1) {
+						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]), Double.parseDouble(args[3]),
+								Long.parseLong(args[4]));
+					}
+					if (act == 2) {
+						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+					}
+					if (act == 3) {
+						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]), Double.parseDouble(args[3]),
+								Double.parseDouble(args[4]), Double.parseDouble(args[5]), Long.parseLong(args[6]),
+								Integer.parseInt(args[7]), Integer.parseInt(args[8]));
+					}
+					if (act == 4) {
+						pack = new PacketPlayOutWorldBorder(Integer.parseInt(args[2]), false);
+					}
+					if (act == 5) {
+						pack = new PacketPlayOutWorldBorder(Integer.parseInt(args[2]));
+					}
+
+					if (pack != null) {
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							PacketUtils.sendPacket(p, pack);
+						}
+						sender.sendMessage("§cSend packet: §e[§f" + pack.toString() + "§e]");
+					}
+				}
 			}
 
 			if (args[0].equalsIgnoreCase("rocket")) {
