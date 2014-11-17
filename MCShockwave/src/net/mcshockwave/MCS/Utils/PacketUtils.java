@@ -364,7 +364,7 @@ public class PacketUtils {
 			act = WorldBorderAction.LERP_SIZE;
 			this.oldradius = oldradius;
 			this.newradius = newradius;
-			this.newradius = newradius;
+			this.speed = speed;
 		}
 
 		// SET_CENTER
@@ -463,7 +463,7 @@ public class PacketUtils {
 				case LERP_SIZE:
 					pds.writeDouble(oldradius);
 					pds.writeDouble(newradius);
-					pds.writeLong(speed);
+					pds.b((int) speed);
 					break;
 				case SET_CENTER:
 					pds.writeDouble(x);
@@ -474,7 +474,7 @@ public class PacketUtils {
 					pds.writeDouble(z);
 					pds.writeDouble(oldradius);
 					pds.writeDouble(newradius);
-					pds.writeLong(speed);
+					pds.b((int) speed);
 					pds.b(portalTeleportBoundary);
 					pds.b(warningTime);
 					pds.b(warningBlocks);
