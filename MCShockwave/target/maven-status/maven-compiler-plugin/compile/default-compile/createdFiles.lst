@@ -60,6 +60,7 @@ net\mcshockwave\MCS\Utils\NBTUtils$ConvertedMap$2.class
 net\mcshockwave\MCS\Utils\NBTUtils$1.class
 net\mcshockwave\MCS\Utils\BossBarUtils$2.class
 net\mcshockwave\MCS\Menu\ItemMenu.class
+net\mcshockwave\MCS\Utils\PacketUtils$PacketPlayOutWorldBorder.class
 net\mcshockwave\MCS\Challenges\ChallengeGenerator.class
 net\mcshockwave\MCS\Commands\VanishCommand.class
 net\mcshockwave\MCS\Commands\RoodCommand.class
@@ -90,6 +91,7 @@ net\mcshockwave\MCS\Utils\MidiUtils$ToneUtil.class
 net\mcshockwave\MCS\Utils\DisguiseUtils$3.class
 net\mcshockwave\MCS\Utils\UUIDFetcher.class
 net\mcshockwave\MCS\BanManager.class
+net\mcshockwave\MCS\Utils\PacketUtils$WorldBorderAction.class
 net\mcshockwave\MCS\Utils\NBTUtils$LoadMethodSkinUpdate.class
 net\mcshockwave\MCS\MCShockwave$3.class
 net\mcshockwave\MCS\Utils\SchedulerUtils.class

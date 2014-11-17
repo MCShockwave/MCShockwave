@@ -337,6 +337,9 @@ public class MCShockwave extends JavaPlugin {
 		return 0;
 	}
 
+	/**
+	 * @return Client protocol version (1.7.2 - 4, 1.7.10 - 5, 1.8 - 47)
+	 **/
 	public static int getClientVersion(Player p) {
 		int pver = ((CraftPlayer) p).getHandle().playerConnection.networkManager.getVersion();
 		return pver;

@@ -638,9 +638,10 @@ public class MCSCommand implements CommandExecutor {
 
 					if (pack != null) {
 						for (Player p : Bukkit.getOnlinePlayers()) {
-							PacketUtils.sendPacket(p, pack);
+							if (MCShockwave.getClientVersion(p) == 47) {
+								PacketUtils.sendPacket(p, pack);
+							}
 						}
-						sender.sendMessage("§cSend packet: §e[§f" + pack.toString() + "§e]");
 					}
 				}
 			}
