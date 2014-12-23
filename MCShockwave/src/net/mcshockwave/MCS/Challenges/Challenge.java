@@ -67,12 +67,12 @@ public class Challenge {
 			6,
 			80,
 			2000),
-		Win_Mynerim(
-			"Win # games of Mynerim",
-			2,
-			5,
-			50,
-			2000),
+//		Win_Mynerim(
+//			"Win # games of Mynerim",
+//			2,
+//			5,
+//			50,
+//			2000),
 		Kills(
 			"Get # kills",
 			50,
@@ -104,21 +104,21 @@ public class Challenge {
 	}
 
 	public static enum ChallengeModifier {
-		No_Magic(
-			"without using any magic (spells/shouts)",
-			ChallengeType.Win_Mynerim,
-			0.5,
-			2),
+		// No_Magic(
+		// "without using any magic (spells/shouts)",
+		// ChallengeType.Win_Mynerim,
+		// 0.5,
+		// 2),
 		Hub_Kills(
 			"on the Hub PVP",
 			ChallengeType.Kills,
 			0.5,
 			1),
-		Mynerim_Kills(
-			"on Mynerim",
-			ChallengeType.Kills,
-			0.2,
-			1),
+//		Mynerim_Kills(
+//			"on Mynerim",
+//			ChallengeType.Kills,
+//			0.2,
+//			1),
 		Minigame_Kills(
 			"on Minigames",
 			ChallengeType.Kills,
