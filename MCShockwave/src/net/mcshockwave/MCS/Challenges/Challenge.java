@@ -58,27 +58,27 @@ public class Challenge {
 		Win_Team_Minigame(
 			"Win # games of [E]",
 			4,
-			14,
-			20,
+			10,
+			40,
 			1000),
 		Win_Solo_Minigame(
 			"Win # games of [E]",
-			3,
-			8,
-			25,
-			1000),
+			2,
+			6,
+			80,
+			2000),
 		Win_Mynerim(
 			"Win # games of Mynerim",
 			2,
-			8,
-			25,
-			1000),
+			5,
+			50,
+			2000),
 		Kills(
 			"Get # kills",
 			50,
 			100,
-			4,
-			30);
+			3,
+			100);
 
 		public String	desc;
 		public int		min, max;
@@ -117,7 +117,7 @@ public class Challenge {
 		Mynerim_Kills(
 			"on Mynerim",
 			ChallengeType.Kills,
-			0.5,
+			0.2,
 			1),
 		Minigame_Kills(
 			"on Minigames",

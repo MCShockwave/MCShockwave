@@ -1,6 +1,8 @@
 package net.mcshockwave.MCS;
 
 import net.mcshockwave.MCS.SQLTable.Rank;
+import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
+import net.mcshockwave.MCS.Challenges.ChallengeManager;
 import net.mcshockwave.MCS.Commands.FriendCommand;
 import net.mcshockwave.MCS.Commands.VanishCommand;
 import net.mcshockwave.MCS.Commands.VoteCommand;
@@ -13,9 +15,9 @@ import net.mcshockwave.MCS.Utils.FireworkLaunchUtils;
 import net.mcshockwave.MCS.Utils.ItemMetaUtils;
 import net.mcshockwave.MCS.Utils.LocUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.SchedulerUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.PacketPlayOutHeaderFooter;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
+import net.mcshockwave.MCS.Utils.SchedulerUtils;
 import net.minecraft.server.v1_7_R4.ChatSerializer;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import net.minecraft.util.org.apache.commons.lang3.text.WordUtils;
@@ -87,10 +89,12 @@ public class DefaultListener implements Listener {
 			return;
 		}
 
-		if (p.getLastDamageCause().getCause() != DamageCause.CUSTOM) {
+		DamageCause dc = p.getLastDamageCause().getCause();
+		if (dc != DamageCause.CUSTOM && dc != DamageCause.SUICIDE) {
 			Statistics.incrDeaths(p.getName());
 			if (p.getKiller() != null) {
 				Statistics.incrKills(p.getKiller().getName());
+				ChallengeManager.incrChallenge(ChallengeType.Kills, null, null, p.getKiller().getName(), 1, false);
 			}
 		}
 	}
@@ -317,6 +321,10 @@ public class DefaultListener implements Listener {
 		}
 		if (event.getMessage().length() > 3 && event.getMessage().toUpperCase().equals(event.getMessage())) {
 			event.setMessage(WordUtils.capitalizeFully(event.getMessage()));
+		}
+		if (!SQLTable.hasRank(p.getName(), Rank.JR_MOD) && (event.getMessage().toLowerCase().contains("hack"))) {
+			event.setCancelled(true);
+			p.sendMessage("Please obtain proof or alert a staff member using '@' before a message instead of calling out hacks!");
 		}
 		// if (event.isCancelled() || event.getMessage().startsWith("!"))
 		// return;
@@ -817,20 +825,6 @@ public class DefaultListener implements Listener {
 			SQLTable.MiscItems.set("Red_Boots", "" + 1, "Username", p.getName());
 		}
 		p.getOpenInventory().close();
-	}
-
-	@EventHandler
-	public void onPlayerChat1(AsyncPlayerChatEvent event) {
-		String chatmsg = event.getMessage();
-
-		Player p = event.getPlayer();
-
-		if (!SQLTable.hasRank(p.getName(), Rank.JR_MOD)
-				&& (chatmsg.toLowerCase().contains("hack"))) {
-			event.setCancelled(true);
-			p.sendMessage("Please obtain proof or alert a staff member using '@' before a message instead of calling out hacks!");
-
-		}
 	}
 
 	@EventHandler
