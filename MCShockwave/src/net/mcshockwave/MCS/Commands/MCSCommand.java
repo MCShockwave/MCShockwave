@@ -85,6 +85,7 @@ import org.bukkit.scheduler.BukkitWorker;
 import org.bukkit.util.Vector;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -551,13 +552,13 @@ public class MCSCommand implements CommandExecutor {
 					return false;
 				}
 
-				Inventory open = Bukkit.createInventory(null, 27, "Ender Chest");
+				Inventory open = Bukkit.createInventory(null, 27, "Ender Chest - " + name);
 				open.setContents(chest.getContents());
 				p.openInventory(open);
 			}
 
 			if (args[0].equalsIgnoreCase("midi")) {
-				InputStream str = MCShockwave.instance.getResource(args[1] + ".mid");
+				InputStream str = MCShockwave.instance.getResource("midis" + File.separatorChar + args[1] + ".mid");
 				HashSet<String> playTo = new HashSet<String>();
 				if (args.length > 2) {
 					playTo.add(args[2]);

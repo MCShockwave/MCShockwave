@@ -91,7 +91,7 @@ public class ChallengeManager {
 
 	public static void incrChallenge(ChallengeType chl, ChallengeModifier chlMod, String extra, String pl, int am,
 			boolean overridePlayerCount) {
-		if (overridePlayerCount || !Challenge.enoughPlayersOnline()) {
+		if (overridePlayerCount || Challenge.enoughPlayersOnline()) {
 			try {
 				for (final Challenge c : getCurrentChallenges()) {
 					if (c.type == chl
