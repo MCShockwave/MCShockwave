@@ -6,7 +6,6 @@ import net.mcshockwave.MCS.Challenges.Challenge.ChallengeModifier;
 import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
 import net.mcshockwave.MCS.Currency.LevelUtils;
 import net.mcshockwave.MCS.Currency.PointsUtils;
-import net.mcshockwave.MCS.Utils.MiscUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -133,7 +132,7 @@ public class ChallengeManager {
 					}
 				}
 			} catch (Exception e) {
-				MiscUtils.printStackTrace(e);
+				e.printStackTrace();
 			}
 		}
 	}
