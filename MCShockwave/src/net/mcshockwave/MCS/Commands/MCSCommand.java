@@ -82,6 +82,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 
 import java.awt.image.BufferedImage;
@@ -645,6 +646,13 @@ public class MCSCommand implements CommandExecutor {
 						}
 					}
 				}
+			}
+
+			if (args[0].equalsIgnoreCase("visibility")) {
+				Team t = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(args[1]);
+				t.addEntry("$NoNametags");
+				t.setCanSeeFriendlyInvisibles(true);
+				sender.sendMessage("§cMade nametags for team " + t.getName() + " invisible for other team");
 			}
 
 			if (args[0].equalsIgnoreCase("rocket")) {

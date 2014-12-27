@@ -181,6 +181,56 @@ public class MCShockwave extends JavaPlugin {
 		NametagUtils.init();
 
 		PacketUtils.registerPackets();
+		
+		// doesn't work (for ghostbusters fix)
+		// TODO make work someday
+		
+		// new BukkitRunnable() {
+		// public void run() {
+		// for (Team t :
+		// Bukkit.getScoreboardManager().getMainScoreboard().getTeams()) {
+		// if (t.hasEntry("$NoNametags")) {
+		// PacketUtils.sendTeamNameVisibility(t, "hideForOtherTeams");
+		// }
+		// }
+		// }
+		// }.runTaskTimer(this, 20, 20);
+
+		// ProtocolLibrary.getProtocolManager().addPacketListener(
+		// new PacketAdapter(this, PacketType.Play.Server.SCOREBOARD_TEAM) {
+		// @Override
+		// public void onPacketSending(PacketEvent event) {
+		// Player p = event.getPlayer();
+		// PacketContainer pc = event.getPacket();
+		// boolean v18 = false;
+		// try {
+		// v18 = getClientVersion(p) == 47;
+		// } catch (Exception e) {
+		// v18 = true;
+		// }
+		// if (v18) {
+		// Bukkit.broadcastMessage("testing1 - " + p.getName());
+		// if (pc.getIntegers().readSafely(0).byteValue() == 2) {
+		// Bukkit.broadcastMessage("testing2 - " + p.getName());
+		// Team t = Bukkit.getScoreboardManager().getMainScoreboard()
+		// .getTeam(pc.getStrings().readSafely(0));
+		// if (t == null || !t.hasEntry("$NoNametags")) {
+		// return;
+		// }
+		// PacketPlayOutTeamNameVisibility ppo = new
+		// PacketPlayOutTeamNameVisibility(t,
+		// "hideForOtherTeams");
+		// PacketUtils.sendPacket(p, ppo);
+		// event.setCancelled(true);
+		//
+		// for (int i = 0; i < pc.getStrings().getValues().size(); i++) {
+		// Bukkit.broadcastMessage(i + ": " +
+		// pc.getStrings().getValues().get(i));
+		// }
+		// }
+		// }
+		// }
+		// });
 	}
 
 	@Override

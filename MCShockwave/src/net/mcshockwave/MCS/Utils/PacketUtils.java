@@ -7,6 +7,8 @@ import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 import net.minecraft.server.v1_7_R4.Packet;
 import net.minecraft.server.v1_7_R4.PacketDataSerializer;
 import net.minecraft.server.v1_7_R4.PacketListener;
+import net.minecraft.server.v1_7_R4.PacketPlayOutListener;
+import net.minecraft.server.v1_7_R4.PacketPlayOutScoreboardTeam;
 import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
 import net.minecraft.util.com.google.common.collect.BiMap;
 
@@ -15,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -255,6 +258,15 @@ public class PacketUtils {
 		}
 	}
 
+	public static void sendTeamNameVisibility(Team t, String vis) {
+		PacketPlayOutTeamNameVisibility ppotnv = new PacketPlayOutTeamNameVisibility(t, vis);
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (MCShockwave.getClientVersion(p) == 47) {
+				sendPacket(p, ppotnv);
+			}
+		}
+	}
+
 	public static class PacketPlayOutTitle extends Packet {
 
 		public int	fadeIn, length, fadeOut;
@@ -491,6 +503,70 @@ public class PacketUtils {
 		}
 
 		public void handle(PacketListener pl) {
+		}
+
+	}
+
+	public static class PacketPlayOutTeamNameVisibility extends PacketPlayOutScoreboardTeam {
+
+		String	name	= "";
+		String	display	= "";
+		String	pre		= "";
+		String	suf		= "";
+		int		mode;
+		int		opt;
+		String	vis		= "";
+
+		public PacketPlayOutTeamNameVisibility(Team t, String vis) {
+			this.name = t.getName();
+			this.mode = 2;
+			this.display = t.getDisplayName();
+			this.pre = t.getPrefix();
+			this.suf = t.getSuffix();
+			this.opt = 0;
+			if (t.allowFriendlyFire()) {
+				opt |= 1;
+			}
+			if (t.canSeeFriendlyInvisibles()) {
+				opt |= 2;
+			}
+			this.vis = vis;
+		}
+
+		public void a(PacketDataSerializer pds) {
+			try {
+				this.name = pds.c(16);
+				this.mode = pds.readInt();
+				this.display = pds.c(32);
+				this.pre = pds.c(16);
+				this.suf = pds.c(16);
+				this.opt = pds.readInt();
+				this.vis = pds.c(32);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void b(PacketDataSerializer pds) {
+			try {
+				pds.a(this.name);
+				pds.writeInt(this.mode);
+				pds.a(this.display);
+				pds.a(this.pre);
+				pds.a(this.suf);
+				pds.writeInt(this.opt);
+				pds.a(this.vis);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void a(PacketPlayOutListener packetplayoutlistener) {
+			packetplayoutlistener.a(this);
+		}
+
+		public void handle(PacketListener packetlistener) {
+			this.a((PacketPlayOutListener) packetlistener);
 		}
 
 	}
