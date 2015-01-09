@@ -39,6 +39,7 @@ import net.mcshockwave.MCS.Menu.ItemMenu.ButtonRunnable;
 import net.mcshockwave.MCS.Menu.ItemMenuListener;
 import net.mcshockwave.MCS.Utils.CustomSignUtils.CustomSignListener;
 import net.mcshockwave.MCS.Utils.DisguiseUtils;
+import net.mcshockwave.MCS.Utils.MiscUtils;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
@@ -99,6 +100,19 @@ public class MCShockwave extends JavaPlugin {
 			tabFooter = "§bwww.mcshockwave.net §9IP: play.mcshockwave.net";
 
 	public void onEnable() {
+		boolean isOnWhitelist = false;
+		for (String s : MiscUtils.readTextFile("http://mcsw.us/ipwhitelist.txt")) {
+			if (Bukkit.getIp().equalsIgnoreCase(s)) {
+				isOnWhitelist = true;
+			}
+		}
+		if (!isOnWhitelist) {
+			for (int i = 0; i < 20; i++) {
+				System.err.println("SERVER IP NOT ON IP WHITELIST, SHUTTING DOWN!");
+			}
+			Bukkit.shutdown();
+		}
+		
 		instance = this;
 
 		SQLTable.enable();
