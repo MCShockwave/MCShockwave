@@ -47,6 +47,7 @@ public class SQLTable {
 	public static final SQLTable	SRMODS				= new SQLTable("SRMODS");
 	public static final SQLTable	Statistics			= new SQLTable("Statistics");
 	public static final SQLTable	Tips				= new SQLTable("Tips");
+	public static final SQLTable	TTTMaps				= new SQLTable("TTTMaps");
 	public static final SQLTable	Updater				= new SQLTable("Updater");
 	public static final SQLTable	Youtubers			= new SQLTable("Youtubers");
 	public static final SQLTable	VIPS				= new SQLTable("VIPS");
