@@ -319,7 +319,9 @@ public class DefaultListener implements Listener {
 			}
 			MCShockwave.sendMessageToRank(ames, Rank.JR_MOD);
 		}
-		if (event.getMessage().length() > 3 && event.getMessage().toUpperCase().equals(event.getMessage())) {
+		if (event.getMessage().length() > 3
+				&& ChatColor.stripColor(event.getMessage().toUpperCase()).equals(
+						ChatColor.stripColor(event.getMessage()))) {
 			event.setMessage(WordUtils.capitalizeFully(event.getMessage()));
 		}
 		if (!SQLTable.hasRank(p.getName(), Rank.JR_MOD) && (event.getMessage().toLowerCase().contains("hack"))) {
