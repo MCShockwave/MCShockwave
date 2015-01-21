@@ -201,9 +201,18 @@ public class PacketUtils {
 	}
 
 	public static void playTitle(List<Player> pls, int fi, int le, int fo, String tit, String sub) {
-		for (Player p : pls.toArray(new Player[0])) {
-			if (MCShockwave.getClientVersion(p) != 47) {
-				pls.remove(p);
+		if (pls.size() == 1) {
+			if (MCShockwave.getClientVersion(pls.get(0)) < 47) {
+				return;
+			}
+		} else {
+			for (Player p : pls.toArray(new Player[0])) {
+				if (MCShockwave.getClientVersion(p) < 47) {
+					pls.remove(p);
+					if (pls.size() < 1) {
+						return;
+					}
+				}
 			}
 		}
 
