@@ -55,15 +55,18 @@ public class ChallengeManager {
 
 		for (int i = 0; i < amount; i++) {
 			Challenge c = ChallengeGenerator.getRandom();
+			boolean add = true;
 			for (Challenge m : chals) {
 				// if same challenge
 				if (c.type.equals(m.type) && c.mod == m.mod
 						&& (c.extra == null && m.extra == null || c.extra.equalsIgnoreCase(m.extra))) {
+					add = false;
 					i--;
 					continue;
 				}
 			}
-			chals.add(c);
+			if (add)
+				chals.add(c);
 		}
 
 		return chals.toArray(new Challenge[0]);
