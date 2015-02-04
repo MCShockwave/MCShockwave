@@ -1,22 +1,28 @@
 package net.mcshockwave.MCS.Utils;
 
 import net.mcshockwave.MCS.MCShockwave;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.MinecraftServer;
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R4.PlayerInteractManager;
+import net.minecraft.server.v1_7_R4.WorldServer;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 import com.comphenix.packetwrapper.WrapperPlayServerAnimation;
 import com.comphenix.packetwrapper.WrapperPlayServerBed;
 import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
 import com.comphenix.packetwrapper.WrapperPlayServerEntityTeleport;
-import com.comphenix.packetwrapper.WrapperPlayServerNamedEntitySpawn;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 
 public class FakePlayer {
 
@@ -37,19 +43,17 @@ public class FakePlayer {
 	public static FakePlayer spawnNew(Location loc, String name) {
 		short id = getEntityId();
 
-		WrapperPlayServerNamedEntitySpawn spawn = new WrapperPlayServerNamedEntitySpawn();
-		spawn.setEntityID(id);
-		spawn.setPosition(loc.toVector());
-		spawn.setPlayerName(name);
-		spawn.setPlayerUUID("0-0-0-0-0");
+		String uuid = UUID.randomUUID().toString();
+		char[] uuidChars = uuid.toCharArray();
+		uuidChars[14] = '2';
+		uuid = new String(uuidChars);
 
-		spawn.setYaw(0);
-		spawn.setPitch(0);
-
-		WrappedDataWatcher watcher = new WrappedDataWatcher();
-		watcher.setObject(0, (byte) 0);
-
-		spawn.setMetadata(watcher);
+		MinecraftServer mserver = MinecraftServer.getServer();
+		WorldServer wserver = ((CraftWorld) loc.getWorld()).getHandle();
+		GameProfile gprofile = new ProfileLoader(uuid, name).loadProfile();
+		PlayerInteractManager pimanager = new PlayerInteractManager(wserver);
+		PacketPlayOutNamedEntitySpawn spawn = new PacketPlayOutNamedEntitySpawn(new EntityPlayer(mserver, wserver,
+				gprofile, pimanager));
 
 		WrapperPlayServerBed bed = new WrapperPlayServerBed();
 		bed.setEntityId(id);
@@ -64,7 +68,7 @@ public class FakePlayer {
 		tele.setZ(loc.getZ());
 
 		for (Player p : loc.getWorld().getPlayers()) {
-			spawn.sendPacket(p);
+			PacketUtils.sendPacket(p, spawn);
 			bed.sendPacket(p);
 			tele.sendPacket(p);
 		}

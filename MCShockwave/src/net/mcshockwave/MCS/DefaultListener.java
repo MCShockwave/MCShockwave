@@ -552,6 +552,21 @@ public class DefaultListener implements Listener {
 		// event.disallow(Result.KICK_BANNED, s);
 		// }
 
+		new BukkitRunnable() {
+			public void run() {
+				String lastUser = null;
+				for (String s : MCShockwave.getNameChangesFor(pl)) {
+					if (SQLTable.Points.has("Username", s)) {
+						lastUser = s;
+					} else {
+						if (lastUser != null && !SQLTable.Points.has("Username", lastUser)) { // recheck
+							MCShockwave.registerNameChange(lastUser, pl);
+						}
+					}
+				}
+			}
+		}.runTaskAsynchronously(MCShockwave.instance);
+
 		if (BanManager.isBanned(pl)) {
 			event.disallow(
 					Result.KICK_BANNED,

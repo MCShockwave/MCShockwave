@@ -18,6 +18,7 @@ import net.mcshockwave.MCS.Commands.LoafCommand;
 import net.mcshockwave.MCS.Commands.MCSCommand;
 import net.mcshockwave.MCS.Commands.MultiplierCommand;
 import net.mcshockwave.MCS.Commands.MuteCommand;
+import net.mcshockwave.MCS.Commands.NameChangeHistoryCommand;
 import net.mcshockwave.MCS.Commands.PointsCommand;
 import net.mcshockwave.MCS.Commands.RedeemCommand;
 import net.mcshockwave.MCS.Commands.RestrictCommand;
@@ -56,11 +57,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -112,7 +123,7 @@ public class MCShockwave extends JavaPlugin {
 			}
 			Bukkit.shutdown();
 		}
-		
+
 		instance = this;
 
 		SQLTable.enable();
@@ -158,6 +169,7 @@ public class MCShockwave extends JavaPlugin {
 		getCommand("boots").setExecutor(new BootsCommand());
 		getCommand("ipcheck").setExecutor(new IPCommand());
 		getCommand("ipban").setExecutor(new IPBanCommand());
+		getCommand("nch").setExecutor(new NameChangeHistoryCommand());
 
 		Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
 			public void run() {
@@ -195,10 +207,10 @@ public class MCShockwave extends JavaPlugin {
 		NametagUtils.init();
 
 		PacketUtils.registerPackets();
-		
+
 		// doesn't work (for ghostbusters fix)
 		// TODO make work someday
-		
+
 		// new BukkitRunnable() {
 		// public void run() {
 		// for (Team t :
@@ -519,6 +531,58 @@ public class MCShockwave extends JavaPlugin {
 		}
 
 		return im;
+	}
+
+	public static void registerNameChange(String old, String name) {
+		for (SQLTable sql : SQLTable.tables) {
+			if (sql.getAll("Username") != null) {
+				sql.set("Username", name, "Username", old);
+			}
+		}
+		for (String fr : SQLTable.Friends.getAll("Friends")) {
+			if (fr.contains("," + old)) {
+				String frOld = fr;
+				fr = fr.replace("," + old, "," + name);
+				String user = SQLTable.Friends.get("Friends", frOld, "Username");
+				SQLTable.Friends.set("Friends", fr, "Username", user);
+				MCShockwave.sendMessageToProxy("§b§l" + old + " has changed their name to " + name + "!", user);
+			}
+		}
+		if (Bukkit.getPlayer(name) != null) {
+			if (BanManager.isBanned(name)) {
+				Bukkit.getPlayer(name).kickPlayer(BanManager.getBanReason(name));
+			}
+			Bukkit.getPlayer(name).sendMessage(
+					"§d§lSuccessfully transferred data from " + old + " to " + name
+							+ "! If there was an error, contact a member of staff!");
+		}
+	}
+
+	public static String[] getNameChangesFor(String user) {
+		String id = ((JSONObject) get("https://api.mojang.com/users/profiles/minecraft/" + user)).get("id").toString();
+		JSONArray his = (JSONArray) get("https://api.mojang.com/user/profiles/" + id + "/names");
+		ArrayList<String> ret = new ArrayList<>();
+		for (int i = 0; i < his.size(); i++) {
+			JSONObject jo = (JSONObject) his.get(i);
+			boolean newName = jo.containsKey("changedToAt");
+			ret.add(jo.get("name") + (newName ? "@" + jo.get("changedToAt") : ""));
+		}
+		return ret.toArray(new String[0]);
+	}
+
+	public static Object get(String link) {
+		try {
+			URL url = new URL(link);
+			HttpsURLConnection http = (HttpsURLConnection) url.openConnection();
+			http.setRequestMethod("GET");
+			InputStreamReader isrea = new InputStreamReader(http.getInputStream());
+			BufferedReader rea = new BufferedReader(isrea);
+			System.out.println("GET: " + link + " (" + http.getResponseMessage() + ")");
+			return new JSONParser().parse(rea);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static void connectToServer(Player p, String server, String full) {
