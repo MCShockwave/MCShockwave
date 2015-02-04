@@ -684,6 +684,11 @@ public class MCSCommand implements CommandExecutor {
 				});
 				ut.execute();
 			}
+			
+			if (args[0].equalsIgnoreCase("namechange")) {
+				sender.sendMessage("§6Changing " + args[1] + " to " + args[2]);
+				MCShockwave.registerNameChange(args[1], args[2]);
+			}
 		}
 		return false;
 	}
