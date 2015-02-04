@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class SQLTable {
+	public static ArrayList<SQLTable>	tables				= new ArrayList<>();
+
 	public static final SQLTable		ADMINS				= new SQLTable("ADMINS");
 	public static final SQLTable		BanHistory			= new SQLTable("BanHistory");
 	public static final SQLTable		Banned				= new SQLTable("Banned");
@@ -54,8 +56,6 @@ public class SQLTable {
 	public static final SQLTable		Zombiez				= new SQLTable("Zombiez");
 
 	public String						name;
-
-	public static ArrayList<SQLTable>	tables				= new ArrayList<>();
 
 	public SQLTable(String name) {
 		this.name = name;
