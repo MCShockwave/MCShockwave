@@ -557,7 +557,9 @@ public class MCShockwave extends JavaPlugin {
 				MCShockwave.sendMessageToProxy("§b§l" + old + " has changed their name to " + name + "!", user);
 			}
 		}
-		SQLTable.OldUsernames.add("Username", name, "OldName", old);
+		if (!SQLTable.OldUsernames.hasWhere("Username", "Username='" + name + "' AND OldName='" + old + "'")) {
+			SQLTable.OldUsernames.add("Username", name, "OldName", old);
+		}
 		if (Bukkit.getPlayer(name) != null) {
 			if (BanManager.isBanned(name)) {
 				Bukkit.getPlayer(name).kickPlayer(BanManager.getBanReason(name));
