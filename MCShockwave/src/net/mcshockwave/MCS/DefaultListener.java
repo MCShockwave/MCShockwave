@@ -531,12 +531,8 @@ public class DefaultListener implements Listener {
 			if (!SQLTable.OldUsernames.has("Username", plName) && !plName.equals(s)) {
 				SQLTable.OldUsernames.add("Username", plName, "OldName", s);
 			}
-			boolean isLoggedPastUser = false;
-			for (String name : SQLTable.OldUsernames.getAll("Username", plName, "OldName")) {
-				if (name.equals(s)) {
-					isLoggedPastUser = true;
-				}
-			}
+			boolean isLoggedPastUser = s.equals(plName)
+					|| SQLTable.OldUsernames.hasWhere("Username", "Username='" + plName + "' AND OldName='" + s + "'");
 			if (isLoggedPastUser) {
 				lastUser = s;
 			} else {
