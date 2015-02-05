@@ -525,20 +525,12 @@ public class DefaultListener implements Listener {
 	}
 
 	public static String checkNameChange(String plName) {
-		String lastUser = null;
 		for (String s : MCShockwave.getNameChangesFor(plName)) {
 			s = s.split(":::")[0];
-			if (!SQLTable.OldUsernames.has("Username", plName) && !plName.equals(s)) {
-				SQLTable.OldUsernames.add("Username", plName, "OldName", s);
-			}
 			boolean isLoggedPastUser = s.equals(plName)
 					|| SQLTable.OldUsernames.hasWhere("Username", "Username='" + plName + "' AND OldName='" + s + "'");
-			if (isLoggedPastUser) {
-				lastUser = s;
-			} else {
-				if (lastUser != null) {
-					return lastUser;
-				}
+			if (!isLoggedPastUser) {
+				return s;
 			}
 		}
 		return null;
