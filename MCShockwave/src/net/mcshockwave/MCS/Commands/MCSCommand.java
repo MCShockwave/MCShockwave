@@ -80,6 +80,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
 import org.bukkit.scoreboard.Team;
@@ -115,7 +116,7 @@ public class MCSCommand implements CommandExecutor {
 	Random		rand	= new Random();
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command com, String label, String[] args) {
+	public boolean onCommand(final CommandSender sender, Command com, String label, String[] args) {
 		if (label.equalsIgnoreCase("mcs")
 				&& (sender.isOp() || sender instanceof Player && SQLTable.hasRank(sender.getName(), Rank.JR_MOD))) {
 			if (args[0].equalsIgnoreCase("vip")
@@ -688,6 +689,21 @@ public class MCSCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("namechange")) {
 				sender.sendMessage("§6Changing " + args[1] + " to " + args[2]);
 				MCShockwave.registerNameChange(args[1], args[2]);
+			}
+			
+			if (args[0].equalsIgnoreCase("checknc")) {
+				sender.sendMessage("§cChecking name change for player " + args[1]);
+				final String pl = args[1];
+				new BukkitRunnable() {
+					public void run() {
+						String s = DefaultListener.checkNameChange(pl);
+						if (s != null) {
+							sender.sendMessage("§aChange found: " + s);
+						} else {
+							sender.sendMessage("§cChange not found");
+						}
+					}
+				}.runTaskAsynchronously(MCShockwave.instance);
 			}
 		}
 		return false;

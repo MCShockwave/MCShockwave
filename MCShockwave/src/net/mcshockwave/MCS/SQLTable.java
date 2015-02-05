@@ -37,6 +37,7 @@ public class SQLTable {
 	public static final SQLTable		MynerimItems		= new SQLTable("MynerimItems");
 	public static final SQLTable		NetMultipliers		= new SQLTable("NetMultipliers");
 	public static final SQLTable		nickNames			= new SQLTable("nickNames");
+	public static final SQLTable		OldUsernames		= new SQLTable("OldUsernames");
 	public static final SQLTable		OPS					= new SQLTable("OPS");
 	public static final SQLTable		PermaItems			= new SQLTable("PermaItems");
 	public static final SQLTable		Points				= new SQLTable("Points");

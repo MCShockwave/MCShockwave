@@ -535,8 +535,17 @@ public class MCShockwave extends JavaPlugin {
 
 	public static void registerNameChange(String old, String name) {
 		for (SQLTable sql : SQLTable.tables) {
-			if (sql.getAll("Username") != null) {
-				sql.set("Username", name, "Username", old);
+			System.out.println("NameChange for Table " + sql.name + ": " + old + "->" + name);
+			try {
+				ArrayList<String> all = sql.getAll("Username");
+				if (all != null && all.size() > 0) {
+					if (sql.has("Username", old) && sql.has("Username", name)) {
+						sql.del("Username", name);
+					}
+					sql.set("Username", name, "Username", old);
+				}
+			} catch (Exception e) {
+				System.err.println("ERROR on table " + sql.name + ": " + e.getMessage());
 			}
 		}
 		for (String fr : SQLTable.Friends.getAll("Friends")) {
@@ -548,13 +557,14 @@ public class MCShockwave extends JavaPlugin {
 				MCShockwave.sendMessageToProxy("§b§l" + old + " has changed their name to " + name + "!", user);
 			}
 		}
+		SQLTable.OldUsernames.add("Username", name, "OldName", old);
 		if (Bukkit.getPlayer(name) != null) {
 			if (BanManager.isBanned(name)) {
 				Bukkit.getPlayer(name).kickPlayer(BanManager.getBanReason(name));
-			}
-			Bukkit.getPlayer(name).sendMessage(
-					"§d§lSuccessfully transferred data from " + old + " to " + name
-							+ "! If there was an error, contact a member of staff!");
+			} else
+				Bukkit.getPlayer(name).kickPlayer(
+						"§d§lSuccessfully transferred data from " + old + " to " + name
+								+ "! If there was an error, contact a member of staff!");
 		}
 	}
 
@@ -565,7 +575,7 @@ public class MCShockwave extends JavaPlugin {
 		for (int i = 0; i < his.size(); i++) {
 			JSONObject jo = (JSONObject) his.get(i);
 			boolean newName = jo.containsKey("changedToAt");
-			ret.add(jo.get("name") + (newName ? "@" + jo.get("changedToAt") : ""));
+			ret.add(jo.get("name") + (newName ? ":::" + jo.get("changedToAt") : ""));
 		}
 		return ret.toArray(new String[0]);
 	}

@@ -524,6 +524,30 @@ public class DefaultListener implements Listener {
 		}
 	}
 
+	public static String checkNameChange(String plName) {
+		String lastUser = null;
+		for (String s : MCShockwave.getNameChangesFor(plName)) {
+			s = s.split(":::")[0];
+			if (!SQLTable.OldUsernames.has("Username", plName) && !plName.equals(s)) {
+				SQLTable.OldUsernames.add("Username", plName, "OldName", s);
+			}
+			boolean isLoggedPastUser = false;
+			for (String name : SQLTable.OldUsernames.getAll("Username", plName, "OldName")) {
+				if (name.equals(s)) {
+					isLoggedPastUser = true;
+				}
+			}
+			if (isLoggedPastUser) {
+				lastUser = s;
+			} else {
+				if (lastUser != null) {
+					return lastUser;
+				}
+			}
+		}
+		return null;
+	}
+
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerLogin(final PlayerLoginEvent event) {
@@ -555,16 +579,9 @@ public class DefaultListener implements Listener {
 		if (MCShockwave.server.equalsIgnoreCase("hub")) {
 			new BukkitRunnable() {
 				public void run() {
-					String lastUser = null;
-					for (String s : MCShockwave.getNameChangesFor(pl)) {
-						s = s.split("\\@")[0];
-						if (SQLTable.Points.has("Username", s)) {
-							lastUser = s;
-						} else {
-							if (lastUser != null && !SQLTable.Points.has("Username", lastUser)) { // recheck
-								MCShockwave.registerNameChange(lastUser, pl);
-							}
-						}
+					String s = checkNameChange(pl);
+					if (s != null) {
+						MCShockwave.registerNameChange(s, pl);
 					}
 				}
 			}.runTaskAsynchronously(MCShockwave.instance);

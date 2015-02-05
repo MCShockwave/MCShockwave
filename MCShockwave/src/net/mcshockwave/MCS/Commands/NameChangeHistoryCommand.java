@@ -24,7 +24,7 @@ public class NameChangeHistoryCommand implements CommandExecutor {
 					sender.sendMessage("§6Past usernames for user " + user + ":");
 					for (String s : ncs) {
 						String show = s;
-						String[] ss = s.split("\\@");
+						String[] ss = s.split(":::");
 						if (ss.length > 1) {
 							long time = Long.parseLong(ss[1]);
 							// ^heh
