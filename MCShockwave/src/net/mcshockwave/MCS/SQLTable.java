@@ -1,9 +1,12 @@
 package net.mcshockwave.MCS;
 
+import net.minecraft.util.org.apache.commons.codec.binary.Base64;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Scanner;
 
 public class SQLTable {
 	public static ArrayList<SQLTable>	tables				= new ArrayList<>();
@@ -73,10 +77,6 @@ public class SQLTable {
 	public static String		SqlName		= "vahost_24";
 	public static String		SqlUser		= SqlName;
 
-	// DONT LOOK AT THIS PLEASEEEEE
-	public static String		SqlPass		= "24eilrahC";
-	// TURN AWAY NOW!!!!
-
 	public static Statement		stmt		= null;
 	public static Connection	con			= null;
 
@@ -89,7 +89,7 @@ public class SQLTable {
 		}
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
-					SqlPass).reverse().toString());
+					new String(Base64.decodeBase64(pswd()))).reverse().toString());
 			stmt = con.createStatement();
 
 			if (stmt == null) {
@@ -107,6 +107,19 @@ public class SQLTable {
 			enable();
 			e.printStackTrace();
 		}
+	}
+
+	private static byte[] pswd() {
+		try {
+			URL url = new URL("http://mcsw.us/xebEgx.txt");
+			Scanner in = new Scanner(url.openStream());
+			String enc = in.next();
+			in.close();
+			return new StringBuffer(enc).reverse().toString().getBytes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new byte[0];
 	}
 
 	public static void restartConnection() {
