@@ -70,6 +70,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -658,11 +659,12 @@ public class MCSCommand implements CommandExecutor {
 
 			if (args[0].equalsIgnoreCase("rocket")) {
 				final Player t = Bukkit.getPlayer(args[1]);
+				int times = args.length > 2 ? Integer.parseInt(args[2]) : 25;
 
 				SchedulerUtils ut = SchedulerUtils.getNew();
 				ut.add(t);
 				ut.add("§9§lHave fun in space!");
-				for (int i = 0; i < 25; i++) {
+				for (int i = 0; i < times; i++) {
 					ut.add(2);
 					ut.add(new Runnable() {
 						public void run() {
@@ -685,12 +687,64 @@ public class MCSCommand implements CommandExecutor {
 				});
 				ut.execute();
 			}
-			
+
+			if (args[0].equalsIgnoreCase("abduct")) {
+				final Player t = Bukkit.getPlayer(args[1]);
+				int times = args.length > 2 ? Integer.parseInt(args[2]) : 100;
+				t.getWorld().playSound(t.getLocation(), Sound.WITHER_SPAWN, 10, 0);
+
+				SchedulerUtils ut = SchedulerUtils.getNew();
+				ut.add(t);
+				for (int i = 0; i < times; i++) {
+					ut.add(1);
+					ut.add(new Runnable() {
+						public void run() {
+							if (t.getGameMode() == GameMode.CREATIVE) {
+								t.setGameMode(GameMode.ADVENTURE);
+							}
+							t.setVelocity(new Vector(0, t.getVelocity().getY() + 0.1f, 0));
+							PacketUtils.playParticleEffect(ParticleEffect.WITCH_MAGIC, t.getLocation(), 0, 0.05f, 10);
+							PacketUtils.playParticleEffect(ParticleEffect.FIREWORKS_SPARK, t.getLocation(), 0, 0.05f,
+									10);
+						}
+					});
+				}
+				ut.add(new Runnable() {
+					public void run() {
+						t.damage(t.getMaxHealth());
+					}
+				});
+				ut.execute();
+			}
+
+			if (args[0].equalsIgnoreCase("nograv")) {
+				final String name = args[1];
+				if (!nograv.containsKey(name)) {
+					nograv.put(name, new BukkitRunnable() {
+						public void run() {
+							Player pl = Bukkit.getPlayer(name);
+							if (pl != null) {
+								if (!(pl.getLocation().getY() % 1 < 0.2 && !pl.getLocation().getBlock()
+										.getRelative(BlockFace.DOWN).getType().isTransparent())) {
+									pl.setVelocity(pl.getVelocity().setY(pl.getVelocity().getY() + 0.05));
+								}
+							} else {
+								nograv.remove(name);
+								cancel();
+							}
+						}
+					}.runTaskTimer(plugin, 1, 1));
+				} else {
+					nograv.get(name).cancel();
+					nograv.remove(name);
+				}
+			}
+
 			if (args[0].equalsIgnoreCase("namechange")) {
 				sender.sendMessage("§6Changing " + args[1] + " to " + args[2]);
 				MCShockwave.registerNameChange(args[1], args[2]);
 			}
-			
+
 			if (args[0].equalsIgnoreCase("checknc")) {
 				sender.sendMessage("§cChecking name change for player " + args[1]);
 				final String pl = args[1];
@@ -716,6 +770,8 @@ public class MCSCommand implements CommandExecutor {
 		SQLTable.VIPS.del("Username", p);
 		SQLTable.VIPS.add("Username", p, "TypeId", id + "", "TimeLeft", time + "");
 	}
+
+	public static HashMap<String, BukkitTask>					nograv		= new HashMap<>();
 
 	public static HashMap<String, ArrayList<PacketContainer>>	nopackets	= new HashMap<>();
 

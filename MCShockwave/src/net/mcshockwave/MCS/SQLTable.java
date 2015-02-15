@@ -32,6 +32,7 @@ public class SQLTable {
 	public static final SQLTable		IPBans				= new SQLTable("IPBans");
 	public static final SQLTable		IPLogs				= new SQLTable("IPLogs");
 	public static final SQLTable		JunMODS				= new SQLTable("JunMODS");
+	public static final SQLTable		Karma				= new SQLTable("Karma");
 	public static final SQLTable		Level				= new SQLTable("Level");
 	public static final SQLTable		MinigameMaps		= new SQLTable("MinigameMaps");
 	public static final SQLTable		MiscItems			= new SQLTable("MiscItems");
