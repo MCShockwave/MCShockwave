@@ -57,6 +57,7 @@ import net.mcshockwave.MCS.Utils.PacketUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils.PacketPlayOutWorldBorder;
 import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
+import net.mcshockwave.MCS.Utils.Unpackager;
 import net.minecraft.server.v1_7_R4.EnumDifficulty;
 import net.minecraft.server.v1_7_R4.EnumGamemode;
 import net.minecraft.server.v1_7_R4.PacketPlayOutGameStateChange;
@@ -740,6 +741,10 @@ public class MCSCommand implements CommandExecutor {
 				}
 			}
 
+			if (args[0].equalsIgnoreCase("downloadworld")) {
+				updateMap(args[1]);
+			}
+
 			if (args[0].equalsIgnoreCase("namechange")) {
 				sender.sendMessage("§6Changing " + args[1] + " to " + args[2]);
 				MCShockwave.registerNameChange(args[1], args[2]);
@@ -793,5 +798,22 @@ public class MCSCommand implements CommandExecutor {
 				}
 			}
 		});
+	}
+
+	public void updateMap(final String map) {
+		new BukkitRunnable() {
+			public void run() {
+				try {
+					URL url = new URL("http://mcsw.us/hostserver/Maps/" + map + ".zip");
+					File maps = new File(map);
+					File del = Unpackager.unpackArchive(url, maps);
+					Bukkit.broadcastMessage("§aDownloaded map " + map);
+					del.delete();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Bukkit.broadcastMessage("§cError updating map: " + ex.getLocalizedMessage());
+				}
+			}
+		}.runTaskAsynchronously(plugin);
 	}
 }
