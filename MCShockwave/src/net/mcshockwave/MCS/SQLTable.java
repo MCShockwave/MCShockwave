@@ -72,7 +72,7 @@ public class SQLTable {
 		return name;
 	}
 
-	public static String		SQL_IP		= "216.174.63.163";
+	public static String		SQL_IP		= "192.99.39.117";
 
 	public static String		SqlIP		= Bukkit.getIp().equals(SQL_IP) ? "localhost" : SQL_IP;
 	public static String		SqlName		= "vahost_24";
