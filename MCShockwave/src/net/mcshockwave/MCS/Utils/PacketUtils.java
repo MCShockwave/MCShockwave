@@ -10,7 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.material.MaterialData;
 
+import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_12_R1.PacketPlayOutWorldBorder;
@@ -19,11 +21,11 @@ import net.minecraft.server.v1_12_R1.WorldBorder;
 
 public class PacketUtils {
 
-	public static void playBlockParticles(Material m, Location l) {
+	public static void playBlockParticles(MaterialData m, Location l) {
 		l.getWorld().spawnParticle(Particle.BLOCK_CRACK, l, 50, m);
 	}
 
-	public static void playBlockDustParticles(Material m, Location l, float rad, float spd) {
+	public static void playBlockDustParticles(MaterialData m, Location l, float rad, float spd) {
 		l.getWorld().spawnParticle(Particle.BLOCK_DUST, l, 50, 0, 0, 0, spd, m);
 	}
 
@@ -119,16 +121,16 @@ public class PacketUtils {
 	}
 	
 	public static void setHeaderFooter(Player p, String header, String footer) {
-		String head = "{text:\"" + header + "\"}";
-		String foot = "{text:\"" + footer + "\"}";
+		String head = "{\"text\":\"" + header + "\"}";
+		String foot = "{\"text\":\"" + footer + "\"}";
 		PacketPlayOutPlayerListHeaderFooter pack = new PacketPlayOutPlayerListHeaderFooter();
 		try {
             Field fieldA = (Field) pack.getClass().getDeclaredField("a");
             fieldA.setAccessible(true);
-            fieldA.set(pack, head);
+            fieldA.set(pack, ChatSerializer.a(head));
             Field fieldB = (Field) pack.getClass().getDeclaredField("b");
             fieldB.setAccessible(true);
-            fieldB.set(pack, foot);
+            fieldB.set(pack, ChatSerializer.a(foot));
 		} catch (IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}

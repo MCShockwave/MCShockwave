@@ -179,7 +179,7 @@ public class BossBarUtils {
 
 	// Other methods
 	public static void displayTextBar(String text, final Player player) {
-		BossBar bar = Bukkit.createBossBar(text, BarColor.PURPLE, BarStyle.SOLID);
+		final BossBar bar = Bukkit.createBossBar(text, BarColor.PURPLE, BarStyle.SOLID);
 		bar.addPlayer(player);
 		bar.setProgress(1.0);
 		
@@ -195,7 +195,7 @@ public class BossBarUtils {
 
 	public static void displayLoadingBar(final String text, final String completeText, final Player player,
 			final int healthAdd, final long delay, final boolean loadUp) {
-		BossBar bar = Bukkit.createBossBar(text, BarColor.PURPLE, BarStyle.SOLID);
+		final BossBar bar = Bukkit.createBossBar(text, BarColor.PURPLE, BarStyle.SOLID);
 		bar.addPlayer(player);
 		bar.setProgress(loadUp ? 0.0 : 1.0);
 

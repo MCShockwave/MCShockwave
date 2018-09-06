@@ -71,11 +71,11 @@ public class SQLTable {
 		return name;
 	}
 
-	public static String		SQL_IP		= "192.99.39.117";
+	public static String		SQL_IP		= "localhost";
 
 	public static String		SqlIP		= Bukkit.getIp().equals(SQL_IP) ? "localhost" : SQL_IP;
 	public static String		SqlName		= "vahost24";
-	public static String		SqlUser		= SqlName;
+	public static String		SqlUser		= "pluginuser";
 
 	public static Statement		stmt		= null;
 	public static Connection	con			= null;
@@ -88,8 +88,7 @@ public class SQLTable {
 			conRestart.cancel();
 		}
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
-					new String(Base64.getDecoder().decode(pswd()))).reverse().toString());
+			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName + "?autoReconnect=true&useSSL=false", SqlUser, "random");
 			stmt = con.createStatement();
 
 			if (stmt == null) {
@@ -104,11 +103,16 @@ public class SQLTable {
 			}, 12000l, 12000l);
 		} catch (SQLException e) {
 			Bukkit.getLogger().severe("SQL Connection enable FAILED!");
-			enable();
 			e.printStackTrace();
+			Bukkit.getScheduler().runTaskLater(MCShockwave.instance, new Runnable() {
+				public void run() {
+					enable();					
+				}
+			}, 5l);
 		}
 	}
 
+	// note about past me: don't do this
 	private static byte[] pswd() {
 		try {
 			URL url = new URL("http://mcsw.us/xebEgx.txt");

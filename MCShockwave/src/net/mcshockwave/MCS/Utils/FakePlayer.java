@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.Player;
+import org.bukkit.material.MaterialData;
 
 import com.comphenix.packetwrapper.WrapperPlayServerAnimation;
 import com.comphenix.packetwrapper.WrapperPlayServerBed;
@@ -96,7 +97,7 @@ public class FakePlayer {
 					ani2.setEntityID(id);
 					ani2.setAnimation(1);
 
-					PacketUtils.playBlockDustParticles(Material.REDSTONE_BLOCK, loc.clone().add(-0.5, -0.2, -0.5), 0,
+					PacketUtils.playBlockDustParticles(new MaterialData(Material.REDSTONE_BLOCK), loc.clone().add(-0.5, -0.2, -0.5), 0,
 							0.1f);
 
 					loc.getWorld().playSound(loc, Sound.ENTITY_PLAYER_HURT, 3, 0);

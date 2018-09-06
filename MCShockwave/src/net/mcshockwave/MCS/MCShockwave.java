@@ -83,7 +83,7 @@ public class MCShockwave extends JavaPlugin {
 
 	public static boolean					chatSilenced	= false;
 
-	public static String					server			= null;
+	public static String					server			= "mg1";
 
 	public static boolean					chatEnabled		= true;
 
@@ -106,18 +106,19 @@ public class MCShockwave extends JavaPlugin {
 			tabFooter = "§bwww.mcshockwave.net §9IP: play.mcshockwave.net";
 
 	public void onEnable() {
-		boolean isOnWhitelist = false;
-		for (String s : MiscUtils.readTextFile("http://mcsw.us/ipwhitelist.txt")) {
-			if (Bukkit.getIp().equalsIgnoreCase(s)) {
-				isOnWhitelist = true;
-			}
-		}
-		if (!isOnWhitelist) {
-			for (int i = 0; i < 20; i++) {
-				System.err.println("SERVER IP NOT ON IP WHITELIST, SHUTTING DOWN!");
-			}
-			Bukkit.shutdown();
-		}
+		// boolean isOnWhitelist = false;
+		// for (String s :
+		// MiscUtils.readTextFile("http://mcsw.us/ipwhitelist.txt")) {
+		// if (Bukkit.getIp().equalsIgnoreCase(s)) {
+		// isOnWhitelist = true;
+		// }
+		// }
+		// if (!isOnWhitelist) {
+		// for (int i = 0; i < 20; i++) {
+		// System.err.println("SERVER IP NOT ON IP WHITELIST, SHUTTING DOWN!");
+		// }
+		// Bukkit.shutdown();
+		// }
 
 		instance = this;
 

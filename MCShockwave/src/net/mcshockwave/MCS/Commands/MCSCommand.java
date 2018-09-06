@@ -65,6 +65,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
@@ -188,12 +189,14 @@ public class MCSCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("bpar") && sender instanceof Player) {
 				Player p = (Player) sender;
 
-				PacketUtils.playBlockParticles(Material.valueOf(args[1].toUpperCase()), p.getEyeLocation());
+				MaterialData md = new MaterialData(Material.valueOf(args[1].toUpperCase()));
+				PacketUtils.playBlockParticles(md, p.getEyeLocation());
 			}
 			if (args[0].equalsIgnoreCase("bdpar") && sender instanceof Player) {
 				Player p = (Player) sender;
 
-				PacketUtils.playBlockDustParticles(Material.valueOf(args[1].toUpperCase()), p.getEyeLocation(),
+				MaterialData md = new MaterialData(Material.valueOf(args[1].toUpperCase()));
+				PacketUtils.playBlockDustParticles(md, p.getEyeLocation(),
 						Float.parseFloat(args[3]), Float.parseFloat(args[4]));
 			}
 			if (args[0].equalsIgnoreCase("getTopXp")) {
@@ -330,7 +333,7 @@ public class MCSCommand implements CommandExecutor {
 					final Location m = l;
 					Runnable run = new Runnable() {
 						public void run() {
-							PacketUtils.playBlockDustParticles(Material.GOLD_BLOCK, m, 0, 0.1f);
+							PacketUtils.playBlockDustParticles(new MaterialData(Material.GOLD_BLOCK), m, 0, 0.1f);
 						}
 					};
 
