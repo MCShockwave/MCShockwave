@@ -1,5 +1,32 @@
 package net.mcshockwave.MCS;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Commands.BCCommand;
 import net.mcshockwave.MCS.Commands.BootsCommand;
@@ -43,38 +70,6 @@ import net.mcshockwave.MCS.Utils.DisguiseUtils;
 import net.mcshockwave.MCS.Utils.MiscUtils;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
-import net.minecraft.server.v1_7_R4.ChatSerializer;
-import net.minecraft.server.v1_7_R4.IChatBaseComponent;
-import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 
 public class MCShockwave extends JavaPlugin {
 
@@ -413,18 +408,6 @@ public class MCShockwave extends JavaPlugin {
 		return 0;
 	}
 
-	/**
-	 * @return Client protocol version (1.7.2 - 4, 1.7.10 - 5, 1.8 - 47)
-	 **/
-	public static int getClientVersion(Player p) {
-		int pver = ((CraftPlayer) p).getHandle().playerConnection.networkManager.getVersion();
-		return pver;
-	}
-
-	public static String getStringVersionFromProtocolVersion(int protocol) {
-		return protocol == 4 ? "1.7.2" : protocol == 5 ? "1.7.10" : protocol == 47 ? "1.8" : "PV" + protocol;
-	}
-
 	public static ItemMenu getMGServers(ItemMenu im) {
 		ItemMenu mg = new ItemMenu("MCMinigames Servers", 9);
 		Button mgb = new Button(false, Material.DIAMOND_SWORD, 1, 0, "MCMinigames Servers", "Click to view all servers");
@@ -598,22 +581,15 @@ public class MCShockwave extends JavaPlugin {
 	}
 
 	public static void connectToServer(Player p, String server, String full) {
-		PacketUtils.sendPacketGlobally(p.getLocation(), 16,
-				PacketUtils.generateParticles(ParticleEffect.FLAME, p.getLocation(), 1, 0.2f, 200));
+		PacketUtils.playParticleEffect(Particle.FLAME, p.getLocation(), 1, 0.2f, 200);
 
-		p.getWorld().playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+		p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
 
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 		out.writeUTF("Connect");
 		out.writeUTF(server);
 		p.sendPluginMessage(instance, "BungeeCord", out.toByteArray());
 		p.sendMessage(ChatColor.AQUA + "Connecting to " + full);
-	}
-
-	public static void sendRawMessage(Player p, String json) {
-		IChatBaseComponent comp = ChatSerializer.a(json);
-		PacketPlayOutChat packet = new PacketPlayOutChat(comp, true);
-		((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
 	}
 
 	public static void updateTab(final Player p) {

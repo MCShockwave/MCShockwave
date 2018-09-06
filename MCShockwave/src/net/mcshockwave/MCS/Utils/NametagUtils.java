@@ -1,23 +1,23 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.mcshockwave.MCS.Entities.CustomEntityRegistrar;
-import net.minecraft.server.v1_7_R4.Entity;
-import net.minecraft.server.v1_7_R4.EntityAmbient;
-import net.minecraft.server.v1_7_R4.EntityBat;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+
+import net.mcshockwave.MCS.Entities.CustomEntityRegistrar;
+import net.minecraft.server.v1_12_R1.Entity;
+import net.minecraft.server.v1_12_R1.EntityAmbient;
+import net.minecraft.server.v1_12_R1.EntityBat;
 
 public class NametagUtils {
 
@@ -75,7 +75,7 @@ public class NametagUtils {
 	}
 
 	private static class NametagEntity extends EntityAmbient {
-		public NametagEntity(net.minecraft.server.v1_7_R4.World w) {
+		public NametagEntity(net.minecraft.server.v1_12_R1.World w) {
 			super(w);
 		}
 
@@ -101,7 +101,7 @@ public class NametagUtils {
 		}
 
 		public void hideTag(Player player) {
-			setPassengerOf(((CraftPlayer) player).getHandle());
+			startRiding(((CraftPlayer) player).getHandle());
 		}
 
 		// public void showTag() {

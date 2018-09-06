@@ -30,7 +30,7 @@ public class LevelUtils {
 		setXP(p, po);
 
 		if (isLevelUp(poF, xp)) {
-			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 0);
+			p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0);
 			p.sendMessage(" ");
 			MCShockwave.send(ChatColor.YELLOW, p, "You leveled up! New level: %s", getLevelFromXP(po));
 			MCShockwave.send(ChatColor.YELLOW, p, "Type %s to see level info!", "/data");
@@ -55,7 +55,7 @@ public class LevelUtils {
 				}
 			}, 20L);
 		} else
-			p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 1.4f);
+			p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1.4f);
 	}
 
 	public static boolean isLevelUp(int xpSt, int xpAdd) {

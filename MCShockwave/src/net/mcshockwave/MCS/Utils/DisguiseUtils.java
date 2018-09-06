@@ -1,10 +1,15 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.util.com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -16,12 +21,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.Random;
 
 import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
 import com.comphenix.packetwrapper.WrapperPlayServerEntityEquipment;
@@ -36,16 +35,18 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
+import com.google.common.collect.Lists;
 
 public class DisguiseUtils {
 
-	public static HashMap<String, DisguiseUtils>	disguised;
+	public static HashMap<String, DisguiseUtils> disguised;
 
-	public static ArrayList<String>					noresend	= new ArrayList<>();
+	public static ArrayList<String> noresend = new ArrayList<>();
 
-	static Plugin									pl;
+	static Plugin pl;
 
 	public static void init(Plugin plug) {
 		pl = plug;
@@ -86,8 +87,8 @@ public class DisguiseUtils {
 
 						if (!noresend.contains(p.getName()) && disguised.containsKey(p.getName())) {
 							DisguiseUtils ut = disguised.get(p.getName());
-							if (ut.canSeeSelf && p.getEntityId() == meta.getEntityId()) {
-								for (WrappedWatchableObject obj : meta.getEntityMetadata()) {
+							if (ut.canSeeSelf && p.getEntityId() == meta.getEntityID()) {
+								for (WrappedWatchableObject obj : meta.getMetadata()) {
 									if (obj.getIndex() == 0) {
 										obj.setValue(getStatus(p, true));
 									}
@@ -97,8 +98,8 @@ public class DisguiseUtils {
 								meta.sendPacket(p);
 
 								WrapperPlayServerEntityMetadata lm = new WrapperPlayServerEntityMetadata();
-								lm.setEntityId(ut.localid);
-								lm.setEntityMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
+								lm.setEntityID(ut.localid);
+								lm.setMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
 								lm.sendPacket(p);
 								return;
 							}
@@ -130,12 +131,12 @@ public class DisguiseUtils {
 							tele.sendPacket(p);
 
 							WrapperPlayServerEntityHeadRotation hr = new WrapperPlayServerEntityHeadRotation();
-							hr.setEntityId(ut.localid);
-							hr.setHeadYaw(l.getYaw());
+							hr.setEntityID(ut.localid);
+							hr.setHeadYaw((byte) l.getYaw());
 
 							Vector v = p.getVelocity();
 							WrapperPlayServerEntityVelocity vel = new WrapperPlayServerEntityVelocity();
-							vel.setEntityId(ut.localid);
+							vel.setEntityID(ut.localid);
 							vel.setVelocityX(v.getX());
 							vel.setVelocityY(v.getY());
 							vel.setVelocityZ(v.getZ());
@@ -155,7 +156,7 @@ public class DisguiseUtils {
 		disguised.put(p.getName(), ut);
 
 		WrapperPlayServerEntityDestroy dest = new WrapperPlayServerEntityDestroy();
-		dest.setEntities(new int[] { p.getEntityId() });
+		dest.setEntityIds(new int[] { p.getEntityId() });
 
 		WrapperPlayServerSpawnEntityLiving ent = getSpawnPacket(p, type, showName);
 
@@ -168,8 +169,8 @@ public class DisguiseUtils {
 			ut.lastLoc = p.getLocation();
 
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
-			meta.setEntityId(p.getEntityId());
-			meta.setEntityMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
+			meta.setEntityID(p.getEntityId());
+			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(0, getStatus(p))));
 			meta.sendPacket(p);
 		}
 
@@ -191,7 +192,7 @@ public class DisguiseUtils {
 		ent.setEntityID(p.getEntityId());
 		ent.setType(type);
 		ent.setHeadPitch(l.getPitch());
-		ent.setHeadYaw(l.getYaw());
+		ent.setYaw((byte) l.getYaw());
 		ent.setX(l.getX());
 		ent.setY(l.getY());
 		ent.setZ(l.getZ());
@@ -207,10 +208,10 @@ public class DisguiseUtils {
 		for (int i = 0; i < ret.length; i++) {
 			WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
 
-			equip.setEntityId(p.getEntityId());
-			equip.setSlot((short) i);
+			equip.setEntityID(p.getEntityId());
+			equip.setSlot(ItemSlot.values()[i]);
 			if (i == 0) {
-				equip.setItem(p.getItemInHand());
+				equip.setItem(p.getInventory().getItemInMainHand());
 			} else
 				equip.setItem(p.getEquipment().getArmorContents()[i - 1]);
 
@@ -247,10 +248,11 @@ public class DisguiseUtils {
 	public static WrappedDataWatcher getWatcher(Player p, boolean showName) {
 		WrappedDataWatcher data = new WrappedDataWatcher();
 		data.setObject(0, getStatus(p));
-		float hp = (float) (p.getMaxHealth() * (p.getMaxHealth() / p.getHealth()));
+		float hp = (float) (p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()
+				* (p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() / p.getHealth()));
 		data.setObject(6, hp);
 		if (showName) {
-			Team t = p.getScoreboard().getPlayerTeam(p);
+			Team t = p.getScoreboard().getEntryTeam(p.getUniqueId().toString());
 			data.setObject(10, (t != null ? t.getPrefix() : "") + p.getName() + (t != null ? t.getSuffix() : ""));
 			data.setObject(11, (byte) 1);
 		}
@@ -273,19 +275,19 @@ public class DisguiseUtils {
 
 		if (ut != null && ut.canSeeSelf) {
 			WrapperPlayServerEntityDestroy des = new WrapperPlayServerEntityDestroy();
-			des.setEntities(new int[] { ut.localid });
+			des.setEntityIds(new int[] { ut.localid });
 			des.sendPacket(p);
-			
+
 			p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10, 0));
 		}
 	}
 
-	public EntityType	type;
-	public boolean		showName;
-	public boolean		canSeeSelf;
+	public EntityType type;
+	public boolean showName;
+	public boolean canSeeSelf;
 
-	public short		localid;
-	public Location		lastLoc;
+	public short localid;
+	public Location lastLoc;
 
 	public DisguiseUtils(EntityType type, boolean showName, boolean canSeeSelf) {
 		this.type = type;
@@ -297,7 +299,7 @@ public class DisguiseUtils {
 		}
 	}
 
-	static Random	rand	= new Random();
+	static Random rand = new Random();
 
 	@Override
 	public String toString() {

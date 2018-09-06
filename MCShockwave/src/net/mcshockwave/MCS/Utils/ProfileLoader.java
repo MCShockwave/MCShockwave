@@ -1,20 +1,19 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.util.com.mojang.authlib.GameProfile;
-import net.minecraft.util.com.mojang.authlib.properties.Property;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 
 public class ProfileLoader {
 	private final String	uuid;

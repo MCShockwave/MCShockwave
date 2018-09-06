@@ -1,19 +1,19 @@
 package net.mcshockwave.MCS.Challenges;
 
-import net.mcshockwave.MCS.MCShockwave;
-import net.mcshockwave.MCS.SQLTable;
-import net.mcshockwave.MCS.Challenges.Challenge.ChallengeModifier;
-import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
-import net.mcshockwave.MCS.Currency.LevelUtils;
-import net.mcshockwave.MCS.Currency.PointsUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.mcshockwave.MCS.MCShockwave;
+import net.mcshockwave.MCS.SQLTable;
+import net.mcshockwave.MCS.Challenges.Challenge.ChallengeModifier;
+import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
+import net.mcshockwave.MCS.Currency.LevelUtils;
+import net.mcshockwave.MCS.Currency.PointsUtils;
 
 public class ChallengeManager {
 
@@ -109,7 +109,7 @@ public class ChallengeManager {
 							prog = -1;
 
 							if (p != null) {
-								p.playSound(p.getLocation(), Sound.LEVEL_UP, 1000, 0);
+								p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1000, 0);
 								p.sendMessage("§f");
 								p.sendMessage("§a§lChallenge Complete!");
 								p.sendMessage("§eChallenge: §3§o" + ChatColor.stripColor(c.getDesc().replace("//", "")));

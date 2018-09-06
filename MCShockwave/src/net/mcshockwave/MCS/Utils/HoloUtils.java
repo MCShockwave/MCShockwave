@@ -1,24 +1,24 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.mcshockwave.MCS.MCShockwave;
-import net.minecraft.server.v1_7_R4.EntityHorse;
-import net.minecraft.server.v1_7_R4.EntityPlayer;
-import net.minecraft.server.v1_7_R4.EntityWitherSkull;
-import net.minecraft.server.v1_7_R4.PacketPlayOutAttachEntity;
-import net.minecraft.server.v1_7_R4.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_7_R4.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_7_R4.WorldServer;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import net.mcshockwave.MCS.MCShockwave;
+import net.minecraft.server.v1_12_R1.EntityHorse;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.EntityWitherSkull;
+import net.minecraft.server.v1_12_R1.PacketPlayOutAttachEntity;
+import net.minecraft.server.v1_12_R1.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_12_R1.WorldServer;
 
 public class HoloUtils {
 	private static final double	distance	= 0.23;
@@ -100,7 +100,7 @@ public class HoloUtils {
 			EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
 			nmsPlayer.playerConnection.sendPacket(packedt);
 
-			PacketPlayOutAttachEntity pa = new PacketPlayOutAttachEntity(0, horse, skull);
+			PacketPlayOutAttachEntity pa = new PacketPlayOutAttachEntity(horse, skull);
 			nmsPlayer.playerConnection.sendPacket(pa);
 		}
 		return Arrays.asList(skull.getId(), horse.getId());

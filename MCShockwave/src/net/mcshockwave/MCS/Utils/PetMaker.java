@@ -1,19 +1,19 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.server.v1_7_R4.EntityInsentient;
-import net.minecraft.server.v1_7_R4.PathEntity;
-import net.minecraft.server.v1_7_R4.PathfinderGoal;
-import net.minecraft.server.v1_7_R4.PathfinderGoalFloat;
-import net.minecraft.server.v1_7_R4.PathfinderGoalSelector;
+import java.lang.reflect.Field;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R4.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_12_R1.util.UnsafeList;
 import org.bukkit.entity.LivingEntity;
 
-import java.lang.reflect.Field;
-import java.util.UUID;
+import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.PathEntity;
+import net.minecraft.server.v1_12_R1.PathfinderGoal;
+import net.minecraft.server.v1_12_R1.PathfinderGoalFloat;
+import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 
 public class PetMaker {
 
@@ -84,12 +84,12 @@ public class PetMaker {
 				entity.getBukkitEntity().teleport(Bukkit.getPlayer(p));
 			}
 
-			boolean flag = this.entity.getNavigation().c();
+			//boolean flag = this.entity.getNavigation().c();
 
-			this.entity.getNavigation().b(false);
+			//this.entity.getNavigation().b(false);
 			this.path = this.entity.getNavigation().a(targetLocation.getX() + 1, targetLocation.getY(),
 					targetLocation.getZ() + 1);
-			this.entity.getNavigation().b(flag);
+			//this.entity.getNavigation().b(flag);
 
 			if (this.path != null) {
 				this.c();

@@ -1,16 +1,16 @@
 package net.mcshockwave.MCS.Commands;
 
+import org.bukkit.Particle;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Utils.CooldownUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
-
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class LoafCommand implements CommandExecutor {
 
@@ -25,7 +25,7 @@ public class LoafCommand implements CommandExecutor {
 					return false;
 				}
 				player.chat("§c<3 much loaf");
-				PacketUtils.playParticleEffect(ParticleEffect.HEART, player.getLocation(), 3, 1, 25);
+				PacketUtils.playParticleEffect(Particle.HEART, player.getLocation(), 3, 1, 25);
 
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
 			} else {

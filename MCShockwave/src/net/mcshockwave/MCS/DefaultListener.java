@@ -1,33 +1,21 @@
 package net.mcshockwave.MCS;
 
-import net.mcshockwave.MCS.SQLTable.Rank;
-import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
-import net.mcshockwave.MCS.Challenges.ChallengeManager;
-import net.mcshockwave.MCS.Commands.FriendCommand;
-import net.mcshockwave.MCS.Commands.VanishCommand;
-import net.mcshockwave.MCS.Commands.VoteCommand;
-import net.mcshockwave.MCS.Currency.LevelUtils;
-import net.mcshockwave.MCS.Currency.PointsUtils;
-import net.mcshockwave.MCS.Menu.ItemMenu;
-import net.mcshockwave.MCS.Menu.ItemMenu.Button;
-import net.mcshockwave.MCS.Stats.Statistics;
-import net.mcshockwave.MCS.Utils.FireworkLaunchUtils;
-import net.mcshockwave.MCS.Utils.ItemMetaUtils;
-import net.mcshockwave.MCS.Utils.LocUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils.PacketPlayOutHeaderFooter;
-import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
-import net.mcshockwave.MCS.Utils.SchedulerUtils;
-import net.minecraft.server.v1_7_R4.ChatSerializer;
-import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
-import net.minecraft.util.org.apache.commons.lang3.text.WordUtils;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -55,31 +43,42 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import net.mcshockwave.MCS.SQLTable.Rank;
+import net.mcshockwave.MCS.Challenges.Challenge.ChallengeType;
+import net.mcshockwave.MCS.Challenges.ChallengeManager;
+import net.mcshockwave.MCS.Commands.FriendCommand;
+import net.mcshockwave.MCS.Commands.VanishCommand;
+import net.mcshockwave.MCS.Commands.VoteCommand;
+import net.mcshockwave.MCS.Currency.LevelUtils;
+import net.mcshockwave.MCS.Currency.PointsUtils;
+import net.mcshockwave.MCS.Menu.ItemMenu;
+import net.mcshockwave.MCS.Menu.ItemMenu.Button;
+import net.mcshockwave.MCS.Stats.Statistics;
+import net.mcshockwave.MCS.Utils.FireworkLaunchUtils;
+import net.mcshockwave.MCS.Utils.ItemMetaUtils;
+import net.mcshockwave.MCS.Utils.LocUtils;
+import net.mcshockwave.MCS.Utils.PacketUtils;
+import net.mcshockwave.MCS.Utils.SchedulerUtils;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 
 public class DefaultListener implements Listener {
 
-	MCShockwave	plugin;
+	MCShockwave plugin;
 
 	public DefaultListener(MCShockwave instance) {
 		plugin = instance;
 	}
 
-	String[]							cuss		= null;
+	String[] cuss = null;
 
-	HashMap<Player, String>				lastMessage	= new HashMap<Player, String>();
+	HashMap<Player, String> lastMessage = new HashMap<Player, String>();
 
-	String								VIPLink		= "buy.mcshockwave.net";
+	String VIPLink = "buy.mcshockwave.net";
 
-	Random								rand		= new Random();
+	Random rand = new Random();
 
-	public static ArrayList<TNTPrimed>	tntnoboom	= new ArrayList<>();
+	public static ArrayList<TNTPrimed> tntnoboom = new ArrayList<>();
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
@@ -107,8 +106,8 @@ public class DefaultListener implements Listener {
 			event.setCancelled(true);
 			ItemStack it = event.getCurrentItem();
 			if (it != null) {
-				String nam = ItemMetaUtils.getItemName(it).replaceFirst(ChatColor.GOLD.toString(), "")
-						.replaceAll(" ", "_");
+				String nam = ItemMetaUtils.getItemName(it).replaceFirst(ChatColor.GOLD.toString(), "").replaceAll(" ",
+						"_");
 				for (String n : VoteCommand.votes.keySet()) {
 					if (n.equalsIgnoreCase(nam)) {
 						int v = VoteCommand.votes.get(nam);
@@ -122,18 +121,17 @@ public class DefaultListener implements Listener {
 		}
 	}
 
-	HashMap<Player, Long>	cooldown	= new HashMap<>();
+	HashMap<Player, Long> cooldown = new HashMap<>();
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
 		Action a = event.getAction();
 		Block b = event.getClickedBlock();
-		ItemStack it = p.getItemInHand();
+		ItemStack it = p.getInventory().getItemInMainHand();
 
-		if (a == Action.RIGHT_CLICK_BLOCK
-				&& event.getClickedBlock().getType() == Material.valueOf(SQLTable.Settings.get("Setting",
-						"Scavenger_Material", "Value"))) {
+		if (a == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material
+				.valueOf(SQLTable.Settings.get("Setting", "Scavenger_Material", "Value"))) {
 			Location l = event.getClickedBlock().getLocation();
 			String loc = l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ();
 			String where = "Server='" + MCShockwave.server + "' AND Location='" + loc + "'";
@@ -174,11 +172,10 @@ public class DefaultListener implements Listener {
 					SQLTable.Scavenger.get("ID", id + "", "PlayersFound") + "," + p.getName(), "ID", id + "");
 		}
 
-		if (it.getType() == Material.BLAZE_ROD
-				&& ItemMetaUtils.hasCustomName(it)
+		if (it.getType() == Material.BLAZE_ROD && ItemMetaUtils.hasCustomName(it)
 				&& ItemMetaUtils.getItemName(it).equalsIgnoreCase("Blax's Rod")
-				&& (cooldown.containsKey(p) && cooldown.get(p) <= System.currentTimeMillis() || !cooldown
-						.containsKey(p))) {
+				&& (cooldown.containsKey(p) && cooldown.get(p) <= System.currentTimeMillis()
+						|| !cooldown.containsKey(p))) {
 			cooldown.put(p, System.currentTimeMillis() + 1000);
 			p.getWorld().playEffect(p.getLocation(), Effect.MOBSPAWNER_FLAMES, 4);
 			if (a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) {
@@ -186,22 +183,22 @@ public class DefaultListener implements Listener {
 					if (e != p) {
 						Location l = p.getLocation();
 						Location l2 = e.getLocation();
-						e.setVelocity(new Vector(l2.getX() - l.getX(), 0.6, l2.getZ() - l.getZ()).multiply(5 / l2
-								.distance(l)));
+						e.setVelocity(new Vector(l2.getX() - l.getX(), 0.6, l2.getZ() - l.getZ())
+								.multiply(5 / l2.distance(l)));
 					}
 				}
-				p.getWorld().playSound(p.getLocation(), Sound.ENDERDRAGON_WINGS, 1, 1);
+				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1, 1);
 			}
 			if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
 				for (Entity e : p.getNearbyEntities(10, 10, 10)) {
 					if (e != p) {
 						Location l = p.getLocation();
 						Location l2 = e.getLocation();
-						e.setVelocity(new Vector(l.getX() - l2.getX(), -0.4, l.getZ() - l2.getZ()).multiply(5 / l2
-								.distance(l)));
+						e.setVelocity(new Vector(l.getX() - l2.getX(), -0.4, l.getZ() - l2.getZ())
+								.multiply(5 / l2.distance(l)));
 					}
 				}
-				p.getWorld().playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
 			}
 		}
 
@@ -266,8 +263,8 @@ public class DefaultListener implements Listener {
 			p.sendMessage(ChatColor.RED + "No spamming, please");
 			for (Player p2 : Bukkit.getOnlinePlayers()) {
 				if (p2.isOp()) {
-					p2.sendMessage(ChatColor.GOLD + "Player " + p.getName() + " tried to spam. M: "
-							+ event.getMessage());
+					p2.sendMessage(
+							ChatColor.GOLD + "Player " + p.getName() + " tried to spam. M: " + event.getMessage());
 				}
 			}
 		} else {
@@ -277,16 +274,15 @@ public class DefaultListener implements Listener {
 		if (SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
 			event.setMessage(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
 		}
-		p.setDisplayName(p.getDisplayName().replace(
-				ChatColor.RED + "[" + ChatColor.BOLD + "MUTED" + ChatColor.RESET + ChatColor.RED + "] "
-						+ ChatColor.RESET, ""));
+		p.setDisplayName(p.getDisplayName().replace(ChatColor.RED + "[" + ChatColor.BOLD + "MUTED" + ChatColor.RESET
+				+ ChatColor.RED + "] " + ChatColor.RESET, ""));
 		if (SQLTable.Muted.has("Username", p.getName())) {
-			if (SQLTable.Muted.getInt("Username", p.getName(), "Time") < TimeUnit.MILLISECONDS.toMinutes(System
-					.currentTimeMillis())) {
+			if (SQLTable.Muted.getInt("Username", p.getName(), "Time") < TimeUnit.MILLISECONDS
+					.toMinutes(System.currentTimeMillis())) {
 				SQLTable.Muted.del("Username", p.getName());
 			} else {
-				p.setDisplayName(ChatColor.RED + "[" + ChatColor.BOLD + "MUTED" + ChatColor.RESET + ChatColor.RED
-						+ "] " + ChatColor.RESET + p.getDisplayName());
+				p.setDisplayName(ChatColor.RED + "[" + ChatColor.BOLD + "MUTED" + ChatColor.RESET + ChatColor.RED + "] "
+						+ ChatColor.RESET + p.getDisplayName());
 				event.getRecipients().clear();
 				event.getRecipients().add(p);
 				for (Player p2 : Bukkit.getOnlinePlayers()) {
@@ -298,8 +294,8 @@ public class DefaultListener implements Listener {
 			}
 		}
 		for (Player p2 : Bukkit.getOnlinePlayers()) {
-			if (SQLTable.PrivateMutes.hasWhere("Muted", "Username='" + p2.getName() + "' AND Muted='" + p.getName()
-					+ "'")) {
+			if (SQLTable.PrivateMutes.hasWhere("Muted",
+					"Username='" + p2.getName() + "' AND Muted='" + p.getName() + "'")) {
 				event.getRecipients().remove(p2);
 			}
 		}
@@ -325,7 +321,8 @@ public class DefaultListener implements Listener {
 		}
 		if (!SQLTable.hasRank(p.getName(), Rank.JR_MOD) && (event.getMessage().toLowerCase().contains("hack"))) {
 			event.setCancelled(true);
-			p.sendMessage("Please obtain proof or alert a staff member using '@' before a message instead of calling out hacks!");
+			p.sendMessage(
+					"Please obtain proof or alert a staff member using '@' before a message instead of calling out hacks!");
 		}
 		// if (event.isCancelled() || event.getMessage().startsWith("!"))
 		// return;
@@ -465,9 +462,8 @@ public class DefaultListener implements Listener {
 					string += " " + args[i];
 				}
 			}
-			MCShockwave.sendMessageToRank(
-					ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.YELLOW + p.getName() + " Kicked "
-							+ args[1] + " for " + string, Rank.JR_MOD);
+			MCShockwave.sendMessageToRank(ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.YELLOW
+					+ p.getName() + " Kicked " + args[1] + " for " + string, Rank.JR_MOD);
 			string = pre + string;
 			if (Bukkit.getPlayer(args[1]) != null) {
 				Bukkit.getPlayer(args[1]).kickPlayer(string);
@@ -476,26 +472,24 @@ public class DefaultListener implements Listener {
 		if (argslc[0].equalsIgnoreCase("/pardon") && SQLTable.hasRank(p.getName(), Rank.MOD)) {
 			e.setCancelled(true);
 			SQLTable.Banned.del("Username", args[1]);
-			MCShockwave.sendMessageToRank(
-					ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.GREEN + p.getName() + " pardoned "
-							+ args[1], Rank.JR_MOD);
+			MCShockwave.sendMessageToRank(ChatColor.GOLD + "[" + MCShockwave.server + "] " + ChatColor.GREEN
+					+ p.getName() + " pardoned " + args[1], Rank.JR_MOD);
 		}
 		if (argslc[0].equalsIgnoreCase("/say")) {
 			e.setCancelled(true);
-			String s = args[1].replace(
-					"@r",
+			String s = args[1].replace("@r",
 					Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())]
-							.getName()).replace("&", "§");
+							.getName())
+					.replace("&", "§");
 			for (int i = 2; i < args.length; i++) {
-				s += " "
-						+ args[i].replace(
-								"@r",
-								Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers()
-										.size())].getName()).replace("&", "§");
+				s += " " + args[i].replace("@r",
+						Bukkit.getOnlinePlayers().toArray(new Player[0])[rand.nextInt(Bukkit.getOnlinePlayers().size())]
+								.getName())
+						.replace("&", "§");
 			}
 			if (SQLTable.hasRank(p.getName(), Rank.ADMIN)) {
-				Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "ADMIN" + ChatColor.DARK_GRAY
-						+ "] " + ChatColor.GRAY + s);
+				Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "ADMIN" + ChatColor.DARK_GRAY + "] "
+						+ ChatColor.GRAY + s);
 			} else if (SQLTable.hasRank(p.getName(), Rank.JR_MOD)) {
 				Bukkit.broadcastMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "MODERATOR" + ChatColor.DARK_GRAY
 						+ "] " + ChatColor.GRAY + s);
@@ -576,16 +570,14 @@ public class DefaultListener implements Listener {
 		}
 
 		if (BanManager.isBanned(pl)) {
-			event.disallow(
-					Result.KICK_BANNED,
-					BanManager.getBanReason(pl)
-							+ "      §cIf you feel you were wrongfully banned, appeal on our site at §b§ohttp://forums.mcshockwave.net/");
+			event.disallow(Result.KICK_BANNED, BanManager.getBanReason(pl)
+					+ "      §cIf you feel you were wrongfully banned, appeal on our site at §b§ohttp://forums.mcshockwave.net/");
 		}
 
 		if (MCShockwave.min != null && !SQLTable.hasRank(pl, MCShockwave.min)
 				&& !Bukkit.getWhitelistedPlayers().contains(Bukkit.getOfflinePlayer(pl))) {
-			event.disallow(Result.KICK_WHITELIST, ChatColor.GREEN + "Only " + MCShockwave.min.name().replace('_', ' ')
-					+ "+'s can join this server!");
+			event.disallow(Result.KICK_WHITELIST,
+					ChatColor.GREEN + "Only " + MCShockwave.min.name().replace('_', ' ') + "+'s can join this server!");
 		}
 
 		if (MCShockwave.minLevel > -1 && LevelUtils.getLevelFromXP(LevelUtils.getXP(pl)) < MCShockwave.minLevel) {
@@ -683,15 +675,10 @@ public class DefaultListener implements Listener {
 
 		new BukkitRunnable() {
 			public void run() {
-				if (MCShockwave.getClientVersion(p) == 47) {
-					String head = "{text:\"" + MCShockwave.tabHeader + "\"}";
-					String foot = "{text:\"" + MCShockwave.tabFooter + "\"}";
-					PacketPlayOutHeaderFooter pack = new PacketPlayOutHeaderFooter(head, foot);
-					PacketUtils.sendPacket(p, pack);
+				PacketUtils.setHeaderFooter(p, MCShockwave.tabHeader, MCShockwave.tabFooter);
 
-					if (MCShockwave.server.equalsIgnoreCase("hub")) {
-						PacketUtils.playTitle(p, 10, 10, 60, "§c§lMCShockwave Network", null);
-					}
+				if (MCShockwave.server.equalsIgnoreCase("hub")) {
+					PacketUtils.playTitle(p, 10, 10, 60, "§c§lMCShockwave Network", null);
 				}
 			}
 		}.runTaskLater(MCShockwave.instance, 20);
@@ -833,8 +820,8 @@ public class DefaultListener implements Listener {
 				p.getOpenInventory().close();
 				return;
 			}
-			PacketUtils.playParticleEffect(ParticleEffect.FLAME, p.getEyeLocation(), 1, 5, 10);
-			p.getWorld().playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 2);
+			PacketUtils.playParticleEffect(Particle.FLAME, p.getEyeLocation(), 1, 5, 10);
+			p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 2);
 			MCShockwave.send(ChatColor.RED, p, "Removed your %s", "Red boots.");
 			p.getInventory().setBoots(null);
 			p.getOpenInventory().close();

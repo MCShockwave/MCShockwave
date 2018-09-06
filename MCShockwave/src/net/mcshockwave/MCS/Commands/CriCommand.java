@@ -1,17 +1,17 @@
 package net.mcshockwave.MCS.Commands;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Particle;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import net.mcshockwave.MCS.MCShockwave;
 import net.mcshockwave.MCS.SQLTable;
 import net.mcshockwave.MCS.SQLTable.Rank;
 import net.mcshockwave.MCS.Utils.CooldownUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class CriCommand implements CommandExecutor {
 
@@ -27,7 +27,7 @@ public class CriCommand implements CommandExecutor {
 				}
 				player.chat(ChatColor.AQUA + ";-; "
 						+ (label.equalsIgnoreCase("cri") ? "i cri evertim" : "yo lloro cada vez"));
-				PacketUtils.playParticleEffect(ParticleEffect.DRIP_WATER,
+				PacketUtils.playParticleEffect(Particle.DRIP_WATER,
 						player.getEyeLocation().add(player.getLocation().getDirection().multiply(0.4)), 0, 0, 4);
 				CooldownUtils.addCooldown("/" + label, player.getName(), 2400);
 			} else {

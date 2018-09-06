@@ -1,11 +1,5 @@
 package net.mcshockwave.MCS;
 
-import net.minecraft.util.org.apache.commons.codec.binary.Base64;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.scheduler.BukkitTask;
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,8 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.scheduler.BukkitTask;
 
 public class SQLTable {
 	public static ArrayList<SQLTable>	tables				= new ArrayList<>();
@@ -90,7 +89,7 @@ public class SQLTable {
 		}
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://" + SqlIP + ":3306/" + SqlName, SqlUser, new StringBuffer(
-					new String(Base64.decodeBase64(pswd()))).reverse().toString());
+					new String(Base64.getDecoder().decode(pswd()))).reverse().toString());
 			stmt = con.createStatement();
 
 			if (stmt == null) {

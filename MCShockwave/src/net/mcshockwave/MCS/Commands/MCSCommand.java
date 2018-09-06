@@ -8,7 +8,6 @@ import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_ACTION;
 import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATION;
 import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_CHANGE;
 import static com.comphenix.protocol.PacketType.Play.Server.COLLECT;
-import static com.comphenix.protocol.PacketType.Play.Server.CRAFT_PROGRESS_BAR;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_DESTROY;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_EFFECT;
@@ -16,7 +15,6 @@ import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_EQUIPMENT;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_HEAD_ROTATION;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_LOOK;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_METADATA;
-import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_MOVE_LOOK;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_STATUS;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_TELEPORT;
 import static com.comphenix.protocol.PacketType.Play.Server.ENTITY_VELOCITY;
@@ -29,6 +27,58 @@ import static com.comphenix.protocol.PacketType.Play.Server.REL_ENTITY_MOVE;
 import static com.comphenix.protocol.PacketType.Play.Server.REMOVE_ENTITY_EFFECT;
 import static com.comphenix.protocol.PacketType.Play.Server.WORLD_EVENT;
 import static com.comphenix.protocol.PacketType.Play.Server.WORLD_PARTICLES;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.BlockFace;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scheduler.BukkitWorker;
+import org.bukkit.scoreboard.Team;
+import org.bukkit.scoreboard.Team.Option;
+import org.bukkit.scoreboard.Team.OptionStatus;
+import org.bukkit.util.Vector;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+
 import net.mcshockwave.MCS.BanManager;
 import net.mcshockwave.MCS.DefaultListener;
 import net.mcshockwave.MCS.MCShockwave;
@@ -54,68 +104,19 @@ import net.mcshockwave.MCS.Utils.NBTUtils;
 import net.mcshockwave.MCS.Utils.NBTUtils.NbtCompound;
 import net.mcshockwave.MCS.Utils.NametagUtils;
 import net.mcshockwave.MCS.Utils.PacketUtils;
-import net.mcshockwave.MCS.Utils.PacketUtils.PacketPlayOutWorldBorder;
-import net.mcshockwave.MCS.Utils.PacketUtils.ParticleEffect;
 import net.mcshockwave.MCS.Utils.SchedulerUtils;
 import net.mcshockwave.MCS.Utils.Unpackager;
-import net.minecraft.server.v1_7_R4.EnumDifficulty;
-import net.minecraft.server.v1_7_R4.EnumGamemode;
-import net.minecraft.server.v1_7_R4.PacketPlayOutGameStateChange;
-import net.minecraft.server.v1_7_R4.PacketPlayOutRespawn;
-import net.minecraft.server.v1_7_R4.WorldType;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.BlockFace;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scheduler.BukkitWorker;
-import org.bukkit.scoreboard.Team;
-import org.bukkit.util.Vector;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import javax.imageio.ImageIO;
-
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
+import net.minecraft.server.v1_12_R1.EnumDifficulty;
+import net.minecraft.server.v1_12_R1.EnumGamemode;
+import net.minecraft.server.v1_12_R1.PacketPlayOutGameStateChange;
+import net.minecraft.server.v1_12_R1.PacketPlayOutRespawn;
+import net.minecraft.server.v1_12_R1.WorldType;
 
 public class MCSCommand implements CommandExecutor {
 
-	MCShockwave	plugin;
+	MCShockwave plugin;
 
-	Random		rand	= new Random();
+	Random rand = new Random();
 
 	@Override
 	public boolean onCommand(final CommandSender sender, Command com, String label, String[] args) {
@@ -181,20 +182,19 @@ public class MCSCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("par") && sender instanceof Player) {
 				Player p = (Player) sender;
 
-				PacketUtils.playParticleEffect(ParticleEffect.valueOf(args[1].toUpperCase()), p.getEyeLocation(),
+				PacketUtils.playParticleEffect(Particle.valueOf(args[1].toUpperCase()), p.getEyeLocation(),
 						Integer.parseInt(args[2]), Float.parseFloat(args[3]), Integer.parseInt(args[4]));
 			}
 			if (args[0].equalsIgnoreCase("bpar") && sender instanceof Player) {
 				Player p = (Player) sender;
 
-				PacketUtils.playBlockParticles(Material.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]),
-						p.getEyeLocation());
+				PacketUtils.playBlockParticles(Material.valueOf(args[1].toUpperCase()), p.getEyeLocation());
 			}
 			if (args[0].equalsIgnoreCase("bdpar") && sender instanceof Player) {
 				Player p = (Player) sender;
 
-				PacketUtils.playBlockDustParticles(Material.valueOf(args[1].toUpperCase()), Integer.parseInt(args[2]),
-						p.getEyeLocation(), Float.parseFloat(args[3]), Float.parseFloat(args[4]));
+				PacketUtils.playBlockDustParticles(Material.valueOf(args[1].toUpperCase()), p.getEyeLocation(),
+						Float.parseFloat(args[3]), Float.parseFloat(args[4]));
 			}
 			if (args[0].equalsIgnoreCase("getTopXp")) {
 				sender.sendMessage("Top Players - XP [" + args[1] + "]");
@@ -330,7 +330,7 @@ public class MCSCommand implements CommandExecutor {
 					final Location m = l;
 					Runnable run = new Runnable() {
 						public void run() {
-							PacketUtils.playBlockDustParticles(Material.GOLD_BLOCK, 0, m, 0, 0.1f);
+							PacketUtils.playBlockDustParticles(Material.GOLD_BLOCK, m, 0, 0.1f);
 						}
 					};
 
@@ -364,16 +364,16 @@ public class MCSCommand implements CommandExecutor {
 
 			if (args[0].equalsIgnoreCase("rename") && sender instanceof Player) {
 				Player p = (Player) sender;
-				ItemStack it = p.getItemInHand();
+				ItemStack it = p.getInventory().getItemInMainHand();
 				String[] sub = ListUtils.subarray(args, 1);
-				p.setItemInHand(ItemMetaUtils.setItemName(it,
+				p.getInventory().setItemInMainHand(ItemMetaUtils.setItemName(it,
 						ChatColor.translateAlternateColorCodes('&', ListUtils.arrayToString((Object[]) sub))));
 			}
 
 			if (args[0].equalsIgnoreCase("viewServerCount")) {
 				for (Entry<String, Integer> e : MCShockwave.serverCount.entrySet()) {
-					sender.sendMessage("§a" + e.getKey() + " : " + e.getValue() + "<>"
-							+ MCShockwave.getPlayerCount(e.getKey()));
+					sender.sendMessage(
+							"§a" + e.getKey() + " : " + e.getValue() + "<>" + MCShockwave.getPlayerCount(e.getKey()));
 				}
 			}
 			if (args[0].equalsIgnoreCase("pingServers")) {
@@ -416,8 +416,8 @@ public class MCSCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("incrChal")) {
 				if (args.length > 5) {
 					try {
-						ChallengeModifier mod = args[2].equalsIgnoreCase("NONE") ? null : ChallengeModifier
-								.valueOf(args[2]);
+						ChallengeModifier mod = args[2].equalsIgnoreCase("NONE") ? null
+								: ChallengeModifier.valueOf(args[2]);
 						String extra = args[3].equalsIgnoreCase("NONE") ? null : args[3];
 						ChallengeManager.incrChallenge(ChallengeType.valueOf(args[1]), mod, extra, args[4],
 								Integer.parseInt(args[5]), true);
@@ -443,18 +443,14 @@ public class MCSCommand implements CommandExecutor {
 				sender.sendMessage("§aPending Tasks: (Plugin.ID [Running/Queued])");
 				sender.sendMessage("§e§nAsync§r §6§nSync§r\n §e");
 				for (BukkitTask bt : Bukkit.getScheduler().getPendingTasks()) {
-					sender.sendMessage((bt.isSync() ? "§6" : "§e")
-							+ bt.getOwner().getName()
-							+ "."
-							+ bt.getTaskId()
-							+ " "
-							+ (Bukkit.getScheduler().isCurrentlyRunning(bt.getTaskId()) ? "Running" : Bukkit
-									.getScheduler().isQueued(bt.getTaskId()) ? "Queued" : "Unknown"));
+					sender.sendMessage((bt.isSync() ? "§6" : "§e") + bt.getOwner().getName() + "." + bt.getTaskId()
+							+ " " + (Bukkit.getScheduler().isCurrentlyRunning(bt.getTaskId()) ? "Running"
+									: Bukkit.getScheduler().isQueued(bt.getTaskId()) ? "Queued" : "Unknown"));
 				}
 				sender.sendMessage("§aActive Workers: (ThreadName: Plugin.ID)");
 				for (BukkitWorker bw : Bukkit.getScheduler().getActiveWorkers()) {
-					sender.sendMessage("§b" + bw.getThread().getName() + ": " + bw.getOwner().getName() + "."
-							+ bw.getTaskId());
+					sender.sendMessage(
+							"§b" + bw.getThread().getName() + ": " + bw.getOwner().getName() + "." + bw.getTaskId());
 				}
 			}
 
@@ -509,13 +505,13 @@ public class MCSCommand implements CommandExecutor {
 			}
 
 			if (args[0].equalsIgnoreCase("unbreakable")) {
-				ItemStack item = ((Player) sender).getItemInHand();
+				ItemStack item = ((Player) sender).getInventory().getItemInMainHand();
 
 				NbtCompound comp = NBTUtils.fromItemTag(item);
 				comp.put("Unbreakable", (byte) 1);
 				NBTUtils.setItemTag(item, comp);
 
-				((Player) sender).setItemInHand(item);
+				((Player) sender).getInventory().setItemInMainHand(item);
 			}
 
 			if (args[0].equalsIgnoreCase("gamestate")) {
@@ -573,21 +569,23 @@ public class MCSCommand implements CommandExecutor {
 				sender.sendMessage("§6Playing " + args[1].toLowerCase() + " to " + playTo.toArray(new String[0])[0]);
 			}
 
-			if (args[0].equalsIgnoreCase("version")) {
-				Player g = Bukkit.getPlayer(args[1]);
-				MCShockwave.send((Player) sender, "%s is using Minecraft version %s (protocol %s)", g.getName(),
-						MCShockwave.getStringVersionFromProtocolVersion(MCShockwave.getClientVersion(g)),
-						MCShockwave.getClientVersion(g));
-			}
-
-			if (args[0].equalsIgnoreCase("versions")) {
-				sender.sendMessage("§6Current versions of online players:");
-				for (Player p : Bukkit.getOnlinePlayers()) {
-					int pv = MCShockwave.getClientVersion(p);
-					sender.sendMessage("§e" + p.getName() + " §0- §e§o"
-							+ MCShockwave.getStringVersionFromProtocolVersion(pv));
-				}
-			}
+			// if (args[0].equalsIgnoreCase("version")) {
+			// Player g = Bukkit.getPlayer(args[1]);
+			// MCShockwave.send((Player) sender, "%s is using Minecraft version
+			// %s (protocol %s)", g.getName(),
+			// MCShockwave.getStringVersionFromProtocolVersion(MCShockwave.getClientVersion(g)),
+			// MCShockwave.getClientVersion(g));
+			// }
+			//
+			// if (args[0].equalsIgnoreCase("versions")) {
+			// sender.sendMessage("§6Current versions of online players:");
+			// for (Player p : Bukkit.getOnlinePlayers()) {
+			// int pv = MCShockwave.getClientVersion(p);
+			// sender.sendMessage(
+			// "§e" + p.getName() + " §0- §e§o" +
+			// MCShockwave.getStringVersionFromProtocolVersion(pv));
+			// }
+			// }
 
 			if (args[0].equalsIgnoreCase("getIP")) {
 				Player p = Bukkit.getPlayer(args[1]);
@@ -607,54 +605,62 @@ public class MCSCommand implements CommandExecutor {
 				PacketUtils.playTitle(pls, fi, le, fo, title, subtitle);
 			}
 
-			if (args[0].equalsIgnoreCase("wb")) {
-				if (args.length == 1) {
-					sender.sendMessage("§c/mcs wb 0 radius§e - SET_SIZE");
-					sender.sendMessage("§c/mcs wb 1 oldrad newrad speed§e - LERP_SIZE");
-					sender.sendMessage("§c/mcs wb 2 x z§e - SET_CENTER");
-					sender.sendMessage("§c/mcs wb 3 x z oldrad newrad speed warntime warnblocks§e - INITIALIZE");
-					sender.sendMessage("§c/mcs wb 4 warntime§e - SET_WARNING_TIME");
-					sender.sendMessage("§c/mcs wb 5 warnblocks§e - SET_WARNING_BLOCKS");
-				} else {
-					int act = Integer.parseInt(args[1]);
-					PacketPlayOutWorldBorder pack = null;
-
-					if (act == 0) {
-						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]));
-					}
-					if (act == 1) {
-						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]), Double.parseDouble(args[3]),
-								Long.parseLong(args[4]));
-					}
-					if (act == 2) {
-						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]), Double.parseDouble(args[3]));
-					}
-					if (act == 3) {
-						pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]), Double.parseDouble(args[3]),
-								Double.parseDouble(args[4]), Double.parseDouble(args[5]), Long.parseLong(args[6]),
-								Integer.parseInt(args[7]), Integer.parseInt(args[8]));
-					}
-					if (act == 4) {
-						pack = new PacketPlayOutWorldBorder(Integer.parseInt(args[2]), false);
-					}
-					if (act == 5) {
-						pack = new PacketPlayOutWorldBorder(Integer.parseInt(args[2]));
-					}
-
-					if (pack != null) {
-						for (Player p : Bukkit.getOnlinePlayers()) {
-							if (MCShockwave.getClientVersion(p) == 47) {
-								PacketUtils.sendPacket(p, pack);
-							}
-						}
-					}
-				}
-			}
+			// if (args[0].equalsIgnoreCase("wb")) {
+			// if (args.length == 1) {
+			// sender.sendMessage("§c/mcs wb 0 radius§e - SET_SIZE");
+			// sender.sendMessage("§c/mcs wb 1 oldrad newrad speed§e -
+			// LERP_SIZE");
+			// sender.sendMessage("§c/mcs wb 2 x z§e - SET_CENTER");
+			// sender.sendMessage("§c/mcs wb 3 x z oldrad newrad speed warntime
+			// warnblocks§e - INITIALIZE");
+			// sender.sendMessage("§c/mcs wb 4 warntime§e - SET_WARNING_TIME");
+			// sender.sendMessage("§c/mcs wb 5 warnblocks§e -
+			// SET_WARNING_BLOCKS");
+			// } else {
+			// int act = Integer.parseInt(args[1]);
+			// PacketPlayOutWorldBorder pack = null;
+			//
+			// if (act == 0) {
+			// pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]));
+			// }
+			// if (act == 1) {
+			// pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]),
+			// Double.parseDouble(args[3]),
+			// Long.parseLong(args[4]));
+			// }
+			// if (act == 2) {
+			// pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]),
+			// Double.parseDouble(args[3]));
+			// }
+			// if (act == 3) {
+			// pack = new PacketPlayOutWorldBorder(Double.parseDouble(args[2]),
+			// Double.parseDouble(args[3]),
+			// Double.parseDouble(args[4]), Double.parseDouble(args[5]),
+			// Long.parseLong(args[6]),
+			// Integer.parseInt(args[7]), Integer.parseInt(args[8]));
+			// }
+			// if (act == 4) {
+			// pack = new PacketPlayOutWorldBorder(Integer.parseInt(args[2]),
+			// false);
+			// }
+			// if (act == 5) {
+			// pack = new PacketPlayOutWorldBorder(Integer.parseInt(args[2]));
+			// }
+			//
+			// if (pack != null) {
+			// for (Player p : Bukkit.getOnlinePlayers()) {
+			// if (MCShockwave.getClientVersion(p) == 47) {
+			// PacketUtils.sendPacket(p, pack);
+			// }
+			// }
+			// }
+			// }
+			// }
 
 			if (args[0].equalsIgnoreCase("visibility")) {
 				Team t = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(args[1]);
-				t.addEntry("$NoNametags");
 				t.setCanSeeFriendlyInvisibles(true);
+				t.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.FOR_OWN_TEAM);
 				sender.sendMessage("§cMade nametags for team " + t.getName() + " invisible for other team");
 			}
 
@@ -674,8 +680,8 @@ public class MCSCommand implements CommandExecutor {
 							}
 							t.setVelocity(new Vector(0, 2, 0));
 							t.getWorld().playEffect(t.getLocation(), Effect.SMOKE, rand.nextInt(8));
-							PacketUtils.playParticleEffect(ParticleEffect.FLAME, t.getLocation(), 0, 0.05f, 10);
-							t.getWorld().playSound(t.getLocation(), Sound.FIZZ, 10, 0.5f);
+							PacketUtils.playParticleEffect(Particle.FLAME, t.getLocation(), 0, 0.05f, 10);
+							t.getWorld().playSound(t.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 10, 0.5f);
 						}
 					});
 				}
@@ -683,7 +689,7 @@ public class MCSCommand implements CommandExecutor {
 					public void run() {
 						t.getWorld().playEffect(t.getLocation(), Effect.EXPLOSION, 0);
 						t.getWorld().createExplosion(t.getLocation(), 0);
-						t.damage(t.getMaxHealth());
+						t.damage(t.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					}
 				});
 				ut.execute();
@@ -692,7 +698,7 @@ public class MCSCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("abduct")) {
 				final Player t = Bukkit.getPlayer(args[1]);
 				int times = args.length > 2 ? Integer.parseInt(args[2]) : 100;
-				t.getWorld().playSound(t.getLocation(), Sound.WITHER_SPAWN, 10, 0);
+				t.getWorld().playSound(t.getLocation(), Sound.ENTITY_WITHER_SPAWN, 10, 0);
 
 				SchedulerUtils ut = SchedulerUtils.getNew();
 				ut.add(t);
@@ -704,15 +710,15 @@ public class MCSCommand implements CommandExecutor {
 								t.setGameMode(GameMode.ADVENTURE);
 							}
 							t.setVelocity(new Vector(0, t.getVelocity().getY() + 0.1f, 0));
-							PacketUtils.playParticleEffect(ParticleEffect.WITCH_MAGIC, t.getLocation(), 0, 0.05f, 10);
-							PacketUtils.playParticleEffect(ParticleEffect.FIREWORKS_SPARK, t.getLocation(), 0, 0.05f,
+							PacketUtils.playParticleEffect(Particle.SPELL_WITCH, t.getLocation(), 0, 0.05f, 10);
+							PacketUtils.playParticleEffect(Particle.FIREWORKS_SPARK, t.getLocation(), 0, 0.05f,
 									10);
 						}
 					});
 				}
 				ut.add(new Runnable() {
 					public void run() {
-						t.damage(t.getMaxHealth());
+						t.damage(t.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					}
 				});
 				ut.execute();
@@ -776,18 +782,18 @@ public class MCSCommand implements CommandExecutor {
 		SQLTable.VIPS.add("Username", p, "TypeId", id + "", "TimeLeft", time + "");
 	}
 
-	public static HashMap<String, BukkitTask>					nograv		= new HashMap<>();
+	public static HashMap<String, BukkitTask> nograv = new HashMap<>();
 
-	public static HashMap<String, ArrayList<PacketContainer>>	nopackets	= new HashMap<>();
+	public static HashMap<String, ArrayList<PacketContainer>> nopackets = new HashMap<>();
 
 	public MCSCommand(MCShockwave instance) {
 		plugin = instance;
 
 		PacketType[] types = new PacketType[] { ABILITIES, ANIMATION, ATTACH_ENTITY, BED, BLOCK_ACTION,
-				BLOCK_BREAK_ANIMATION, BLOCK_CHANGE, COLLECT, CRAFT_PROGRESS_BAR, ENTITY, ENTITY_DESTROY,
-				ENTITY_EFFECT, ENTITY_EQUIPMENT, ENTITY_HEAD_ROTATION, ENTITY_LOOK, ENTITY_METADATA, ENTITY_MOVE_LOOK,
-				ENTITY_STATUS, ENTITY_TELEPORT, ENTITY_VELOCITY, EXPERIENCE, EXPLOSION, NAMED_ENTITY_SPAWN,
-				NAMED_SOUND_EFFECT, PLAYER_INFO, REL_ENTITY_MOVE, REMOVE_ENTITY_EFFECT, WORLD_EVENT, WORLD_PARTICLES };
+				BLOCK_BREAK_ANIMATION, BLOCK_CHANGE, COLLECT, ENTITY, ENTITY_DESTROY, ENTITY_EFFECT, ENTITY_EQUIPMENT,
+				ENTITY_HEAD_ROTATION, ENTITY_LOOK, ENTITY_METADATA, ENTITY_STATUS, ENTITY_TELEPORT, ENTITY_VELOCITY,
+				EXPERIENCE, EXPLOSION, NAMED_ENTITY_SPAWN, NAMED_SOUND_EFFECT, PLAYER_INFO, REL_ENTITY_MOVE,
+				REMOVE_ENTITY_EFFECT, WORLD_EVENT, WORLD_PARTICLES };
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, types) {
 			@Override
 			public void onPacketSending(PacketEvent event) {

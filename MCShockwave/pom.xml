@@ -74,7 +74,7 @@
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
-			<url>http://repo.md-5.net/content/groups/public/</url>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
 			<id>maven-ftp-repo</id>
@@ -82,33 +82,29 @@
 		</repository>
 		<repository>
 			<id>protocol-lib</id>
-			<url>http://assets.comphenix.net/jenkins/plugin/repository/project/ProtocolLib/Build/260/repository/</url>
+			<url>http://repo.dmulloy2.net/nexus/repository/public/</url>
 		</repository>
 		<repository>
 			<id>packet-wrapper</id>
-			<url>http://assets.comphenix.net/plugin/repository/project/PacketWrapper/Build/18/repository/</url>
+			<url>http://repo.dmulloy2.net/nexus/repository/public/</url>
 		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.7.10-R0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot</artifactId>
-			<version>1.7.10-R0.1-SNAPSHOT</version>
+    		<groupId>org.spigotmc</groupId>
+    		<artifactId>spigot</artifactId>
+    		<version>1.12-R0.1-SNAPSHOT</version>
+   			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib</artifactId>
-			<version>3.4.1-SNAPSHOT</version>
+			<artifactId>ProtocolLib-API</artifactId>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.comphenix.packetwrapper</groupId>
 			<artifactId>PacketWrapper</artifactId>
-			<version>1.7.2-R0.5</version>
+			<version>1.12.1-R0.1-20180529.035844-6</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>

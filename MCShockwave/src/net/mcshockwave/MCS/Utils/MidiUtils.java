@@ -1,13 +1,5 @@
 package net.mcshockwave.MCS.Utils;
 
-import net.minecraft.util.com.google.common.collect.Maps;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Note;
-import org.bukkit.Note.Tone;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +14,14 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+
+import com.google.common.collect.Maps;
 
 /**
  * Utility for playing midi files for players to hear.
@@ -118,21 +118,21 @@ public class MidiUtils {
 		// look up the instrument matching the patch
 		switch (instruments[patch]) {
 			case 1:
-				return Sound.NOTE_BASS_GUITAR;
+				return Sound.BLOCK_NOTE_GUITAR;
 			case 2:
-				return Sound.NOTE_SNARE_DRUM;
+				return Sound.BLOCK_NOTE_SNARE;
 			case 3:
-				return Sound.NOTE_STICKS;
+				return Sound.BLOCK_NOTE_HAT;
 			case 4:
-				return Sound.NOTE_BASS_DRUM;
+				return Sound.BLOCK_NOTE_BASEDRUM;
 			case 5:
-				return Sound.NOTE_PLING;
+				return Sound.BLOCK_NOTE_PLING;
 			case 6:
-				return Sound.NOTE_BASS;
+				return Sound.BLOCK_NOTE_BASS;
 		}
 
 		// if no instrument match is found, use piano
-		return Sound.NOTE_PIANO;
+		return Sound.BLOCK_NOTE_XYLOPHONE;
 	}
 
 	public static class NoteBlockReceiver implements Receiver {
@@ -179,7 +179,7 @@ public class MidiUtils {
 
 			// get the correct instrument
 			Integer patch = channelPatches.get(message.getChannel());
-			Sound instrument = Sound.NOTE_PIANO;
+			Sound instrument = Sound.BLOCK_NOTE_XYLOPHONE;
 			if (patch != null)
 				instrument = MidiUtils.patchToInstrument(patch);
 
